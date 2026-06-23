@@ -18,37 +18,145 @@ public class TranscationDAOImpl implements TranscationDAO {
 	@Override
 	public void addTranscation(Transcation t) {
 		// TODO Auto-generated method stub
-
+      String query="insert into transactions values (trans_id=?,transaction_date=?,amount=?,status=?,trans_type=?,from_acc_id=?,to_acc_id=?,transaction_time=?";
+	 try{ 
+	  PreparedStatement ps=con.PreparedStatement(query);
+	  ps.setInt(1, t.getTrans_id());
+	  ps.setString(2, t.getTransaction_date());
+	  ps.setDouble(3, t.getAmount());
+	  ps.setString(4, t.getStatus());
+	  ps.setString(5, t.getTras_type());
+      ps.setInt(6, t.getFrom_acc_id());
+	  ps.setInt(7, t.getTo_acc_id());
+	  ps.setString(8, t.getTransaction_time());
+	  ps.executeUpdate();
+	} catch(SQLException e1){
+		e1.printStackTrace();
 	}
+}
 
 	@Override
 	public void updateTranscation(Transcation t) {
 		// TODO Auto-generated method stub
+		String query="update transactions set trans_id=?,transcation_date=?,amount=?,status=?,trans_type=?,from_acc_id=?,to_acc_id=?,transaction_time=? where trans_id=?";
+		try{
+		PreparedStatement ps=con.prepareStatement(query);
+		ps.setInt(1, t.getTrans_id());
+		ps.setString(2, t.getTransaction_date());
+        ps.setDouble(3, t.getAmount());
+		ps.setString(4, t.getStatus());
+		ps.setString(5, t.getTrans_type());
+		ps.setInt(6, t.getFrom_acc_id());
+		ps.setInt(7, t.getTo_acc_id());
+		ps.setString(8, t.getTransaction_time());
+		ps.setInt(9, t.getTrans_id());
+		ps.executeUpdate();
 
+	} catch(SQLException e){
+		e.printStackTrace();
+	}
 	}
 
 	@Override
 	public void deleteTranscationById(Integer id) {
 		// TODO Auto-generated method stub
+		String query="delete from transactions where trans_id=?";
+		try{
+			PreparedStatement ps=con.prepareStatement(query);
+			ps.setInt(1, trans_id);
+			ps.executeUpdate();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
 
 	}
 
 	@Override
 	public Transcation getTranscationById(Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		String query="select * from transactions where trans_id=?";
+		Transcation t=null;
+		try{
+			PreparedStatementps=con.prepareStatement(query);
+			ps.setInt(1, t.getTrans_id());
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()){
+				t=new Transcation();
+				t.setTrans_id(rs.getInt("trans_id"));
+				t.setTranscation_date(rs.getString("transaction_date"));
+				t.setAmount(rs.getDouble("amount"));
+				t.setStatus(rs.getString("status"));
+				t.setTrans_type(rs.getString("trans_type"));
+				t.setFrom_acc_id(rs.setInt("from_acc_id"));
+				t.setTo_acc_id(rs.setInt("to_acc_id"));
+				t.setTranscation_time(rs.setString("transaction_time"));
+
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return t;
 	}
 
 	@Override
 	public List<Transcation> getAllTranscation() {
 		// TODO Auto-generated method stub
-		return null;
+		List<Transcation> tl=new ArrayList<>();
+		String query="select * from transactions";
+		Transcation t=null;
+		Try{
+			PreparedStatementps=con.prepareStatement(query);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()){
+				t=new Transcation();
+				t.setTrans_id(rs.getInt("trans_id"))
+				t.setTranscation_date(rs.getString("transaction_date"));
+				t.setAmount(rs.getDouble("amount"));
+				t.setStatus(rs.getString("status"));
+				t.setTrans_type(rs.getString("trans_type"));
+				t.setFrom_acc_id(rs.setInt("from_acc_id"));
+				t.setTo_acc_id(rs.setInt("to_acc_id"));
+				t.setTranscation_time(rs.setString("transaction_time"));
+				tl.add(t);
+
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		
+
+		}
+		return tl;
 	}
 
 	@Override
 	public List<Transcation> getTranscationByAccId(Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Transcation> tl=new ArrayList<>();
+		String query="select * from transactions where trans_id=?";
+		Transcation t=null;
+		Try{
+			PreparedStatementps=con.prepareStatement(query);
+			ps.setInt(1, t.getTrans_id());
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()){
+				t=new Transcation();
+				t.setTrans_id(rs.getInt("trans_id"))
+				t.setTranscation_date(rs.getString("transaction_date"));
+				t.setAmount(rs.getDouble("amount"));
+				t.setStatus(rs.getString("status"));
+				t.setTrans_type(rs.getString("trans_type"));
+				t.setFrom_acc_id(rs.setInt("from_acc_id"));
+				t.setTo_acc_id(rs.setInt("to_acc_id"));
+				t.setTranscation_time(rs.setString("transaction_time"));
+				tl.add(t);
+
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		
+
+		}
+		return tl;
 	}
 
 }
