@@ -1,6 +1,10 @@
 package com.bank.dao.impl;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.bank.dao.TranscationDAO;
@@ -20,15 +24,15 @@ public class TranscationDAOImpl implements TranscationDAO {
 		// TODO Auto-generated method stub
       String query="insert into transactions values (trans_id=?,transaction_date=?,amount=?,status=?,trans_type=?,from_acc_id=?,to_acc_id=?,transaction_time=?";
 	 try{ 
-	  PreparedStatement ps=con.PreparedStatement(query);
+	  PreparedStatement ps=con.prepareStatement(query);
 	  ps.setInt(1, t.getTrans_id());
-	  ps.setString(2, t.getTransaction_date());
+	  ps.setString(2, t.getTranscation_date());
 	  ps.setDouble(3, t.getAmount());
 	  ps.setString(4, t.getStatus());
-	  ps.setString(5, t.getTras_type());
+	  ps.setString(5, t.getTrans_type());
       ps.setInt(6, t.getFrom_acc_id());
 	  ps.setInt(7, t.getTo_acc_id());
-	  ps.setString(8, t.getTransaction_time());
+	  ps.setString(8, t.getTranscation_time());
 	  ps.executeUpdate();
 	} catch(SQLException e1){
 		e1.printStackTrace();
@@ -42,13 +46,13 @@ public class TranscationDAOImpl implements TranscationDAO {
 		try{
 		PreparedStatement ps=con.prepareStatement(query);
 		ps.setInt(1, t.getTrans_id());
-		ps.setString(2, t.getTransaction_date());
+		ps.setString(2, t.getTranscation_date());
         ps.setDouble(3, t.getAmount());
 		ps.setString(4, t.getStatus());
 		ps.setString(5, t.getTrans_type());
 		ps.setInt(6, t.getFrom_acc_id());
 		ps.setInt(7, t.getTo_acc_id());
-		ps.setString(8, t.getTransaction_time());
+		ps.setString(8, t.getTranscation_time());
 		ps.setInt(9, t.getTrans_id());
 		ps.executeUpdate();
 
@@ -63,7 +67,7 @@ public class TranscationDAOImpl implements TranscationDAO {
 		String query="delete from transactions where trans_id=?";
 		try{
 			PreparedStatement ps=con.prepareStatement(query);
-			ps.setInt(1, trans_id);
+			ps.setInt(1, id);
 			ps.executeUpdate();
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -77,7 +81,7 @@ public class TranscationDAOImpl implements TranscationDAO {
 		String query="select * from transactions where trans_id=?";
 		Transcation t=null;
 		try{
-			PreparedStatementps=con.prepareStatement(query);
+			PreparedStatement ps=con.prepareStatement(query);
 			ps.setInt(1, t.getTrans_id());
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()){
@@ -87,9 +91,9 @@ public class TranscationDAOImpl implements TranscationDAO {
 				t.setAmount(rs.getDouble("amount"));
 				t.setStatus(rs.getString("status"));
 				t.setTrans_type(rs.getString("trans_type"));
-				t.setFrom_acc_id(rs.setInt("from_acc_id"));
-				t.setTo_acc_id(rs.setInt("to_acc_id"));
-				t.setTranscation_time(rs.setString("transaction_time"));
+				t.setFrom_acc_id(rs.getInt("from_acc_id"));
+				t.setTo_acc_id(rs.getInt("to_acc_id"));
+				t.setTranscation_time(rs.getString("transaction_time"));
 
 			}
 		}catch(SQLException e){
@@ -104,19 +108,19 @@ public class TranscationDAOImpl implements TranscationDAO {
 		List<Transcation> tl=new ArrayList<>();
 		String query="select * from transactions";
 		Transcation t=null;
-		Try{
-			PreparedStatementps=con.prepareStatement(query);
+		try{
+			PreparedStatement ps=con.prepareStatement(query);
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()){
 				t=new Transcation();
-				t.setTrans_id(rs.getInt("trans_id"))
+				t.setTrans_id(rs.getInt("trans_id"));
 				t.setTranscation_date(rs.getString("transaction_date"));
 				t.setAmount(rs.getDouble("amount"));
 				t.setStatus(rs.getString("status"));
 				t.setTrans_type(rs.getString("trans_type"));
-				t.setFrom_acc_id(rs.setInt("from_acc_id"));
-				t.setTo_acc_id(rs.setInt("to_acc_id"));
-				t.setTranscation_time(rs.setString("transaction_time"));
+				t.setFrom_acc_id(rs.getInt("from_acc_id"));
+				t.setTo_acc_id(rs.getInt("to_acc_id"));
+				t.setTranscation_time(rs.getString("transaction_time"));
 				tl.add(t);
 
 			}
@@ -134,20 +138,20 @@ public class TranscationDAOImpl implements TranscationDAO {
 		List<Transcation> tl=new ArrayList<>();
 		String query="select * from transactions where trans_id=?";
 		Transcation t=null;
-		Try{
-			PreparedStatementps=con.prepareStatement(query);
+		try{
+			PreparedStatement ps=con.prepareStatement(query);
 			ps.setInt(1, t.getTrans_id());
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()){
 				t=new Transcation();
-				t.setTrans_id(rs.getInt("trans_id"))
+				t.setTrans_id(rs.getInt("trans_id"));
 				t.setTranscation_date(rs.getString("transaction_date"));
 				t.setAmount(rs.getDouble("amount"));
 				t.setStatus(rs.getString("status"));
 				t.setTrans_type(rs.getString("trans_type"));
-				t.setFrom_acc_id(rs.setInt("from_acc_id"));
-				t.setTo_acc_id(rs.setInt("to_acc_id"));
-				t.setTranscation_time(rs.setString("transaction_time"));
+				t.setFrom_acc_id(rs.getInt("from_acc_id"));
+				t.setTo_acc_id(rs.getInt("to_acc_id"));
+				t.setTranscation_time(rs.getString("transaction_time"));
 				tl.add(t);
 
 			}

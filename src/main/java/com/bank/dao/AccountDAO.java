@@ -16,8 +16,10 @@ public interface AccountDAO {
 	
 	List<Account> getAllAccounts();
 	
-	List<Account> getAccountByType();
+	List<Account> getAccountByType(String type);
 	
-	List<Account> getAccountByStatus();
+	List<Account> getAccountByStatus(String status);
+
+
 
 }
