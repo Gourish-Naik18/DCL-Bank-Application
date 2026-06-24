@@ -6,7 +6,7 @@ import com.bank.dao.BranchDAO;
 import com.bank.dao.UserDAO;
 import com.bank.dao.impl.BranchDAOImpl;
 import com.bank.dao.impl.UserDAOImpl;
-import com.bank.dto.Branch;
+import com.bank.dto.Branch; 
 import com.bank.dto.User;
 
 public class Test {
