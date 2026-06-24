@@ -62,12 +62,13 @@ public class Transcation {
 	}
 	
 	
+	
 	//for testing
 	@Override
 	public String toString() {
-		return "Transcation [trans_id=" + trans_id + ", transcation_date=" + transcation_date + ", amount=" + amount
-				+ ", status=" + status + ", trans_type=" + trans_type + ", from_acc_id=" + from_acc_id + ", to_acc_id="
-				+ to_acc_id + "]";
+		return "Transcation [trans_id=" + trans_id + ", transcation_date=" + transcation_date + ", transcation_time="
+				+ transcation_time + ", amount=" + amount + ", status=" + status + ", trans_type=" + trans_type
+				+ ", from_acc_id=" + from_acc_id + ", to_acc_id=" + to_acc_id + "]";
 	}
 	
 	
