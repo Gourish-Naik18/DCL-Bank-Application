@@ -25,17 +25,7 @@ public class TranscationDAOImpl implements TranscationDAO {
 	public void addTranscation(Transcation t) {
 		// TODO Auto-generated method stub
       String query="insert into transcations values(0,sysdate(),?,default,?,?,?,sysdate())";
-	 try{ 
-	 AccountDAO adao = new AccountDAOImpl();
-	 Account a1 = adao.getAccountById(t.getFrom_acc_id());
-	 Account a2 = adao.getAccountById(t.getTo_acc_id());
-	 if(a1 != null && a2!= null) {
-		 a1.setBalance(a1.getBalance() - t.getAmount());
-		 a2.setBalance(a2.getBalance() + t.getAmount());
-		 adao.updateAccount(a2);
-		 adao.updateAccount(a1);
-	 }
-	 
+	 try{ 	 
 	  PreparedStatement ps=con.prepareStatement(query);
 	  ps.setDouble(1, t.getAmount());
 	  ps.setString(2, t.getTrans_type());
