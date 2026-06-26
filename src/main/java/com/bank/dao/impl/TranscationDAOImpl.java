@@ -24,13 +24,14 @@ public class TranscationDAOImpl implements TranscationDAO {
 	@Override
 	public void addTranscation(Transcation t) {
 		// TODO Auto-generated method stub
-      String query="insert into transcations values(0,sysdate(),?,default,?,?,?,sysdate())";
+      String query="insert into transcations values(0,sysdate(),?,?,?,?,?,sysdate())";
 	 try{ 	 
 	  PreparedStatement ps=con.prepareStatement(query);
 	  ps.setDouble(1, t.getAmount());
-	  ps.setString(2, t.getTrans_type());
-      ps.setInt(3, t.getFrom_acc_id());
-	  ps.setInt(4, t.getTo_acc_id());
+	  ps.setString(2, t.getStatus());
+	  ps.setString(3, t.getTrans_type());
+      ps.setInt(4, t.getFrom_acc_id());
+	  ps.setInt(5, t.getTo_acc_id());
 	  ps.executeUpdate();
 	} catch(SQLException e1){
 		e1.printStackTrace();

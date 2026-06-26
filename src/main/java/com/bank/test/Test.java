@@ -98,11 +98,12 @@ public class Test {
 //		
 //		TranscationDAO tdao = new TranscationDAOImpl();
 //		Transcation t = new Transcation();
-		
-//		t.setAmount(500.0);
-//		t.setTrans_type("UPI");
-//		t.setFrom_acc_id(1);
-//		t.setTo_acc_id(3);
+//		
+//		t.setAmount(1000.0);
+//		t.setTrans_type("transfer");
+//		t.setFrom_acc_id(3);
+//		t.setTo_acc_id(1);
+//		t.setStatus("failed");
 //		tdao.addTranscation(t);
 		
 //		Transcation t = tdao.getTranscationById(2);
