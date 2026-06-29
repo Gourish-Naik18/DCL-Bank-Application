@@ -38,7 +38,6 @@ public class TranscationDAOImpl implements TranscationDAO {
 		e1.printStackTrace();
 	}
 }
-
 	@Override
 	public void updateTranscation(Transcation t) {
 		// TODO Auto-generated method stub
@@ -72,7 +71,6 @@ public class TranscationDAOImpl implements TranscationDAO {
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -153,7 +151,6 @@ public class TranscationDAOImpl implements TranscationDAO {
 				t.setTo_acc_id(rs.getInt("to_acc_id"));
 				t.setTranscation_time(rs.getString("transaction_time"));
 				tl.add(t);
-
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
