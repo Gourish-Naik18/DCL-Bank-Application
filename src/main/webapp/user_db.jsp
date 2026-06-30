@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DCL Bank Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   
 </head>
 
@@ -29,17 +29,17 @@
       <div class="flex flex-col gap-6">
         <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">
           <i class="fa-solid fa-house"></i>
-          <a href="">Dashboard</a>
+          <a href="user_db.jsp">Dashboard</a>
         </div>
 
         <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">
           <i class="fa-solid fa-file-invoice-dollar"></i>
-          <a href="">Accounts</a>
+          <a href="my_accounts.jsp">Accounts</a>
         </div>
 
         <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">
           <i class="fa-solid fa-comments-dollar"></i>
-          <a href="">Transactions</a>
+          <a href="my_transcations.jsp">Transactions</a>
         </div>
 
         <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">
@@ -49,7 +49,7 @@
 
         <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">
           <i class="fa-solid fa-building-user"></i>
-          <a href="">Edit Profile</a>
+          <a href="edit_profile.jsp">Edit Profile</a>
         </div>
       </div>
 
@@ -71,15 +71,50 @@
           Welcome <span class="text-blue-500">Gourish</span>
         </h3>
 
-        <div class="flex items-center gap-3">
-          <div class="h-11 w-11 rounded-full bg-blue-300 flex items-center justify-center">
-            <i class="fa-solid fa-user text-black"></i>
-          </div>
-          <div>
-            <h3 class="text-blue-900 font-semibold">Gourish Naik</h3>
-            <p class="text-sm text-blue-800">Customer</p>
-          </div>
+       <div class="group relative">
+        <div class="flex items-center gap-3 cursor-pointer">
+            <div class="h-11 w-11 rounded-full bg-blue-200 flex justify-center items-center">
+                <i class="fa-solid fa-user text-black"></i>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-blue-900">
+                    Gourish Naik
+                </h3>
+
+                <p class="text-sm text-gray-500">
+                    Customer
+                </p>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-down text-sm"></i>
+
         </div>
+
+        <!-- Dropdown -->
+
+        <div class="absolute right-0 top-full w-52 bg-white rounded-xl shadow-xl hidden group-hover:block z-50">
+
+            <a href="index.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-gray-100 rounded-t-xl">
+                <i class="fa-solid fa-gauge"></i>
+                Home
+            </a>
+
+            <a href="edit_profile.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-gray-100">
+                <i class="fa-solid fa-user"></i>
+                Edit Profile
+            </a>
+
+            <a href="#" class="flex gap-3 items-center px-4 py-3 hover:bg-gray-100 text-red-500 rounded-b-xl">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+        
       </div>
 
       <!-- Content -->

@@ -24,7 +24,7 @@ public class TranscationDAOImpl implements TranscationDAO {
 	@Override
 	public void addTranscation(Transcation t) {
 		// TODO Auto-generated method stub
-      String query="insert into transcations values(0,sysdate(),?,?,?,?,?,sysdate())";
+      String query="insert into transcations values(0,sysdate(),?,?,?,?,?,sysdate(),?)";
 	 try{ 	 
 	  PreparedStatement ps=con.prepareStatement(query);
 	  ps.setDouble(1, t.getAmount());
@@ -32,6 +32,7 @@ public class TranscationDAOImpl implements TranscationDAO {
 	  ps.setString(3, t.getTrans_type());
       ps.setInt(4, t.getFrom_acc_id());
 	  ps.setInt(5, t.getTo_acc_id());
+	  ps.setString(6, t.getMode_of_transcation());
 	  ps.executeUpdate();
 	} catch(SQLException e1){
 		e1.printStackTrace();
@@ -41,7 +42,7 @@ public class TranscationDAOImpl implements TranscationDAO {
 	@Override
 	public void updateTranscation(Transcation t) {
 		// TODO Auto-generated method stub
-		String query="update transcations set transcation_date=?,amount=?,status=?,trans_type=?,from_acc_id=?,to_acc_id=?,transcation_time=? where trans_id=?";
+		String query="update transcations set transcation_date=?,amount=?,status=?,trans_type=?,from_acc_id=?,to_acc_id=?,transcation_time=?,mode_of_transcation=? where trans_id=?";
 		try{
 		PreparedStatement ps=con.prepareStatement(query);
 		ps.setString(1, t.getTranscation_date());
@@ -51,7 +52,8 @@ public class TranscationDAOImpl implements TranscationDAO {
 		ps.setInt(5, t.getFrom_acc_id());
 		ps.setInt(6, t.getTo_acc_id());
 		ps.setString(7, t.getTranscation_time());
-		ps.setInt(8, t.getTrans_id());
+		ps.setString(8, t.getMode_of_transcation());
+		ps.setInt(9, t.getTrans_id());
 		ps.executeUpdate();
 
 	} catch(SQLException e){
@@ -92,6 +94,7 @@ public class TranscationDAOImpl implements TranscationDAO {
 				t.setFrom_acc_id(rs.getInt("from_acc_id"));
 				t.setTo_acc_id(rs.getInt("to_acc_id"));
 				t.setTranscation_time(rs.getString("transcation_time"));
+				t.setMode_of_transcation(rs.getString("mode_of_transcation"));
 
 			}
 		}catch(SQLException e){
@@ -119,6 +122,7 @@ public class TranscationDAOImpl implements TranscationDAO {
 				t.setFrom_acc_id(rs.getInt("from_acc_id"));
 				t.setTo_acc_id(rs.getInt("to_acc_id"));
 				t.setTranscation_time(rs.getString("transcation_time"));
+				t.setMode_of_transcation(rs.getString("mode_of_transcation"));
 				tl.add(t);
 
 			}
@@ -151,6 +155,7 @@ public class TranscationDAOImpl implements TranscationDAO {
 				t.setFrom_acc_id(rs.getInt("from_acc_id"));
 				t.setTo_acc_id(rs.getInt("to_acc_id"));
 				t.setTranscation_time(rs.getString("transcation_time"));
+				t.setMode_of_transcation(rs.getString("mode_of_transcation"));
 				tl.add(t);
 
 			}
