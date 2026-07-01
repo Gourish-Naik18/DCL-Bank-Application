@@ -23,18 +23,19 @@ public class AccountDAOImpl implements AccountDAO {
 
 	@Override
 	public void addAccount(Account a) {
-		String query = "insert into accounts values(0,?,?,?,?,?,?,default,sysdate())";
+		String query = "insert into accounts values(0,?,?,?,?,?,default,sysdate())";
 	
 		try {
 			PreparedStatement ps = con.prepareStatement(query);
 			
 			ps.setInt(1, a.getUser_id());
 			ps.setInt(2, a.getBranch_id());
-			ps.setLong(3, a.getAcc_no());
-			ps.setString(4, a.getAcc_type());
-			ps.setDouble(5, a.getBalance());
-		    ps.setString(6,a.getStatus());
 			
+			long accNo = (long)(Math.random() * 900000000000L)	+ 100000000000L;
+			
+			ps.setLong(3, accNo);
+			ps.setString(4, a.getAcc_type());
+			ps.setDouble(5, a.getBalance());			
 			ps.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -50,7 +51,7 @@ public class AccountDAOImpl implements AccountDAO {
 	@Override
 	public void updateAccount(Account a) {
 		// TODO Auto-generated method stub
-		String query = "update accounts set user_id = ? , branch_name= ? ,  Acc_no= ? ,Acc_type = ? , balance = ? , status = ? , created_at = ? where id = ?";
+		String query = "update accounts set user_id = ? , branch_id= ? ,  acc_no= ? ,acc_type = ? , balance = ? , status = ? , created_at = ? where acc_id = ?";
 	
 		try {
 			PreparedStatement ps = con.prepareStatement(query);
@@ -62,7 +63,7 @@ public class AccountDAOImpl implements AccountDAO {
 			ps.setDouble(5, a.getBalance());
 		    ps.setString(6,a.getStatus());
 		    ps.setString(7,a.getCreated_at());
-			
+		    ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,12 +78,8 @@ public class AccountDAOImpl implements AccountDAO {
 
 		    try {
 		        PreparedStatement ps = con.prepareStatement(query);
-
 		        ps.setInt(1, id);
-
-		    	int i = ps.executeUpdate();
-
-		     
+		    	ps.executeUpdate();
 		    } 
 		    catch (SQLException e) {
 		        e.printStackTrace();
@@ -95,7 +92,7 @@ public class AccountDAOImpl implements AccountDAO {
 
 	@Override
 	public Account getAccountById(Integer id) {
-		String query = "select * from accounts where id = ?";
+		String query = "select * from accounts where acc_id = ?";
 		Account a = null;
 		try {
 			PreparedStatement ps  = con.prepareStatement(query);
@@ -111,7 +108,6 @@ public class AccountDAOImpl implements AccountDAO {
 				a.setBalance(rs.getDouble("balance"));
 				a.setStatus(rs.getString("status"));
 				a.setCreated_at(rs.getString("created_at"));
-				
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -143,8 +139,6 @@ public class AccountDAOImpl implements AccountDAO {
 				li.add(a);
 			}
 			
-			
-			
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -159,7 +153,7 @@ public class AccountDAOImpl implements AccountDAO {
 
 		    try {
 		        PreparedStatement ps = con.prepareStatement(query);
-		         ps.setString(1,type );
+		         ps.setString(1,type);
 
 		        ResultSet rs = ps.executeQuery();
 
