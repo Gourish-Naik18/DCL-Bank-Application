@@ -41,7 +41,7 @@
 
       <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">
         <i class="fa-solid fa-arrow-right-arrow-left"></i>
-        <a href="">Money Transfer</a>
+        <a href="moneytransfer.jsp">Money Transfer</a>
       </div>
 
       <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">

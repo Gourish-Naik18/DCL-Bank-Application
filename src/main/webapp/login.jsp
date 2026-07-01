@@ -15,10 +15,10 @@
 
 <body>
 
-  <div class="min-h-screen flex items-center justify-center gap-24 px-6 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600">
+  <div class="min-h-screen flex items-center justify-center gap-34 px-6 bg-gradient-to-br from-blue-500 via-blue-500 to-blue-600">
 
     <!-- Left Section -->
-    <div class="flex flex-col gap-6 text-white w-[460px]">
+    <div class="flex flex-col gap-8 text-white w-[460px]">
 
       <div class="flex gap-3 items-center fixed top-3 left-4">
         <i class="fa-solid fa-building-columns text-yellow-200 text-5xl"></i>

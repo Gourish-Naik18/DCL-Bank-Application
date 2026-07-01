@@ -44,7 +44,7 @@
 
         <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">
           <i class="fa-solid fa-arrow-right-arrow-left"></i>
-          <a href="">Money Transfer</a>
+          <a href="moneytransfer.jsp">Money Transfer</a>
         </div>
 
         <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">
@@ -239,34 +239,34 @@
 
               <div class="border border-gray-200 rounded-xl p-4 text-center hover:shadow-lg cursor-pointer">
                 <div class="bg-green-100 h-12 w-12 rounded-xl flex justify-center items-center mx-auto">
-                  <i class="fa-solid fa-arrow-down text-xl text-green-600"></i>
+                  <a href="deposit.jsp"><i class="fa-solid fa-arrow-down text-xl text-green-600"></i></a>
                 </div>
-                <h3 class="font-semibold mt-3">Deposit</h3>
-                <p class="text-sm text-gray-500">Add Money</p>
+                <a href="deposit.jsp"><h3 class="font-semibold mt-3">Deposit</h3></a>
+                <a href="deposit.jsp"><p class="text-sm text-gray-500">Add Money</p></a>
               </div>
 
               <div class="border border-gray-200 rounded-xl p-4 text-center hover:shadow-lg cursor-pointer">
                 <div class="bg-blue-100 h-12 w-12 rounded-xl flex justify-center items-center mx-auto">
-                  <i class="fa-solid fa-arrow-up text-xl text-blue-600"></i>
+                 <a href="withdraw.jsp"><i class="fa-solid fa-arrow-up text-xl text-blue-600"></i></a>
                 </div>
-                <h3 class="font-semibold mt-3">Withdraw</h3>
-                <p class="text-sm text-gray-500">Withdraw Money</p>
+                <a href="withdraw.jsp"><h3 class="font-semibold mt-3">Withdraw</h3></a>
+                <a href="withdraw.jsp"><p class="text-sm text-gray-500">Withdraw Money</p></a>
               </div>
 
               <div class="border border-gray-200 rounded-xl p-4 text-center hover:shadow-lg cursor-pointer">
                 <div class="bg-purple-100 h-12 w-12 rounded-xl flex justify-center items-center mx-auto">
-                  <i class="fa-solid fa-right-left text-xl text-purple-600"></i>
+                  <a href="transfer.jsp"><i class="fa-solid fa-right-left text-xl text-purple-600"></i></a>
                 </div>
-                <h3 class="font-semibold mt-3">Transfer</h3>
-                <p class="text-sm text-gray-500">Transfer Money</p>
+                <a href="transfer.jsp"><h3 class="font-semibold mt-3">Transfer</h3></a>
+                <a href="transfer.jsp"><p class="text-sm text-gray-500">Transfer Money</p></a>
               </div>
 
               <div class="border border-gray-200 rounded-xl p-4 text-center hover:shadow-lg cursor-pointer">
                 <div class="bg-orange-100 h-12 w-12 rounded-xl flex justify-center items-center mx-auto">
-                  <i class="fa-regular fa-user text-xl text-orange-500"></i>
+                  <a href="edit_profile.jsp"><i class="fa-regular fa-user text-xl text-orange-500"></i></a>
                 </div>
-                <h3 class="font-semibold mt-3">Profile</h3>
-                <p class="text-sm text-gray-500">View Profile</p>
+                <a href="edit_profile.jsp"><h3 class="font-semibold mt-3">Profile</h3></a>
+                <a href="edit_profile.jsp"><p class="text-sm text-gray-500">Edit Profile</p></a>
               </div>
 
             </div>

@@ -12,7 +12,7 @@
 
 <body>
 
-  <div class="min-h-screen flex items-center gap-32 px-10 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600">
+  <div class="min-h-screen flex items-center gap-32 px-10 bg-gradient-to-br from-blue-500 via-blue-500 to-blue-600">
 
     <!-- Left -->
     <div class="p-3 flex flex-col gap-8 text-white w-[520px] ml-24">

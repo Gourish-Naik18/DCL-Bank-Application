@@ -42,7 +42,7 @@
 
       <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">
         <i class="fa-solid fa-arrow-right-arrow-left"></i>
-        <a href="">Money Transfer</a>
+        <a href="moneytransfer.jsp">Money Transfer</a>
       </div>
 
       <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">
@@ -124,7 +124,7 @@
           <p class="text-gray-500 mt-1">View and manage all your bank accounts</p>
         </div>
 
-        <a href="request_account.jsp"
+        <a href="account_request.jsp"
            class="bg-blue-700 text-white px-6 py-3 rounded-lg hover:bg-blue-800 shadow-md">
           <i class="fa-solid fa-plus mr-2"></i>
           Request New Account
