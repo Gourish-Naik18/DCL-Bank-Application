@@ -26,7 +26,7 @@
     </a>
   </div>
 
-  <div class="min-h-[calc(100vh-64px)] flex items-center justify-center p-8">
+  <div class="flex items-center justify-center p-8">
 
     <div class="bg-white rounded-3xl shadow-xl p-10 w-[550px] text-center">
 
