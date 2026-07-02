@@ -17,7 +17,7 @@
 
   <div class="min-h-screen flex items-center justify-center gap-34 px-6 bg-gradient-to-br from-blue-500 via-blue-500 to-blue-600">
 
-    <!-- Left Section -->
+    <!-- Left-->
     <div class="flex flex-col gap-8 text-white w-[460px]">
 
       <div class="flex gap-3 items-center fixed top-3 left-4">
@@ -72,7 +72,7 @@
 
     </div>
 
-    <!-- Login Card -->
+    <!-- Login-->
     <div class="rounded-3xl px-8 py-10 bg-white w-[470px] shadow-xl">
 
       <div class="flex flex-col gap-3 justify-center items-center mb-6">
@@ -80,6 +80,11 @@
         <h1 class="text-2xl font-bold">Welcome Back!</h1>
         <h3 class="text-gray-400">Login to continue to your account</h3>
       </div>
+      
+      <%String msg = (String)request.getAttribute("error");%>
+      <%if(msg != null){%>
+      <h2 id="msg" class="bg-red-100 text-red-600 text-center p-3 rounded-xl mb-4 font-semibold">><%=msg%></h2>
+      <%}%>
 
       <form action="login" method="POST" class="grid gap-5">
 
@@ -118,6 +123,15 @@
     </div>
 
   </div>
+  
+  <script>
+let m = document.getElementById("msg");
+    setTimeout(() => {
+        m.style.display = 'none';
+    },2000);
+
+
+</script>
 
 </body>
 </html>

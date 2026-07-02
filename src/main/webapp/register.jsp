@@ -71,6 +71,16 @@
         <h1 class="text-3xl font-bold text-gray-900">Register New Account</h1>
         <h3 class="text-gray-400 text-lg">Fill in the details to get started</h3>
       </div>
+      
+      <%String msg = (String)request.getAttribute("error");%>
+      <%if(msg != null){%>
+      <h2 id="msg" class="bg-red-100 text-red-600 text-center p-3 rounded-xl mb-4 font-semibold">><%=msg%></h2>
+      <%}%>
+      
+       <%String msg2 = (String)request.getAttribute("sucess");%>
+      <%if(msg2 != null){%>
+      <h2 id="msg" class="bg-green-100 text-green-600 text-center p-3 rounded-xl mb-4 font-semibold">><%=msg2%></h2>
+      <%}%>
     
       <div class="grid grid-cols-1 gap-4">
         <form action="register" method="POST" class="grid grid-cols-1 gap-4">
@@ -114,5 +124,20 @@
     </div>
   
   </div>
+  
+  
+  <script>
+let m = document.getElementById("msg");
+    setTimeout(() => {
+        m.style.display = 'none';
+    },2000);
+
+
+let n = document.getElementById("msg2");
+    setTimeout(() => {
+        n.style.display = 'none';
+    },2000);
+
+</script>
 </body>
 </html>

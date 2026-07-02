@@ -28,7 +28,7 @@ public class Register extends HttpServlet {
 	    	
 	        u.setUser_name(req.getParameter("User_name"));
 	        u.setEmail(req.getParameter("email"));
-	        u.setPhone(Long.getLong(req.getParameter("phone")));
+	        u.setPhone(Long.parseLong(req.getParameter("phone")));
 	        u.setPassword(req.getParameter("password"));
             udao.addUser(u);
             	req.setAttribute("sucess", "Account created!");
