@@ -10,6 +10,7 @@ public class Transcation {
 	private String trans_type;
 	private Integer from_acc_id;
 	private Integer to_acc_id;
+	private String mode_of_transcation;
 	
 	
 	public Integer getTrans_id() {
@@ -61,6 +62,12 @@ public class Transcation {
 		this.transcation_time = transcation_time;
 	}
 	
+	public String getMode_of_transcation() {
+		return mode_of_transcation;
+	}
+	public void setMode_of_transcation(String mode_of_transcation) {
+		this.mode_of_transcation = mode_of_transcation;
+	}
 	
 	
 	//for testing

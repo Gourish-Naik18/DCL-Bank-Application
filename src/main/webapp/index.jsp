@@ -29,9 +29,9 @@
       <a href="#">Support</a>
     </div>
 
-    <button class="bg-blue-700 text-white px-8 py-2 rounded-lg shadow-md hover:bg-blue-800">
+    <a href="login.jsp" class="bg-blue-700 text-white px-8 py-2 rounded-lg shadow-md hover:bg-blue-800">
       Login
-    </button>
+    </a>
 
 
      <div class="group relative">
@@ -64,7 +64,7 @@
                 Dashboard
             </a>
 
-            <a href="#" class="flex gap-3 items-center px-4 py-3 hover:bg-gray-100">
+            <a href="edit_profile.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-gray-100">
                 <i class="fa-solid fa-user"></i>
                 Edit Profile
             </a>
