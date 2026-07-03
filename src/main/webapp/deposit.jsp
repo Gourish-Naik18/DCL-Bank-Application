@@ -1,153 +1,207 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Deposit Money</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DCL Bank — Deposit Money</title>
+
+  <!-- FontAwesome Icons & Clean Typography -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <style>
+    body {
+      font-family: 'Public Sans', sans-serif;
+    }
+    /* Bank Crimson System Colors */
+    .brand-bg-solid { background-color: #971B4E; }
+    .brand-text-solid { color: #971B4E; }
+    .brand-border-solid { border-color: #971B4E; }
+    .brand-light-bg { background-color: rgba(151, 27, 78, 0.04); }
+
+    /* Page load fade up animation */
+    @keyframes systemFadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-system-up {
+      animation: systemFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-[#f0f3f8] text-slate-800 min-h-screen flex flex-col justify-between antialiased relative overflow-x-hidden">
 
-  <!-- Header -->
-  <div class="h-16 bg-blue-800 text-white flex items-center justify-between px-10 shadow-md">
+  <!-- Background highlights for visual depth -->
+  <div class="absolute top-0 right-1/4 w-[600px] h-[600px] bg-purple-200/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
+  <div class="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-rose-100/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+  <!-- Top Navigation Header -->
+  <header class="w-full max-w-[1440px] mx-auto px-6 lg:px-16 py-6 flex items-center justify-between z-10">
     <div class="flex items-center gap-3">
-      <i class="fa-solid fa-building-columns text-3xl text-yellow-200"></i>
-      <div>
-        <h2 class="font-bold text-xl">DCL BANK</h2>
-        <p class="text-sm text-blue-100">Banking Redefined</p>
+      <div class="w-10 h-10 rounded-lg brand-bg-solid flex items-center justify-center shadow-md">
+        <i class="fa-solid fa-building-columns text-white text-lg"></i>
+      </div>
+      <div class="leading-none">
+        <span class="text-xl font-black text-slate-900 tracking-tight block">DCL <span class="brand-text-solid">BANK</span></span>
+        <span class="text-[10px] font-bold text-slate-400 tracking-widest uppercase block mt-0.5">Transaction Counter</span>
       </div>
     </div>
-
-    <a href="logout" class="bg-red-500 px-5 py-2 rounded-lg hover:bg-red-600">
-      <i class="fa-solid fa-right-from-bracket mr-2"></i>
-      Logout
+    
+    <a href="Logout" class="text-xs font-bold text-rose-600 hover:bg-rose-50 px-3 py-2 rounded-lg border border-rose-200 transition-all flex items-center gap-2 shadow-xs bg-white">
+      <i class="fa-solid fa-right-from-bracket text-[11px]"></i> Log Out
     </a>
-  </div>
+  </header>
 
-  <div class="flex items-center justify-center p-6">
-
-    <!--Card -->
-    <div class="bg-white rounded-3xl mt-8 shadow-xl overflow-hidden w-[1000px] grid grid-cols-2">
-
-      <!-- Left -->
-      <div class="bg-blue-700 text-white p-8 flex flex-col justify-between">
-
-        <div>
-          <h1 class="text-4xl font-bold italic text-yellow-200">
-            Deposit Money
+  <!-- Main Transaction Layout Grid -->
+  <main class="flex-grow flex items-center justify-center px-4 py-6 z-10">
+    <div class="w-full max-w-5xl bg-slate-900/40 backdrop-blur-xl border border-slate-200/80 rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[580px] animate-system-up">
+      
+      <!-- Left Side Transaction Summary Box -->
+      <div class="md:col-span-5 bg-slate-950 p-8 lg:p-10 flex flex-col justify-between relative overflow-hidden text-white border-b md:border-b-0 md:border-r border-slate-800/80">
+        <div class="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950/90 z-10"></div>
+        
+        <!-- Large background transaction crest -->
+        <div class="absolute inset-0 flex items-center justify-center opacity-5 select-none pointer-events-none z-10">
+          <i class="fa-solid fa-vault text-[300px]"></i>
+        </div>
+        
+        <!-- Top Title Segment -->
+        <div class="z-20 space-y-4">
+          <div class="bg-slate-900 border border-slate-800 text-slate-300 text-[10px] font-bold tracking-wider uppercase px-3 py-1 rounded-md inline-flex items-center gap-1.5 shadow-inner">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Encrypted Transaction Channel
+          </div>
+          <h1 class="text-3xl font-extrabold tracking-tight leading-tight">
+            Deposit Funds <br>To Your <span class="brand-text-solid">Accounts.</span>
           </h1>
-
-          <p class="text-lg italic text-blue-100 mt-5 leading-8 w-[330px]">
-            Add money securely to your account and enjoy fast banking with DCL Bank.
+          <p class="text-slate-400 text-xs leading-relaxed max-w-xs">
+            Add money safely into your balance using our multiple real-time local channel integration modules.
           </p>
-
-          <div class="flex justify-center mt-10">
-            <div class="h-44 w-44 rounded-full bg-blue-700 flex items-center justify-center shadow-xl">
-              <i class="fa-solid fa-shield-halved text-blue-200 text-7xl"></i>
-            </div>
-          </div>
         </div>
 
-        <div class="grid grid-cols-3 gap-3 bg-white/10 p-4 rounded-2xl mt-8">
-
+        <!-- Lower Quality Matrix Indicators -->
+        <div class="grid grid-cols-3 gap-2 bg-slate-900/60 p-4 border border-slate-800/80 rounded-xl z-20">
           <div class="text-center">
-            <i class="fa-solid fa-shield-halved text-2xl"></i>
-            <h3 class="text-yellow-300 text-sm mt-2">Secure</h3>
-            <h3 class="text-yellow-300 text-sm">Deposit</h3>
+            <i class="fa-solid fa-shield-halved text-lg brand-text-solid"></i>
+            <h4 class="text-[11px] font-bold text-slate-200 mt-1">Secure</h4>
+            <p class="text-[9px] text-slate-500">Fully Protected</p>
           </div>
-
+          <div class="text-center border-x border-slate-800/80">
+            <i class="fa-solid fa-bolt text-lg text-amber-400"></i>
+            <h4 class="text-[11px] font-bold text-slate-200 mt-1">Instant</h4>
+            <p class="text-[9px] text-slate-500">Fast Sync</p>
+          </div>
           <div class="text-center">
-            <i class="fa-solid fa-bolt text-2xl"></i>
-            <h3 class="text-yellow-300 text-sm mt-2">Instant</h3>
-            <h3 class="text-yellow-300 text-sm">Credit</h3>
+            <i class="fa-solid fa-headset text-lg text-teal-400"></i>
+            <h4 class="text-[11px] font-bold text-slate-200 mt-1">24/7</h4>
+            <p class="text-[9px] text-slate-500">Full Support</p>
           </div>
-
-          <div class="text-center">
-            <i class="fa-solid fa-headset text-2xl"></i>
-            <h3 class="text-yellow-300 text-sm mt-2">24/7</h3>
-            <h3 class="text-yellow-300 text-sm">Support</h3>
-          </div>
-
         </div>
-
       </div>
 
-      <!-- Right-->
-      <div class="bg-white p-8 flex items-center">
+      <!-- Right Side Interactive Input Panel -->
+      <div class="md:col-span-7 p-8 lg:p-12 flex flex-col justify-center bg-white/80 backdrop-blur-md">
+        
+        <div class="mb-6">
+          <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Deposit Money</h2>
+          <p class="text-slate-400 text-xs mt-1">Select your account parameters below to complete the transfer.</p>
+        </div>
 
-        <div class="w-full">
-
-          <div class="mb-6">
-            <h1 class="text-3xl font-bold text-gray-900">Deposit Money</h1>
-            <p class="text-gray-500 mt-2">Add money to your account</p>
-          </div>
-
-          <form action="payment.jsp" method="POST" class="space-y-5">
-
-            <div>
-              <label class="block font-semibold text-gray-700 mb-2">Select Account</label>
-              <select name="account_id"
-                      class="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none text-gray-700">
-                <option value="">Select Account</option>
+        <form action="payment.jsp" method="POST" class="space-y-4">
+          
+          <!-- Source Account Choice Dropdown -->
+          <div class="space-y-1">
+            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Target Destination Account</label>
+            <div class="border border-slate-200 focus-within:border-[#971B4E] focus-within:ring-2 focus-within:ring-[#971B4E]/10 px-4 py-2.5 rounded-lg flex items-center gap-3 bg-white transition-all shadow-xs">
+              <i class="fa-solid fa-building-columns text-slate-400 text-xs w-4 text-center"></i>
+              <select name="account_id" class="w-full text-sm outline-none bg-transparent text-slate-700 font-medium bg-white cursor-pointer" required>
+                <option value="" class="text-slate-400">Select Account</option>
                 <option value="1">1234 5678 9012 - Savings Account (₹ 45,250.00)</option>
                 <option value="2">9876 5432 1098 - Current Account (₹ 30,200.00)</option>
               </select>
             </div>
+          </div>
 
-            <div>
-              <label class="block font-semibold text-gray-700 mb-2">Amount (₹)</label>
-              <input type="number"
-                     name="amount"
-                     value="5000"
+          <!-- Balance Input Text Field -->
+          <div class="space-y-1">
+            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Amount to Deposit (₹)</label>
+            <div class="border border-slate-200 focus-within:border-[#971B4E] focus-within:ring-2 focus-within:ring-[#971B4E]/10 px-4 py-2.5 rounded-lg flex items-center gap-3 bg-white transition-all shadow-xs">
+              <i class="fa-solid fa-indian-rupee-sign text-slate-400 text-xs w-4 text-center"></i>
+              <input class="w-full text-sm outline-none bg-transparent text-slate-800 placeholder-slate-400 font-semibold" 
+                     type="number" 
+                     name="amount" 
+                     value="5000" 
                      placeholder="Enter amount"
-                     class="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none text-gray-700">
+                     min="1"
+                     required>
             </div>
+          </div>
 
-            <div>
-              <label class="block font-semibold text-gray-700 mb-3">Select Payment Mode</label>
+          <!-- Custom Transaction Channel Picker Module -->
+          <div class="space-y-2 pt-2">
+            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Choose Your Payment Mode</label>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              
+              <!-- Option: UPI -->
+              <label class="border border-slate-200 rounded-xl p-3 flex items-center gap-3 bg-white hover:border-[#971B4E]/40 transition-all shadow-xs cursor-pointer group">
+                <input type="radio" name="payment_mode" value="UPI" class="accent-[#971B4E] scale-110" checked>
+                <div class="leading-none">
+                  <span class="text-xs font-bold text-slate-700 block">UPI</span>
+                  <span class="text-[9px] text-slate-400">Instant Code Link</span>
+                </div>
+              </label>
 
-              <div class="flex items-center gap-6 text-sm">
+              <!-- Option: Card -->
+              <label class="border border-slate-200 rounded-xl p-3 flex items-center gap-3 bg-white hover:border-[#971B4E]/40 transition-all shadow-xs cursor-pointer group">
+                <input type="radio" name="payment_mode" value="CARD" class="accent-[#971B4E] scale-110">
+                <div class="leading-none">
+                  <span class="text-xs font-bold text-slate-700 block">Cards</span>
+                  <span class="text-[9px] text-slate-400">Debit / Credit</span>
+                </div>
+              </label>
 
-                <label class="flex items-center gap-2 text-gray-700">
-                  <input type="radio" name="payment_mode" value="UPI" checked>
-                  UPI
-                </label>
+              <!-- Option: Net Banking -->
+              <label class="border border-slate-200 rounded-xl p-3 flex items-center gap-3 bg-white hover:border-[#971B4E]/40 transition-all shadow-xs cursor-pointer group">
+                <input type="radio" name="payment_mode" value="NETBANKING" class="accent-[#971B4E] scale-110">
+                <div class="leading-none">
+                  <span class="text-xs font-bold text-slate-700 block">Net Banking</span>
+                  <span class="text-[9px] text-slate-400">Direct Bank Portal</span>
+                </div>
+              </label>
 
-                <label class="flex items-center gap-2 text-gray-700">
-                  <input type="radio" name="payment_mode" value="CARD">
-                  Debit / Credit Card
-                </label>
-
-                <label class="flex items-center gap-2 text-gray-700">
-                  <input type="radio" name="payment_mode" value="NETBANKING">
-                  Net Banking
-                </label>
-
-              </div>
             </div>
+          </div>
 
-            <button type="submit"
-                    class="w-full bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 shadow-md">
-              Proceed to Payment
+          <!-- Navigation Action Button Controls -->
+          <div class="flex flex-col sm:flex-row gap-3 pt-6 mt-2">
+            <button class="w-full order-1 sm:order-2 brand-bg-solid text-white text-sm font-bold py-3 rounded-lg shadow-md hover:brightness-110 active:scale-[0.99] transition-all cursor-pointer flex items-center justify-center gap-2" 
+                    type="submit">
+              <i class="fa-solid fa-circle-check text-xs"></i> Proceed to Payment
             </button>
-
-            <a href="moneytransfer.jsp"
-               class="block text-center bg-gray-200 text-gray-700 py-3 rounded-lg hover:bg-gray-300">
-              Cancel
+            
+            <a href="moneytransfer.jsp" 
+               class="w-full order-2 sm:order-1 bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-800 text-sm font-bold py-3 rounded-lg border border-slate-200 transition-all text-center flex items-center justify-center gap-2">
+               Cancel
             </a>
+          </div>
 
-          </form>
-
-        </div>
-
+        </form>
       </div>
 
     </div>
+  </main>
 
-  </div>
+  <!-- Simple Footer Disclosure -->
+  <footer class="w-full bg-slate-900 text-center py-4 text-[11px] text-slate-500 px-6 border-t border-slate-800">
+    <p>&copy; 2026 DCL Bank Groups Inc. Please check your payment credentials carefully before finalizing updates.</p>
+  </footer>
 
 </body>
 </html>

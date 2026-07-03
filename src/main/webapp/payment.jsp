@@ -1,140 +1,183 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Payment</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DCL Bank — Secure Authorization Gateway</title>
+
+  <!-- FontAwesome Icons & Clean Typography -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <style>
+    body {
+      font-family: 'Public Sans', sans-serif;
+    }
+    /* Bank Crimson System Colors */
+    .brand-bg-solid { background-color: #971B4E; }
+    .brand-text-solid { color: #971B4E; }
+    .brand-border-solid { border-color: #971B4E; }
+    .brand-light-bg { background-color: rgba(151, 27, 78, 0.04); }
+
+    /* Page load fade up animation */
+    @keyframes gatewayFadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-gateway-up {
+      animation: gatewayFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-[#f0f3f8] text-slate-800 min-h-screen flex flex-col justify-between antialiased relative overflow-x-hidden">
 
-  <!-- Header -->
-  <div class="h-16 bg-blue-900 text-white flex items-center justify-between px-10 shadow-md">
+  <!-- Background highlights for visual depth -->
+  <div class="absolute top-0 left-1/3 w-[600px] h-[600px] bg-rose-100/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
+  <div class="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-slate-200/50 rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+  <!-- Top Navigation Header -->
+  <header class="w-full max-w-[1440px] mx-auto px-6 lg:px-16 py-6 flex items-center justify-between z-10">
     <div class="flex items-center gap-3">
-      <i class="fa-solid fa-building-columns text-3xl text-yellow-200"></i>
-      <div>
-        <h2 class="font-bold text-xl">DCL BANK</h2>
-        <p class="text-sm text-blue-100">Banking Redefined</p>
+      <div class="w-10 h-10 rounded-lg brand-bg-solid flex items-center justify-center shadow-md">
+        <i class="fa-solid fa-shield-halved text-white text-lg"></i>
+      </div>
+      <div class="leading-none">
+        <span class="text-xl font-black text-slate-900 tracking-tight block">DCL <span class="brand-text-solid">BANK</span></span>
+        <span class="text-[10px] font-bold text-slate-400 tracking-widest uppercase block mt-0.5">Payment Gateway</span>
       </div>
     </div>
-
-    <a href="logout" class="bg-red-500 px-5 py-2 rounded-lg hover:bg-red-600">
-      <i class="fa-solid fa-right-from-bracket mr-2"></i>
-      Logout
+    
+    <a href="Logout" class="text-xs font-bold text-rose-600 hover:bg-rose-50 px-3 py-2 rounded-lg border border-rose-200 transition-all flex items-center gap-2 shadow-xs bg-white">
+      <i class="fa-solid fa-right-from-bracket text-[11px]"></i> Log Out
     </a>
-  </div>
+  </header>
 
-  <!-- Main -->
-  <div class="min-h-[calc(100vh-64px)] flex items-center justify-center p-8">
+  <!-- Main Authorization Center Workspace -->
+  <main class="flex-grow flex items-center justify-center px-4 py-6 z-10">
+    <div class="w-full max-w-4xl bg-white border border-slate-200/80 rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[540px] animate-gateway-up">
+      
+      <!-- Left Side Card: Visual Security Counter -->
+      <div class="md:col-span-5 bg-slate-950 p-8 flex flex-col justify-between relative overflow-hidden text-white border-b md:border-b-0 md:border-r border-slate-900">
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 z-10"></div>
+        
+        <!-- Large backdrop pattern shield -->
+        <div class="absolute inset-0 flex items-center justify-center opacity-5 select-none pointer-events-none z-10">
+          <i class="fa-solid fa-shield-halved text-[280px]"></i>
+        </div>
+        
+        <!-- Verification header indicators -->
+        <div class="z-20 space-y-4 text-center md:text-left">
+          <div class="bg-emerald-950/60 border border-emerald-800/60 text-emerald-400 text-[10px] font-bold tracking-wider uppercase px-3 py-1 rounded-md inline-flex items-center gap-1.5 shadow-inner">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 256-Bit SSL Secured
+          </div>
+          <h1 class="text-2xl font-black tracking-tight leading-tight">
+            Secure Payment <br>Authorization
+          </h1>
+          <p class="text-slate-400 text-xs leading-relaxed max-w-xs">
+            Verify the unique one-time verification passcode distributed to your communication channel.
+          </p>
+        </div>
 
-    <div class="w-[760px]">
+        <!-- Central Phone Graphic Visualization -->
+        <div class="hidden md:flex justify-center items-center z-20 py-6">
+          <div class="h-32 w-32 rounded-full bg-slate-900/80 border border-slate-800 flex items-center justify-center relative shadow-inner">
+            <i class="fa-solid fa-mobile-screen-button brand-text-solid text-5xl"></i>
+            <div class="absolute -right-2 bottom-2 h-10 w-12 bg-[#971B4E] rounded-lg flex items-center justify-center shadow-lg">
+              <i class="fa-solid fa-key text-white text-base"></i>
+            </div>
+            <div class="absolute -left-2 top-2 h-9 w-9 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center shadow">
+              <i class="fa-solid fa-shield text-emerald-400 text-sm"></i>
+            </div>
+          </div>
+        </div>
 
-      <div class="text-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-900">DCL Bank Payment Gateway</h1>
-        <p class="text-gray-500 mt-2">Complete your payment</p>
+        <!-- Compliance Disclaimer Block -->
+        <div class="z-20 pt-4 border-t border-slate-900 text-center md:text-left">
+          <span class="text-[10px] text-slate-500 block font-medium">Verification Lockbox</span>
+          <p class="text-[11px] text-slate-400 mt-0.5">Do not share your one-time passwords with anyone, including customer agents.</p>
+        </div>
       </div>
 
-      <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 grid grid-cols-2 gap-8 items-center">
-
-        <!-- Left -->
-        <div class="flex flex-col items-center justify-center">
-
-          <div class="h-40 w-40 rounded-full bg-blue-100 flex items-center justify-center relative">
-            <i class="fa-solid fa-mobile-screen-button text-blue-700 text-7xl"></i>
-
-            <div class="absolute -right-5 bottom-5 h-16 w-20 bg-blue-700 rounded-xl flex items-center justify-center shadow-lg">
-              <i class="fa-solid fa-credit-card text-white text-3xl"></i>
-            </div>
-
-            <div class="absolute -left-4 top-5 h-12 w-12 bg-green-100 rounded-full flex items-center justify-center shadow">
-              <i class="fa-solid fa-shield-halved text-green-600 text-2xl"></i>
-            </div>
-
-            <div class="absolute right-2 -top-4 h-12 w-12 bg-green-500 rounded-full flex items-center justify-center shadow">
-              <i class="fa-solid fa-check text-white text-2xl"></i>
-            </div>
+      <!-- Right Side Card: Interactive Parameter & Verification Panel -->
+      <div class="md:col-span-7 p-8 lg:p-10 flex flex-col justify-center bg-white">
+        
+        <!-- Target Core Transfer Summary Grid -->
+        <div class="bg-slate-50 border border-slate-200/60 rounded-xl p-4 mb-6 space-y-2.5 text-xs">
+          <div class="flex justify-between items-center pb-2 border-b border-slate-200/60">
+            <span class="text-slate-400 font-semibold">Account Number</span>
+            <span class="font-bold text-slate-800 tracking-tight">123456678999</span>
           </div>
 
-          <h2 class="text-2xl font-bold text-blue-900 mt-8">Secure Payment</h2>
-          <p class="text-gray-500 text-center mt-2">
-            This is a payment gateway.
-          </p>
+          <div class="flex justify-between items-center py-0.5">
+            <span class="text-slate-400 font-semibold">Account Holder</span>
+            <span class="font-bold text-slate-800">Gourish Naik</span>
+          </div>
 
+          <div class="flex justify-between items-center py-0.5">
+            <span class="text-slate-400 font-semibold">Method Channel</span>
+            <span class="font-bold text-slate-800 bg-slate-200/60 px-2 py-0.5 rounded text-[10px]">NEFT</span>
+          </div>
+
+          <div class="flex justify-between items-center pt-2 border-t border-slate-200/60 mt-0.5">
+            <span class="text-slate-900 font-extrabold">Total Value</span>
+            <span class="text-xl font-black text-emerald-600">₹ 50,000.00</span>
+          </div>
         </div>
 
-        <!-- Right-->
-        <div>
+        <!-- OTP Verification Submission Form -->
+        <form action="payment_sucess.jsp" method="POST" class="space-y-4">
+          
+          <!-- Preserved Hidden Back-End Hooks -->
+          <input type="hidden" name="account_id" value="1">
+          <input type="hidden" name="amount" value="100000">
+          <input type="hidden" name="payment_mode" value="neft">
 
-          <div class="space-y-4 mb-6">
-
-            <div class="flex justify-between border-b pb-3">
-              <p class="text-gray-500 font-semibold">Account Number</p>
-              <p class="font-bold text-gray-900">123456678999</p>
+          <div class="space-y-1.5">
+            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Password</label>
+            
+            <div class="border border-slate-200 focus-within:border-[#971B4E] focus-within:ring-2 focus-within:ring-[#971B4E]/10 px-4 py-3 rounded-lg flex items-center gap-3 bg-white transition-all shadow-xs">
+              <i class="fa-solid fa-lock text-slate-400 text-xs w-4 text-center"></i>
+              <input class="w-full text-sm outline-none bg-transparent text-slate-800 placeholder-slate-300 font-bold tracking-widest" 
+                     type="password" 
+                     name="otp" 
+                     placeholder="••••" 
+                     required>
             </div>
 
-            <div class="flex justify-between border-b pb-3">
-              <p class="text-gray-500 font-semibold">Account Holder</p>
-              <p class="font-bold text-gray-900">Gourish Naik</p>
-            </div>
-
-            <div class="flex justify-between border-b pb-3">
-              <p class="text-gray-500 font-semibold">Amount</p>
-              <p class="font-bold text-green-600 text-2xl">₹ 50,000</p>
-            </div>
-
-            <div class="flex justify-between">
-              <p class="text-gray-500 font-semibold">Payment Mode</p>
-              <p class="font-bold text-gray-900">NEFT</p>
-            </div>
-
+            <!-- Context Simulation Hint Link Box -->
+           
           </div>
 
-          <form action="payment_sucess.jsp" method="POST" class="space-y-5">
-
-            <input type="hidden" name="account_id" value="1">
-            <input type="hidden" name="amount" value="100000">
-            <input type="hidden" name="payment_mode" value="neft">
-
-            <div>
-              <label class="font-semibold text-gray-800">Enter OTP</label>
-
-              <div class="border border-gray-300 rounded-lg px-4 py-3 mt-2 flex items-center gap-3">
-                <input type="password"
-                       name="otp"
-                       placeholder="Enter 4 digit OTP"
-                       class="outline-none w-full">
-
-                <!-- <i class="fa-solid fa-eye-slash text-gray-500"></i> -->
-              </div>
-
-              <p class="text-sm text-gray-500 mt-2">
-                Use OTP:
-                <span class="font-bold text-blue-700">1234</span>
-              </p>
-            </div>
-
-            <button type="submit"
-                    class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700">
-              Pay Now
+          <!-- Gateway Execution Action Buttons -->
+          <div class="pt-2">
+            <button class="w-full bg-emerald-600 text-white text-sm font-bold py-3.5 rounded-lg shadow-md hover:bg-emerald-500 active:scale-[0.99] transition-all cursor-pointer flex items-center justify-center gap-2" 
+                    type="submit">
+              <i class="fa-solid fa-circle-check text-xs"></i> Complete Secure Payment
             </button>
+          </div>
 
-          </form>
+        </form>
 
-          <p class="text-center text-gray-500 mt-5">
-            <i class="fa-solid fa-lock mr-2"></i>
-            This is a payment gateway
-          </p>
-
-        </div>
+        <p class="text-center text-[11px] text-slate-400 mt-5 flex items-center justify-center gap-1.5">
+          <i class="fa-solid fa-lock text-emerald-500"></i> Fully authenticated transaction environment
+        </p>
 
       </div>
 
     </div>
+  </main>
 
-  </div>
+  <!-- Simple Footer Disclosure -->
+  <footer class="w-full bg-slate-900 text-center py-4 text-[11px] text-slate-500 px-6 border-t border-slate-800">
+    <p>&copy; 2026 DCL Bank Groups Inc. Please verify all information fields before finalizing parameters.</p>
+  </footer>
 
 </body>
 </html>
