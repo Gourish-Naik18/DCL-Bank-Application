@@ -1,256 +1,283 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DCL Bank My Accounts</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS v4 -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   
+  <style>
+    body {
+      font-family: 'Public Sans', sans-serif;
+    }
+    /* Bank Crimson Accent Reference Style */
+    .brand-text-solid { color: #971B4E; }
+    .brand-bg-light { background-color: rgba(151, 27, 78, 0.08); }
+  </style>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-[#f0f3f8] text-slate-800 min-h-screen antialiased">
 
-  <!-- Sidebar -->
-  <div class="fixed top-0 h-screen left-0 z-50 w-60 bg-blue-900 text-white px-4 py-4 flex flex-col gap-6">
+  <div class="flex min-h-screen relative overflow-x-hidden">
 
-    <div class="flex gap-3 items-center mb-10">
-      <i class="fa-solid fa-building-columns text-3xl"></i>
-      <div>
-        <h2 class="font-bold text-xl">DCL BANK</h2>
-        <p class="text-sm text-blue-100">Banking Redefined</p>
-      </div>
-    </div>
-
-    <div class="flex flex-col gap-5">
-      <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">
-        <i class="fa-solid fa-house"></i>
-        <a href="user_db.jsp">Dashboard</a>
-      </div>
-
-      <div class="flex gap-3 items-center bg-blue-600 rounded-lg p-3">
-        <i class="fa-solid fa-wallet"></i>
-        <a href="my_accounts.jsp">Accounts</a>
-      </div>
-
-      <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">
-        <i class="fa-solid fa-comments-dollar"></i>
-        <a href="my_transcations.jsp">Transactions</a>
-      </div>
-
-      <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">
-        <i class="fa-solid fa-arrow-right-arrow-left"></i>
-        <a href="moneytransfer.jsp">Money Transfer</a>
-      </div>
-
-      <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">
-        <i class="fa-solid fa-building-user"></i>
-        <a href="edit_profile.jsp">Edit Profile</a>
-      </div>
-    </div>
-
-    <div class="mt-auto border-t border-blue-700 pt-5">
-      <div class="flex gap-3 items-center hover:bg-blue-600 rounded-lg p-3">
-        <i class="fa-solid fa-right-from-bracket text-red-400"></i>
-        <a href="" class="text-red-300">Logout</a>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Header -->
-  <div class="fixed top-0 left-60 right-0 z-40 h-18 bg-white shadow-sm flex items-center justify-between px-8">
-    <h3 class="text-2xl font-bold">
-      Welcome <span class="text-blue-500">Gourish</span>
-    </h3>
-
-    <div class="group relative">
-        <div class="flex items-center gap-3 cursor-pointer">
-            <div class="h-11 w-11 rounded-full bg-blue-200 flex justify-center items-center">
-                <i class="fa-solid fa-user text-black"></i>
-            </div>
-
-            <div>
-                <h3 class="font-semibold text-blue-900">
-                    Gourish Naik
-                </h3>
-
-                <p class="text-sm text-gray-500">
-                    Customer
-                </p>
-
-            </div>
-
-            <i class="fa-solid fa-chevron-down text-sm"></i>
-
-        </div>
-
-        <!-- Dropdown -->
-
-        <div class="absolute right-0 top-full w-52 bg-white rounded-xl shadow-xl hidden group-hover:block z-50">
-
-            <a href="index.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-gray-100 rounded-t-xl">
-                <i class="fa-solid fa-gauge"></i>
-                Home
-            </a>
-
-            <a href="edit_profile.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-gray-100">
-                <i class="fa-solid fa-user"></i>
-                Edit Profile
-            </a>
-
-            <a href="#" class="flex gap-3 items-center px-4 py-3 hover:bg-gray-100 text-red-500 rounded-b-xl">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Logout
-            </a>
-
-        </div>
-
-    </div>
-    
-  </div>
-
-  <!-- Main Content -->
-  <div class="ml-60 mt-4 pt-16 min-h-screen bg-gray-100">
-
-    <div class="p-5 space-y-5">
-
-      <!-- Page Title -->
-      <div class="flex justify-between items-center">
-        <div>
-          <h1 class="text-3xl font-bold">My Accounts</h1>
-          <p class="text-gray-500 mt-1">View and manage all your bank accounts</p>
-        </div>
-
-        <a href="account_request.jsp"
-           class="bg-blue-700 text-white px-6 py-3 rounded-lg hover:bg-blue-800 shadow-md">
-          <i class="fa-solid fa-plus mr-2"></i>
-          Request New Account
-        </a>
-      </div>
-
-      <!-- Cards -->
-      <div class="grid grid-cols-3 gap-5">
-
-        <div class="bg-white rounded-2xl shadow-md p-5 flex justify-between items-center">
-          <div>
-            <p class="text-gray-600 font-semibold">Total Accounts</p>
-            <h2 class="text-3xl font-bold mt-2 text-blue-700">3</h2>
-            <p class="text-gray-500 mt-2 text-sm">All your accounts</p>
-          </div>
-          <div class="h-16 w-16 rounded-2xl bg-blue-100 flex justify-center items-center">
-            <i class="fa-solid fa-wallet text-blue-600 text-2xl"></i>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-md p-5 flex justify-between items-center">
-          <div>
-            <p class="text-gray-600 font-semibold">Pending Accounts</p>
-            <h2 class="text-3xl font-bold mt-2 text-orange-500">1</h2>
-            <p class="text-gray-500 mt-2 text-sm">Awaiting approval</p>
-          </div>
-          <div class="h-16 w-16 rounded-2xl bg-orange-100 flex justify-center items-center">
-            <i class="fa-solid fa-hourglass-half text-orange-500 text-2xl"></i>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-md p-5 flex justify-between items-center">
-          <div>
-            <p class="text-gray-600 font-semibold">Total Balance</p>
-            <h2 class="text-3xl font-bold mt-2 text-green-600">₹ 1,25,430.50</h2>
-            <p class="text-gray-500 mt-2 text-sm">Across all active accounts</p>
-          </div>
-          <div class="h-16 w-16 rounded-2xl bg-green-100 flex justify-center items-center">
-            <i class="fa-solid fa-indian-rupee-sign text-green-600 text-2xl"></i>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Accounts Table -->
-      <div class="bg-white rounded-2xl shadow-md p-5">
-
-        <h2 class="text-xl font-bold mb-4">Your Accounts</h2>
-
-        <div class="overflow-y-auto max-h-[500px] overflow-x-auto">
-          <table class="w-full text-left text-sm">
-
-            <thead class="bg-gray-100 text-gray-600 sticky top-0 z-10">
-              <tr>
-                <th class="p-3">Account No</th>
-                <th class="p-3">Account Type</th>
-                <th class="p-3">Branch</th>
-                <th class="p-3">IFSC Code</th>
-                <th class="p-3">Balance</th>
-                <th class="p-3">Status</th>
-                <th class="p-3">Opened Date</th>
-              </tr>
-            </thead>
-
-            <tbody>
-
-              <tr class="border-b hover:bg-gray-50">
-                <td class="p-3">
-                  <p class="font-semibold">XXXX XXXX 1234</p>
-                  <p class="text-blue-600 text-sm">Savings Account</p>
-                </td>
-                <td class="p-3">Savings Account</td>
-                <td class="p-3">Mangaluru Main Branch</td>
-                <td class="p-3 font-semibold">DCLB0001234</td>
-                <td class="p-3 font-semibold text-green-600">₹ 85,430.50</td>
-                <td class="p-3">
-                  <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg font-semibold">
-                    ACTIVE
-                  </span>
-                </td>
-                <td class="p-3">15 May 2024</td>
-              </tr>
-
-              <tr class="border-b hover:bg-gray-50">
-                <td class="p-3">
-                  <p class="font-semibold">XXXX XXXX 5678</p>
-                  <p class="text-blue-600 text-sm">Current Account</p>
-                </td>
-                <td class="p-3">Current Account</td>
-                <td class="p-3">Mangaluru Main Branch</td>
-                <td class="p-3 font-semibold">DCLB0001234</td>
-                <td class="p-3 font-semibold text-green-600">₹ 40,000.00</td>
-                <td class="p-3">
-                  <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg font-semibold">
-                    ACTIVE
-                  </span>
-                </td>
-                <td class="p-3">10 May 2024</td>
-              </tr>
-
-              <tr class="border-b hover:bg-gray-50">
-                <td class="p-3">
-                  <p class="font-semibold">Not Generated</p>
-                  <p class="text-blue-600 text-sm">Savings Account</p>
-                </td>
-                <td class="p-3">Savings Account</td>
-                <td class="p-3">Udupi Branch</td>
-                <td class="p-3 font-semibold">Pending</td>
-                <td class="p-3 font-semibold">₹ 0.00</td>
-                <td class="p-3">
-                  <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-lg font-semibold">
-                    PENDING
-                  </span>
-                </td>
-                <td class="p-3">18 May 2024</td>
-              </tr>
-
-            </tbody>
-
-          </table>
-        </div>
-
+    <!-- Premium Dark Sidebar with Categorized Groups (Restored) -->
+    <aside class="fixed top-0 h-screen left-0 z-50 w-60 bg-[#0B0F19] text-white px-4 py-4 flex flex-col gap-4 border-r border-white/5 shadow-2xl overflow-y-auto">
       
-
+      <!-- Logo Header Area -->
+      <div class="flex gap-3 items-center mb-2 px-2 pt-2">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-[#d53579] to-[#971B4E] flex items-center justify-center shadow-lg">
+          <i class="fa-solid fa-building-columns text-white text-base"></i>
+        </div>
+        <div class="leading-none">
+          <span class="text-lg font-black tracking-tight block text-white">DCL <span class="text-[#d53579]">BANK</span></span>
+          <span class="text-[9px] font-bold text-slate-500 tracking-widest uppercase block mt-0.5">Portal Hub</span>
+        </div>
       </div>
 
+      <!-- Navigation Links Container -->
+      <div class="flex flex-col gap-1.5 px-1 flex-1">
+        
+        <!-- Category 1: Main Menu -->
+        <p class="px-3 text-[10px] font-bold tracking-wider text-slate-500 uppercase mt-2 mb-1">Main Menu</p>
+        
+        <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-slate-400 hover:text-white group">
+          <i class="fa-solid fa-house text-slate-500 group-hover:text-[#d53579] transition-colors text-sm w-4 text-center"></i>
+          <a href="user_db.jsp" class="text-xs font-semibold tracking-wide">Dashboard</a>
+        </div>
+
+        <!-- Accounts Active State -->
+        <div class="flex gap-3 items-center bg-white/5 rounded-xl p-3 text-white group relative">
+          <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#d53579] rounded-r-full"></div>
+          <i class="fa-solid fa-wallet text-[#d53579] text-sm w-4 text-center"></i>
+          <a href="my_accounts.jsp" class="text-xs font-bold tracking-wide">Accounts</a>
+        </div>
+
+        <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-slate-400 hover:text-white group">
+          <i class="fa-solid fa-comments-dollar text-slate-500 group-hover:text-[#d53579] transition-colors text-sm w-4 text-center"></i>
+          <a href="my_transcations.jsp" class="text-xs font-semibold tracking-wide">Transactions</a>
+        </div>
+
+        <!-- Category 2: Payments -->
+        <p class="px-3 text-[10px] font-bold tracking-wider text-slate-500 uppercase mt-4 mb-1">Payments</p>
+
+        <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-slate-400 hover:text-white group">
+          <i class="fa-solid fa-arrow-right-arrow-left text-slate-500 group-hover:text-[#d53579] transition-colors text-sm w-4 text-center"></i>
+          <a href="moneytransfer.jsp" class="text-xs font-semibold tracking-wide">Money Transfer</a>
+        </div>
+
+        <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-slate-400 hover:text-white group">
+          <i class="fa-solid fa-book text-slate-500 group-hover:text-[#d53579] transition-colors text-sm w-4 text-center"></i>
+          <a href="passbook.jsp" class="text-xs font-semibold tracking-wide">Passbook</a>
+        </div>
+
+        <!-- Category 3: Settings -->
+        <p class="px-3 text-[10px] font-bold tracking-wider text-slate-500 uppercase mt-4 mb-1">Settings</p>
+
+        <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-slate-400 hover:text-white group">
+          <i class="fa-solid fa-building-user text-slate-500 group-hover:text-[#d53579] transition-colors text-sm w-4 text-center"></i>
+          <a href="edit_profile.jsp" class="text-xs font-semibold tracking-wide">Edit Profile</a>
+        </div>
+      </div>
+
+      <!-- Bottom Logout Button -->
+      <div class="mt-auto border-t border-white/5 pt-4 px-1 shrink-0">
+        <div class="flex gap-3 items-center bg-red-500/10 hover:bg-red-500/20 rounded-xl p-3 transition-all text-red-400 hover:text-red-300 group">
+          <i class="fa-solid fa-right-from-bracket text-red-500 text-sm w-4 text-center"></i>
+          <a href="Logout" class="text-xs font-bold tracking-wide">Logout</a>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Main Workspace Frame Container -->
+    <div class="flex-grow min-h-screen flex flex-col pl-60">
+
+      <!-- Header -->
+      <header class="fixed top-0 left-60 right-0 h-20 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-xs flex items-center justify-between px-10 z-40">
+        <h3 class="text-xl font-extrabold tracking-tight text-slate-900">
+          Welcome back, <span class="brand-text-solid">Gourish</span>
+        </h3>
+
+        <!-- Profile Dropdown Group -->
+        <div class="group relative py-4">
+          <div class="flex items-center gap-3 cursor-pointer bg-slate-50 border border-slate-200/60 p-2 rounded-xl hover:bg-slate-100/80 transition-all shadow-xs">
+            <div class="h-9 w-9 rounded-lg brand-bg-light border border-[#971B4E]/10 flex justify-center items-center">
+              <i class="fa-solid fa-user brand-text-solid text-sm"></i>
+            </div>
+
+            <div class="leading-none pr-1">
+              <h3 class="font-bold text-xs text-slate-800 tracking-tight">Gourish Naik</h3>
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Customer</p>
+            </div>
+
+            <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] pl-1 transition-transform group-hover:rotate-180"></i>
+          </div>
+
+          <!-- Dropdown Container -->
+          <div class="absolute right-0 top-full pt-1 w-52 hidden group-hover:block z-50">
+            <div class="bg-white/95 backdrop-blur-md border border-slate-200 rounded-xl shadow-xl overflow-hidden">
+              <a href="index.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-slate-50 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors border-b border-slate-100">
+                <i class="fa-solid fa-gauge text-slate-400 text-sm w-4"></i> Home Account
+              </a>
+              <a href="edit_profile.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-slate-50 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors border-b border-slate-100">
+                <i class="fa-solid fa-user text-slate-400 text-sm w-4"></i> Edit Profile
+              </a>
+              <a href="Logout" class="flex gap-3 items-center px-4 py-3 hover:bg-red-50 text-xs font-bold text-red-600 transition-colors">
+                <i class="fa-solid fa-right-from-bracket text-red-400 text-sm w-4"></i> Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="p-8 pt-28 space-y-6 flex-grow max-w-[1200px] w-full mx-auto">
+
+        <!-- Page Title Header Section -->
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+          <div>
+            <h1 class="text-2xl font-black text-slate-900 tracking-tight">My Accounts</h1>
+            <p class="text-xs font-medium text-slate-400 mt-0.5">View and manage all your active and pending bank credentials</p>
+          </div>
+
+          <a href="account_request.jsp"
+             class="bg-[#971B4E] text-white text-xs font-bold px-5 py-3 rounded-xl hover:bg-[#7d143f] shadow-md shadow-rose-950/10 transition-all flex items-center w-fit">
+            <i class="fa-solid fa-plus mr-2"></i>
+            Request New Account
+          </a>
+        </div>
+
+        <!-- Metrics Dashboard Grid Segment -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+          <!-- Card 1: Total Accounts -->
+          <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-5 flex justify-between items-center">
+            <div>
+              <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Total Accounts</p>
+              <h2 class="text-2xl font-black mt-1 text-slate-900 tracking-tight">3</h2>
+              <p class="text-slate-400 text-[11px] font-medium mt-1">All processed profiles</p>
+            </div>
+            <div class="h-11 w-11 rounded-xl bg-blue-50 border border-blue-100 flex justify-center items-center shadow-xs">
+              <i class="fa-solid fa-wallet text-blue-600 text-sm"></i>
+            </div>
+          </div>
+
+          <!-- Card 2: Pending Accounts -->
+          <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-5 flex justify-between items-center">
+            <div>
+              <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Pending Accounts</p>
+              <h2 class="text-2xl font-black mt-1 text-amber-600 tracking-tight">1</h2>
+              <p class="text-slate-400 text-[11px] font-medium mt-1">Awaiting hub approval</p>
+            </div>
+            <div class="h-11 w-11 rounded-xl bg-amber-50 border border-amber-100 flex justify-center items-center shadow-xs">
+              <i class="fa-solid fa-hourglass-half text-amber-600 text-sm"></i>
+            </div>
+          </div>
+
+          <!-- Card 3: Total Balance -->
+          <div class="bg-gradient-to-br from-[#e03a83] via-[#ba2161] to-[#971B4E] rounded-2xl shadow-lg shadow-rose-950/10 p-5 flex justify-between items-center relative overflow-hidden group hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
+            <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-lg pointer-events-none"></div>
+            <div>
+              <p class="text-[11px] font-extrabold text-rose-100/80 uppercase tracking-widest">Total Balance</p>
+              <h2 class="text-xl font-black mt-0.5 text-white tracking-tight">₹ 1,25,430.50</h2>
+              <p class="text-rose-200/70 text-[11px] font-medium mt-1">Across active systems</p>
+            </div>
+            <div class="h-11 w-11 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex justify-center items-center shadow-xs">
+              <i class="fa-solid fa-indian-rupee-sign text-white text-sm"></i>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Accounts Table -->
+        <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-6">
+          <h2 class="text-base font-extrabold text-slate-900 tracking-tight mb-4">Your Accounts</h2>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+
+              <thead>
+                <tr class="border-b border-slate-200 text-slate-400 uppercase font-bold tracking-wider text-[10px]">
+                  <th class="pb-3 pt-1 px-2">Account Details</th>
+                  <th class="pb-3 pt-1 px-2">Account Type</th>
+                  <th class="pb-3 pt-1 px-2">Branch Location</th>
+                  <th class="pb-3 pt-1 px-2">IFSC Code</th>
+                  <th class="pb-3 pt-1 px-2">Available Balance</th>
+                  <th class="pb-3 pt-1 px-2">Status</th>
+                  <th class="pb-3 pt-1 px-2 text-right">Opened Date</th>
+                </tr>
+              </thead>
+
+              <tbody class="divide-y divide-slate-100 text-slate-600 font-medium">
+
+                <!-- Row 1 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="py-4 px-2">
+                    <p class="font-bold tracking-wide text-slate-900">XXXX XXXX 1234</p>
+                    <p class="text-[10px] font-bold text-[#971B4E]/80 mt-0.5 uppercase tracking-wide">Primary Hub ID</p>
+                  </td>
+                  <td class="py-4 px-2 text-slate-500">Savings Account</td>
+                  <td class="py-4 px-2 text-slate-700">Mangaluru Main Branch</td>
+                  <td class="py-4 px-2 font-mono font-bold tracking-tight text-slate-800">DCLB0001234</td>
+                  <td class="py-4 px-2 font-bold text-emerald-600 text-sm">₹ 85,430.50</td>
+                  <td class="py-4 px-2">
+                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2.5 py-1 rounded-md tracking-wide">
+                      ACTIVE
+                    </span>
+                  </td>
+                  <td class="py-4 px-2 text-right text-slate-400 font-bold">15 May 2024</td>
+                </tr>
+
+                <!-- Row 2 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="py-4 px-2">
+                    <p class="font-bold tracking-wide text-slate-900">XXXX XXXX 5678</p>
+                    <p class="text-[10px] font-bold text-[#971B4E]/80 mt-0.5 uppercase tracking-wide">Secondary ID</p>
+                  </td>
+                  <td class="py-4 px-2 text-slate-500">Current Account</td>
+                  <td class="py-4 px-2 text-slate-700">Mangaluru Main Branch</td>
+                  <td class="py-4 px-2 font-mono font-bold tracking-tight text-slate-800">DCLB0001234</td>
+                  <td class="py-4 px-2 font-bold text-emerald-600 text-sm">₹ 40,000.00</td>
+                  <td class="py-4 px-2">
+                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2.5 py-1 rounded-md tracking-wide">
+                      ACTIVE
+                    </span>
+                  </td>
+                  <td class="py-4 px-2 text-right text-slate-400 font-bold">10 May 2024</td>
+                </tr>
+
+                <!-- Row 3 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="py-4 px-2">
+                    <p class="font-bold tracking-wide text-slate-400 italic">Not Generated</p>
+                    <p class="text-[10px] font-bold text-amber-600 mt-0.5 uppercase tracking-wide">In Progress</p>
+                  </td>
+                  <td class="py-4 px-2 text-slate-400">Savings Account</td>
+                  <td class="py-4 px-2 text-slate-500">Udupi Branch</td>
+                  <td class="py-4 px-2 text-slate-400 font-bold">Pending</td>
+                  <td class="py-4 px-2 font-bold text-slate-400">₹ 0.00</td>
+                  <td class="py-4 px-2">
+                    <span class="bg-amber-50 text-amber-700 border border-amber-200/60 text-[10px] font-extrabold px-2.5 py-1 rounded-md tracking-wide">
+                      PENDING
+                    </span>
+                  </td>
+                  <td class="py-4 px-2 text-right text-slate-400 font-bold">18 May 2024</td>
+                </tr>
+
+              </tbody>
+
+            </table>
+          </div>
+        </div>
+
+      </div>
     </div>
 
   </div>

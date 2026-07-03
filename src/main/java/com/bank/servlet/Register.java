@@ -1,6 +1,7 @@
 package com.bank.servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.bank.dao.UserDAO;
 import com.bank.dao.impl.UserDAOImpl;
@@ -25,14 +26,27 @@ public class Register extends HttpServlet {
 	    	
 	    	User alreadyExists=udao.getUserByMail(req.getParameter("mail"));
 			if(alreadyExists==null) {
+			if(req.getParameter("password").equalsIgnoreCase(req.getParameter("confirm"))) {
 	    	
-	        u.setUser_name(req.getParameter("User_name"));
-	        u.setEmail(req.getParameter("email"));
+	        u.setUser_name(req.getParameter("name"));
+	        u.setEmail(req.getParameter("mail"));
 	        u.setPhone(Long.parseLong(req.getParameter("phone")));
 	        u.setPassword(req.getParameter("password"));
+	        List<User> li = udao.getAllUser();
+	        if(li.size() == 0) {
+	        	u.setRole("Manager");
+	        }
+	        else {
+	        	u.setRole("Customer");
+	        }
             udao.addUser(u);
-            	req.setAttribute("sucess", "Account created!");
-            	req.getRequestDispatcher("register.jsp").forward(req, resp);
+        	req.setAttribute("sucess", "Account created!");
+        	req.getRequestDispatcher("register.jsp").forward(req, resp);
+			}
+			else {
+				req.setAttribute("error", "password mismatch");
+				req.getRequestDispatcher("register.jsp").forward(req, resp);
+			}
 			}
 			
 			else {

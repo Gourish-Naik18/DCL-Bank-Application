@@ -29,14 +29,7 @@ public class UserDAOImpl implements UserDAO {
 			ps.setString(2, u.getEmail());
 			ps.setLong(3, u.getPhone());
 			ps.setString(4, u.getPassword());
-			
-			if(getAllUser().size() == 0) {
-				ps.setString(5,"Manager");
-			}
-			else {
-				ps.setString(5,"Customer");
-			}
-			
+			ps.setString(5, u.getRole());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -23,7 +23,7 @@ public class Login extends HttpServlet {
 		if(u != null) {
 			HttpSession session = req.getSession();
 			session.setAttribute("user", u);
-			if(u.getRole().equals("customer")) {
+			if(u.getRole().equals("Customer")) {
 				resp.sendRedirect("user_db.jsp");
 			}
 			else {
