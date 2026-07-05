@@ -55,8 +55,6 @@ public class Register extends HttpServlet {
 			}
 	     
 			
-           }
-	    
-	        
+           }        
 }
 
