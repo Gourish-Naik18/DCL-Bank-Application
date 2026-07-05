@@ -1,3 +1,7 @@
+<%@page import="com.bank.dto.Account"%>
+<%@page import="com.bank.dao.impl.AccountDAOImpl"%>
+<%@page import="com.bank.dao.AccountDAO"%>
+<%@page import="com.bank.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +41,8 @@
 </head>
 
 <body class="bg-[#f0f3f8] text-slate-800 min-h-screen flex flex-col justify-between antialiased relative overflow-x-hidden">
+<%User u = (User) session.getAttribute("user");%>
+<%if(u != null){%>
 
   <!-- Background highlights for visual depth -->
   <div class="absolute top-0 left-1/3 w-[600px] h-[600px] bg-rose-100/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
@@ -112,32 +118,44 @@
         <div class="bg-slate-50 border border-slate-200/60 rounded-xl p-4 mb-6 space-y-2.5 text-xs">
           <div class="flex justify-between items-center pb-2 border-b border-slate-200/60">
             <span class="text-slate-400 font-semibold">Account Number</span>
-            <span class="font-bold text-slate-800 tracking-tight">123456678999</span>
+            <%
+            Integer id = Integer.parseInt(request.getParameter("account_id"));
+            AccountDAO adao = new AccountDAOImpl();
+            Account a = adao.getAccountById(id);
+            %>
+            <span class="font-bold text-slate-800 tracking-tight"><%=a.getAcc_no()%></span>
           </div>
 
           <div class="flex justify-between items-center py-0.5">
             <span class="text-slate-400 font-semibold">Account Holder</span>
-            <span class="font-bold text-slate-800">Gourish Naik</span>
+            <span class="font-bold text-slate-800"><%=u.getUser_name()%></span>
           </div>
 
           <div class="flex justify-between items-center py-0.5">
             <span class="text-slate-400 font-semibold">Method Channel</span>
-            <span class="font-bold text-slate-800 bg-slate-200/60 px-2 py-0.5 rounded text-[10px]">NEFT</span>
+            <span class="font-bold text-slate-800 bg-slate-200/60 px-2 py-0.5 rounded text-[10px]"><%=request.getParameter("mode")%></span>
           </div>
 
           <div class="flex justify-between items-center pt-2 border-t border-slate-200/60 mt-0.5">
             <span class="text-slate-900 font-extrabold">Total Value</span>
-            <span class="text-xl font-black text-emerald-600">₹ 50,000.00</span>
+            <span class="text-xl font-black text-emerald-600">₹<%=request.getParameter("amount")%></span>
           </div>
         </div>
 
         <!-- OTP Verification Submission Form -->
-        <form action="payment_sucess.jsp" method="POST" class="space-y-4">
+        <% String msg = (String)request.getAttribute("error"); %>
+        <% if(msg != null){ %>
+          <div id="msg" class="bg-rose-50 border border-rose-200 text-rose-700 text-xs p-3.5 rounded-xl mb-6 font-semibold flex items-center gap-2.5 shadow-xs">
+            <i class="fa-solid fa-circle-exclamation text-sm text-rose-500"></i> <%= msg %>
+          </div>
+        <% } %>
+        
+        <form action="deposit" method="POST" class="space-y-4">
           
           <!-- Preserved Hidden Back-End Hooks -->
-          <input type="hidden" name="account_id" value="1">
-          <input type="hidden" name="amount" value="100000">
-          <input type="hidden" name="payment_mode" value="neft">
+          <input type="hidden" name="account_id" value="<%=request.getParameter("account_id")%>">
+          <input type="hidden" name="amount" value="<%=request.getParameter("amount")%>">
+          <input type="hidden" name="mode" value="<%=request.getParameter("mode")%>">
 
           <div class="space-y-1.5">
             <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Password</label>
@@ -178,6 +196,9 @@
   <footer class="w-full bg-slate-900 text-center py-4 text-[11px] text-slate-500 px-6 border-t border-slate-800">
     <p>&copy; 2026 DCL Bank Groups Inc. Please verify all information fields before finalizing parameters.</p>
   </footer>
-
+<%} else {%>
+<%request.setAttribute("error", "session already expired");%>
+<%request.getRequestDispatcher("login.jsp").forward(request, response);%>
+<%}%>
 </body>
 </html>

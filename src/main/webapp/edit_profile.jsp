@@ -1,3 +1,4 @@
+<%@page import="com.bank.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +38,8 @@
 </head>
 
 <body class="bg-[#f0f3f8] text-slate-800 min-h-screen flex flex-col justify-between antialiased relative overflow-x-hidden">
+<%User u = (User) session.getAttribute("user");%>
+<%if(u != null){%>
 
   <!-- BACKGROUND RADIAL ORBS FOR DEPTH -->
   <div class="absolute top-0 left-1/3 w-[600px] h-[600px] bg-purple-200/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
@@ -122,14 +125,28 @@
             <h2 class="text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
               Account Configuration
             </h2>
-            <p class="text-slate-400 text-xs mt-0.5">User Id: <span class="text-slate-600 font-semibold">User Matrix #1</span></p>
+            <p class="text-slate-400 text-xs mt-0.5">User Id: <span class="text-slate-600 font-semibold">User <%=u.getUser_id()%></span></p>
           </div>
         </div>
+        
+        <% String msg = (String)request.getAttribute("error"); %>
+        <% if(msg != null){ %>
+          <div id="msg" class="bg-rose-50 border border-rose-200 text-rose-700 text-xs p-3.5 rounded-xl mb-6 font-semibold flex items-center gap-2.5 shadow-xs">
+            <i class="fa-solid fa-circle-exclamation text-sm text-rose-500"></i> <%= msg %>
+          </div>
+        <% } %>
+        
+        <% String msg2 = (String)request.getAttribute("sucess"); %>
+        <% if(msg2 != null){ %>
+          <div id="msg2" class="bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs p-3.5 rounded-xl mb-6 font-semibold flex items-center gap-2.5 shadow-xs">
+            <i class="fa-solid fa-circle-check text-sm text-emerald-500"></i> <%= msg2 %>
+          </div>
+        <% } %>
 
         <form action="updateProfile" method="POST" class="space-y-4">
           
           <!-- Hidden Primary Key Token -->
-          <input type="hidden" name="user_id" value="1">
+          <input type="hidden" name="user_id" value="<%=u.getUser_id()%>">
 
           <!-- Row 1: Name and Role Fields Split -->
           <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
@@ -140,7 +157,7 @@
                 <input class="w-full text-sm outline-none bg-transparent text-slate-800 placeholder-slate-400 font-medium" 
                        type="text" 
                        name="user_name" 
-                       value="Admin User"
+                       value="<%=u.getUser_name()%>"
                        placeholder="Enter name"
                        required>
               </div>
@@ -157,7 +174,8 @@
                        value="Manager" 
                        readonly>
               </div>
-            </div>
+            </div> 
+            
           </div>
 
           <!-- Row 2: Communication parameters Split -->
@@ -169,7 +187,7 @@
                 <input class="w-full text-sm outline-none bg-transparent text-slate-800 placeholder-slate-400 font-medium" 
                        type="tel" 
                        name="phone" 
-                       value="9876543210"
+                       value="<%=u.getPhone() %>"
                        placeholder="Enter phone number"
                        required>
               </div>
@@ -182,7 +200,7 @@
                 <input class="w-full text-sm outline-none bg-transparent text-slate-800 placeholder-slate-400 font-medium" 
                        type="email" 
                        name="email" 
-                       value="admin@dclbank.com"
+                       value="<%=u.getEmail()%>"
                        placeholder="Enter email"
                        required>
               </div>
@@ -198,7 +216,7 @@
                 <input class="w-full text-sm outline-none bg-transparent text-slate-800 placeholder-slate-400 font-medium" 
                        type="password" 
                        name="password" 
-                       value="admin123"
+                       value="<%=u.getPassword()%>"
                        placeholder="Enter new password"
                        required>
               </div>
@@ -210,8 +228,8 @@
                 <i class="fa-solid fa-shield text-slate-400 text-xs w-4 text-center"></i>
                 <input class="w-full text-sm outline-none bg-transparent text-slate-800 placeholder-slate-400 font-medium" 
                        type="password" 
-                       name="confirm_password" 
-                       value="admin123"
+                       name="confirm" 
+                       value="<%=u.getPassword()%>"
                        placeholder="Confirm password"
                        required>
               </div>
@@ -241,6 +259,27 @@
   <footer class="w-full bg-slate-900 text-center py-4 text-[11px] text-slate-500 px-6 border-t border-slate-800">
     <p>&copy; 2026 DCL Bank Groups Inc. Advanced cryptographic parameters applied. 256-bit terminal compliance.</p>
   </footer>
+  
+ <%} else {%>
+<%request.setAttribute("error", "session already expired");%>
+<%request.getRequestDispatcher("login.jsp").forward(request, response);%>
+<%}%>
+
+<script>
+    let m = document.getElementById("msg");
+    if (m) {
+      setTimeout(() => {
+        m.style.display = 'none';
+      }, 2000);
+    }
+
+    let n = document.getElementById("msg2");
+    if (n) {
+      setTimeout(() => {
+        n.style.display = 'none';
+      }, 2000);
+    }
+  </script>
 
 </body>
 </html>

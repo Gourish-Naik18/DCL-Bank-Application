@@ -1,3 +1,18 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="javax.swing.text.DateFormatter"%>
+<%@page import="java.time.LocalTime"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.util.Comparator"%>
+<%@page import="com.bank.dto.Transcation"%>
+<%@page import="com.bank.dao.impl.TranscationDAOImpl"%>
+<%@page import="com.bank.dao.TranscationDAO"%>
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="com.bank.dto.Account"%>
+<%@page import="java.util.List"%>
+<%@page import="com.bank.dao.AccountDAO"%>
+<%@page import="com.bank.dao.impl.AccountDAOImpl"%>
+<%@page import="com.bank.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,6 +40,9 @@
 </head>
 
 <body class="bg-[#f0f3f8] text-slate-800 min-h-screen antialiased">
+
+<%User u = (User) session.getAttribute("user");%>
+<%if(u != null){%>
 
   <div class="flex min-h-screen relative overflow-x-hidden">
 
@@ -96,7 +114,7 @@
 
       <header class="fixed top-0 left-60 right-0 h-20 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-xs flex items-center justify-between px-10 z-40">
         <h3 class="text-xl font-extrabold tracking-tight text-slate-900">
-          Welcome back, <span class="brand-text-solid">Gourish</span>
+          Welcome back, <span class="brand-text-solid"><%=u.getUser_name()%></span>
         </h3>
 
         <div class="group relative py-4">
@@ -106,8 +124,8 @@
             </div>
 
             <div class="leading-none pr-1">
-              <h3 class="font-bold text-xs text-slate-800 tracking-tight">Gourish Naik</h3>
-              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Customer</p>
+              <h3 class="font-bold text-xs text-slate-800 tracking-tight"><%=u.getUser_name()%></h3>
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5"><%=u.getRole()%></p>
             </div>
 
             <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] pl-1 transition-transform group-hover:rotate-180"></i>
@@ -116,7 +134,7 @@
           <div class="absolute right-0 top-full pt-1 w-52 hidden group-hover:block z-50">
             <div class="bg-white/95 backdrop-blur-md border border-slate-200 rounded-xl shadow-xl overflow-hidden">
               <a href="index.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-slate-50 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors border-b border-slate-100">
-                <i class="fa-solid fa-gauge text-slate-400 text-sm w-4"></i> Home Account
+                <i class="fa-solid fa-gauge text-slate-400 text-sm w-4"></i> Home
               </a>
               <a href="edit_profile.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-slate-50 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors border-b border-slate-100">
                 <i class="fa-solid fa-user text-slate-400 text-sm w-4"></i> Edit Profile
@@ -133,42 +151,51 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           
+          <%AccountDAO adao = new AccountDAOImpl();%>
+          <%List<Account> li = adao.getAllAccounts();%>
+          <%Double total = li.stream().filter(a->a.getUser_id() == u.getUser_id()).collect(Collectors.summingDouble(a->a.getBalance()));%>
+          
           <div class="bg-gradient-to-br from-[#e03a83] via-[#ba2161] to-[#971B4E] rounded-2xl shadow-lg shadow-rose-950/10 p-6 flex justify-between items-center relative overflow-hidden group hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
             <div class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
             <div class="absolute -bottom-6 -right-6 w-16 h-16 bg-black/10 rounded-full pointer-events-none"></div>
             <div>
               <p class="text-[11px] font-extrabold text-rose-100/80 uppercase tracking-widest">Total Balance</p>
-              <h2 class="text-2xl font-black text-white tracking-tight mt-1">₹ 1,25,430.50</h2>
+              <h2 class="text-2xl font-black text-white tracking-tight mt-1">₹ <%=total%></h2>
               <p class="text-rose-200/70 mt-1 text-[11px] font-medium">All accounts balance aggregated</p>
             </div>
             <div class="h-12 w-12 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex justify-center items-center shadow-sm">
               <i class="fa-solid fa-wallet text-white text-base"></i>
             </div>
           </div>
-
+          
+          <%List<Account> userAcc = li.stream().filter(a->a.getUser_id() == u.getUser_id()).collect(Collectors.toList());%>
+          <%for(Account a : userAcc){%>
           <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-6 flex justify-between items-center relative overflow-hidden group hover:shadow-md transition-all">
             <div class="absolute top-0 left-0 w-1.5 h-full bg-slate-700"></div>
             <div>
-              <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest">Savings Account</p>
-              <h2 class="text-2xl font-black text-slate-900 tracking-tight mt-1">₹ 85,430.50</h2>
-              <p class="text-slate-400 mt-1 text-[11px] font-medium">Account ID: XXXX XXXX 1234</p>
+              <div class="flex items-center gap-2">
+					<p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest">
+						<%=a.getAcc_type()%> Account
+					</p>
+				
+					<%if(a.getStatus().equalsIgnoreCase("active")){%>
+						<span class="text-[12px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full">
+							ACTIVE
+						</span>
+					<%} else {%>
+						<span class="text-[12px] font-bold text-amber-700 bg-amber-50 border border-amber-100 px-3 py-1 rounded-full">
+							PENDING
+						</span>
+					<%}%>
+			 </div>
+              <h2 class="text-2xl font-black text-slate-900 tracking-tight mt-1">₹ <%=a.getBalance()%></h2>
+              <p class="text-slate-400 mt-1 text-[11px] font-medium">Account ID: <%=a.getAcc_id()%></p>
             </div>
             <div class="h-12 w-12 rounded-xl bg-slate-100 border border-slate-200/60 flex justify-center items-center shadow-xs">
               <i class="fa-solid fa-piggy-bank text-slate-600 text-base"></i>
             </div>
           </div>
-
-          <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-6 flex justify-between items-center relative overflow-hidden group hover:shadow-md transition-all">
-            <div class="absolute top-0 left-0 w-1.5 h-full bg-slate-400"></div>
-            <div>
-              <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest">Current Account</p>
-              <h2 class="text-2xl font-black text-slate-900 tracking-tight mt-1">₹ 40,000.00</h2>
-              <p class="text-slate-400 mt-1 text-[11px] font-medium">Account ID: XXXX XXXX 5678</p>
-            </div>
-            <div class="h-12 w-12 rounded-xl bg-slate-50 border border-slate-200/40 flex justify-center items-center shadow-xs">
-              <i class="fa-solid fa-building-columns text-slate-500 text-base"></i>
-            </div>
-          </div>
+          <%}%>
         </div>
 
         <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-6">
@@ -176,59 +203,122 @@
             <h2 class="text-lg font-extrabold text-slate-900 tracking-tight">Recent System Transactions</h2>
             <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200/60">Live Updates</span>
           </div>
-
+          
+          <!-- for all user accounts latest 3 transcaton per acc-->
+          <%TranscationDAO tdao = new TranscationDAOImpl();%>
+          <%List<Account> userAccounts = li.stream().filter(a->a.getUser_id() == u.getUser_id() && a.getStatus().equalsIgnoreCase("active")).collect(Collectors.toList());%>
+          <%List<Transcation> userTrans = new ArrayList<>();%>
+          <%for(Account acc : userAccounts){%>
+          <%List<Transcation> lt = tdao.getTranscationByAccId(acc.getAcc_id());
+          for(Transcation t : lt){
+				boolean exists = false;
+				
+				for(Transcation old : userTrans){
+					if(old.getTrans_id() == t.getTrans_id()){
+						exists = true;
+						break;
+					}
+				}
+				
+				if(exists == false){
+					userTrans.add(t);
+				}
+			}
+          %>
+          <%}%>
+          <%List<Transcation> topTrans = userTrans.stream()
+        		    .sorted(
+        		            Comparator.comparing((Transcation t) -> t.getTranscation_date())
+        		            .thenComparing((Transcation t) -> t.getTranscation_time())
+        		            .reversed()
+        		        )
+        		        .limit(5)
+        		        .collect(Collectors.toList());%>
           <div class="space-y-3">
+          
+          <%for(Transcation t : topTrans){%>
             <div class="flex items-center justify-between border-b border-slate-100 pb-3 last:border-0 last:pb-0">
               <div class="flex items-center gap-4">
                 <div class="h-10 w-10 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center">
                   <i class="fa-solid fa-right-left text-rose-600 text-sm"></i>
                 </div>
                 <div>
-                  <h3 class="text-sm font-bold text-slate-800">Money Transfer to Rahul</h3>
-                  <p class="text-[11px] font-medium text-slate-400">Target Wire ID: XXXX XXXX 4321</p>
+                <%
+                boolean sent = false;
+                Account match = null;
+                
+                for(Account acc : userAccounts){
+                	if(t.getFrom_acc_id() == acc.getAcc_id()){
+                		sent = true;
+                		match = acc;
+                		break;
+                	}
+                	else if(t.getTo_acc_id() == acc.getAcc_id()){
+                		match = acc;
+                	}
+                }
+                %>
+                <%String title = "";%>
+                <%
+                if(t.getTrans_type().equalsIgnoreCase("deposit")){
+                	title = "Money Deposited";
+                }
+                else if (t.getTrans_type().equalsIgnoreCase("withdrawl")){
+                	title = "Money Withdrawn";
+                }
+                else if(t.getTrans_type().equalsIgnoreCase("transfer")){
+                	if(sent){
+                        title = "Money Transferred from your account";
+                   }
+                     else{
+                    	 title = "Money Transferred to account";
+                     }
+                }
+                %>                
+                
+                
+                  <div class="flex items-center gap-2">
+					<h3 class="text-sm font-bold text-slate-800"><%=title%></h3>
+					
+					<% if(t.getStatus().equalsIgnoreCase("success")) { %>
+					  <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">
+					    SUCCESS
+					  </span>
+					<% } else { %>
+					  <span class="text-[10px] font-bold text-rose-700 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded-full">
+					    FAILED
+					  </span>
+					<% } %>
+					</div>
+                  <p class="text-sm text-gray-500">Mode:<%=t.getTrans_type().toUpperCase()%></p>
+                  <p class="text-sm text-gray-500">Acc Type:<%=match.getAcc_type()%></p>
                 </div>
               </div>
               <div class="text-right">
-                <h3 class="text-sm font-black text-rose-600 tracking-tight">- ₹ 5,000.00</h3>
-                <p class="text-[10px] font-medium text-slate-400 mt-0.5">20 May 2024, 10:30 AM</p>
+               <%if(sent){%>
+                <h3 class="text-sm font-black text-rose-600 tracking-tight">- ₹ <%=t.getAmount()%></h3>
+                <%} else {%>
+                <h3 class="text-sm font-black text-emerald-600 tracking-tight">+ ₹ <%=t.getAmount()%></h3>
+                <%}%>
+                
+                <%
+                LocalDate date = LocalDate.parse(t.getTranscation_date());
+                LocalTime time = LocalTime.parse(t.getTranscation_time());
+                
+                DateTimeFormatter dd = DateTimeFormatter.ofPattern("dd MMM yyyy");
+                DateTimeFormatter dt = DateTimeFormatter.ofPattern("hh:mm a");
+                
+                %>
+                
+                <p class="text-[10px] font-medium text-slate-400 mt-0.5"><%=date.format(dd)%>, <%=time.format(dt)%></p>
               </div>
             </div>
-
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3 last:border-0 last:pb-0">
-              <div class="flex items-center gap-4">
-                <div class="h-10 w-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center">
-                  <i class="fa-solid fa-arrow-up text-emerald-600 text-sm"></i>
-                </div>
-                <div>
-                  <h3 class="text-sm font-bold text-slate-800">Money Received from Salary</h3>
-                  <p class="text-[11px] font-medium text-slate-400">Source Route Account: XXXX XXXX 8765</p>
-                </div>
-              </div>
-              <div class="text-right">
-                <h3 class="text-sm font-black text-emerald-600 tracking-tight">+ ₹ 45,000.00</h3>
-                <p class="text-[10px] font-medium text-slate-400 mt-0.5">20 May 2024, 09:15 AM</p>
-              </div>
-            </div>
-
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3 last:border-0 last:pb-0">
-              <div class="flex items-center gap-4">
-                <div class="h-10 w-10 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center">
-                  <i class="fa-solid fa-arrow-down text-rose-600 text-sm"></i>
-                </div>
-                <div>
-                  <h3 class="text-sm font-bold text-slate-800">Recharge to Mobile</h3>
-                  <p class="text-[11px] font-medium text-slate-400">Debit Target Node: XXXX XXXX 1234</p>
-                </div>
-              </div>
-              <div class="text-right">
-                <h3 class="text-sm font-black text-rose-600 tracking-tight">- ₹ 599.00</h3>
-                <p class="text-[10px] font-medium text-slate-400 mt-0.5">19 May 2024, 06:20 PM</p>
-              </div>
-            </div>
+            <%}%>
+            
           </div>
         </div>
 
-        <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-6">
+		<!-- <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-6">
           <h2 class="text-lg font-extrabold text-slate-900 tracking-tight mb-5">Quick Dashboard Actions</h2>
 
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -264,12 +354,16 @@
               <a href="edit_profile.jsp"><p class="text-[10px] font-medium text-slate-400 mt-0.5">Settings Desk</p></a>
             </div>
           </div>
-        </div>
+        </div> -->
+        
 
       </div>
     </div>
 
   </div>
-
+<%} else {%>
+<%request.setAttribute("error", "session already expired");%>
+<%request.getRequestDispatcher("login.jsp").forward(request, response);%>
+<%}%>
 </body>
 </html>

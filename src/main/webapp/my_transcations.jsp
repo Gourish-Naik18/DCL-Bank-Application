@@ -1,3 +1,17 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalTime"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.util.Comparator"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="com.bank.dao.impl.AccountDAOImpl"%>
+<%@page import="com.bank.dao.AccountDAO"%>
+<%@page import="com.bank.dto.Account"%>
+<%@page import="com.bank.dto.Transcation"%>
+<%@page import="com.bank.dao.impl.TranscationDAOImpl"%>
+<%@page import="com.bank.dao.TranscationDAO"%>
+<%@page import="java.util.List"%>
+<%@page import="com.bank.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,6 +53,8 @@
 </head>
 
 <body class="bg-[#f0f3f8] text-slate-800 min-h-screen antialiased">
+<%User u = (User) session.getAttribute("user");%>
+<%if(u != null){%>
 
   <div class="flex min-h-screen relative overflow-x-hidden">
 
@@ -117,7 +133,7 @@
       <!-- Header -->
       <header class="fixed top-0 left-60 right-0 h-20 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-xs flex items-center justify-between px-10 z-40">
         <h3 class="text-xl font-extrabold tracking-tight text-slate-900">
-          Welcome back, <span class="brand-text-solid">Gourish</span>
+          Welcome back, <span class="brand-text-solid"><%=u.getUser_name()%></span>
         </h3>
 
         <!-- Profile Dropdown Group -->
@@ -128,8 +144,8 @@
             </div>
 
             <div class="leading-none pr-1">
-              <h3 class="font-bold text-xs text-slate-800 tracking-tight">Gourish Naik</h3>
-              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Customer</p>
+              <h3 class="font-bold text-xs text-slate-800 tracking-tight"><%=u.getUser_name()%></h3>
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5"><%=u.getRole()%></p>
             </div>
 
             <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] pl-1 transition-transform group-hover:rotate-180"></i>
@@ -139,7 +155,7 @@
           <div class="absolute right-0 top-full pt-1 w-52 hidden group-hover:block z-50">
             <div class="bg-white/95 backdrop-blur-md border border-slate-200 rounded-xl shadow-xl overflow-hidden">
               <a href="index.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-slate-50 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors border-b border-slate-100">
-                <i class="fa-solid fa-gauge text-slate-400 text-sm w-4"></i> Home Account
+                <i class="fa-solid fa-gauge text-slate-400 text-sm w-4"></i> Home 
               </a>
               <a href="edit_profile.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-slate-50 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors border-b border-slate-100">
                 <i class="fa-solid fa-user text-slate-400 text-sm w-4"></i> Edit Profile
@@ -163,23 +179,25 @@
 
         <!-- Search / Filter Component Box -->
         <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-5">
-          <form action="searchMyTransactions" method="GET" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+          <form action="searchTranscations" method="POST" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
 
             <div>
               <label class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1.5">Transaction ID</label>
               <div class="border border-slate-200 rounded-xl px-3 py-2.5 flex items-center gap-2.5 bg-slate-50/50 focus-within:border-[#971B4E]/50 focus-within:bg-white transition-all">
                 <i class="fa-solid fa-receipt text-slate-400 text-xs"></i>
-                <input type="text" name="transaction_id" placeholder="e.g. TXN1087" class="outline-none text-xs text-slate-800 w-full placeholder:text-slate-400 font-medium">
+                <input type="text" name="transcation_id" placeholder="enter id" class="outline-none text-xs text-slate-800 w-full placeholder:text-slate-400 font-medium">
               </div>
             </div>
 
-            <div>
+			
+			<!-- <div>
               <label class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1.5">Account Number</label>
               <div class="border border-slate-200 rounded-xl px-3 py-2.5 flex items-center gap-2.5 bg-slate-50/50 focus-within:border-[#971B4E]/50 focus-within:bg-white transition-all">
                 <i class="fa-solid fa-wallet text-slate-400 text-xs"></i>
                 <input type="text" name="account_no" placeholder="Enter target no..." class="outline-none text-xs text-slate-800 w-full placeholder:text-slate-400 font-medium">
               </div>
-            </div>
+            </div> -->
+            
 
             <div>
               <label class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1.5">Status Filter</label>
@@ -195,7 +213,7 @@
             </div>
 
             <button type="submit" class="bg-[#971B4E] text-white text-xs font-bold h-[38px] px-4 rounded-xl hover:bg-[#7d143f] shadow-md shadow-rose-950/10 transition-all flex items-center justify-center gap-2 cursor-pointer">
-              <i class="fa-solid fa-magnifying-glass text-xs"></i> Search Ledger
+              <i class="fa-solid fa-magnifying-glass text-xs"></i> Search
             </button>
 
             <a href="my_transcations.jsp" class="bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 text-xs font-bold h-[38px] px-4 rounded-xl transition-all flex items-center justify-center gap-2">
@@ -211,9 +229,34 @@
           <!-- Card 1: My Transactions -->
           <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-5 flex justify-between items-center">
             <div>
+            <%TranscationDAO tdao = new TranscationDAOImpl();%>
+            <%AccountDAO adao = new AccountDAOImpl();%>
+            <%List<Account> allAcc = adao.getAllAccounts();%>
+			<%List<Account> userAcc = allAcc.stream().filter(a->a.getUser_id() == u.getUser_id() && a.getStatus().equalsIgnoreCase("active")).collect(Collectors.toList());%>            
+			<%List<Transcation> userTrans = new ArrayList<>();%>
+          <%
+			for(Account a : userAcc){
+				List<Transcation> li = tdao.getTranscationByAccId(a.getAcc_id());
+				for(Transcation t : li){
+					boolean exists = false;
+					
+					for(Transcation old : userTrans){
+						if(old.getTrans_id() == t.getTrans_id()){
+							exists = true;
+							break;
+						}
+					}
+					
+					if(exists == false){
+						userTrans.add(t);
+					}
+				}
+			}
+			%>
               <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">My Transactions</p>
-              <h2 class="text-2xl font-black mt-1 text-slate-900 tracking-tight">28</h2>
-              <p class="text-slate-400 text-[11px] font-medium mt-1">Total processing count</p>
+              <%List<Transcation> sucessTrans = userTrans.stream().filter(t->t.getStatus().equalsIgnoreCase("success")).collect(Collectors.toList());%>
+              <h2 class="text-2xl font-black mt-1 text-slate-900 tracking-tight"><%=sucessTrans.size()%></h2>
+              <p class="text-slate-400 text-[11px] font-medium mt-1">Total sucessfull transcations</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-blue-50 border border-blue-100 flex justify-center items-center shadow-xs">
               <i class="fa-solid fa-arrow-right-arrow-left text-blue-600 text-sm"></i>
@@ -223,8 +266,15 @@
           <!-- Card 2: Money Received -->
           <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-5 flex justify-between items-center">
             <div>
+            <%
+            double received = 0;
+            for(Account a : userAcc){
+            	double amount = sucessTrans.stream().filter(t->t.getTo_acc_id() == a.getAcc_id()).collect(Collectors.summingDouble(t->t.getAmount()));
+            	received += amount;
+            }
+            %>
               <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Money Received</p>
-              <h2 class="text-2xl font-black mt-1 text-emerald-600 tracking-tight">₹ 80,000</h2>
+              <h2 class="text-2xl font-black mt-1 text-emerald-600 tracking-tight">₹ <%=received%></h2>
               <p class="text-slate-400 text-[11px] font-medium mt-1">Total inbound credits</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-emerald-50 border border-emerald-100 flex justify-center items-center shadow-xs">
@@ -235,8 +285,14 @@
           <!-- Card 3: Money Sent -->
           <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-5 flex justify-between items-center">
             <div>
+            <%double sent = 0;
+             for(Account a : userAcc){
+            	 double amount = sucessTrans.stream().filter(t->t.getFrom_acc_id() == a.getAcc_id()).collect(Collectors.summingDouble(t->t.getAmount()));
+            	 sent += amount;
+             }
+            %>
               <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Money Sent</p>
-              <h2 class="text-2xl font-black mt-1 text-rose-600 tracking-tight">₹ 45,000</h2>
+              <h2 class="text-2xl font-black mt-1 text-rose-600 tracking-tight">₹ <%=sent%></h2>
               <p class="text-slate-400 text-[11px] font-medium mt-1">Total outward debits</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-rose-50 border border-rose-100 flex justify-center items-center shadow-xs">
@@ -248,9 +304,10 @@
           <div class="bg-gradient-to-br from-[#e03a83] via-[#ba2161] to-[#971B4E] rounded-2xl shadow-lg shadow-rose-950/10 p-5 flex justify-between items-center relative overflow-hidden group hover:shadow-xl transition-all duration-300">
             <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-lg pointer-events-none"></div>
             <div>
-              <p class="text-[11px] font-extrabold text-rose-100/80 uppercase tracking-widest">Total Balance</p>
-              <h2 class="text-xl font-black mt-0.5 text-white tracking-tight">₹ 1,25,430.50</h2>
-              <p class="text-rose-200/70 text-[11px] font-medium mt-1">Across active cards</p>
+            <% double total = userAcc.stream().collect(Collectors.summingDouble(a -> a.getBalance()));%>
+            <p class="text-[11px] font-extrabold text-rose-100 uppercase">Total Balance</p>
+              <h2 class="text-xl font-black mt-1 text-white tracking-tight">₹ <%=total%></h2>
+			  <p class="text-rose-200/70 text-[11px] font-medium mt-1">Across active accounts</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex justify-center items-center shadow-xs">
               <i class="fa-solid fa-indian-rupee-sign text-white text-sm"></i>
@@ -278,103 +335,81 @@
                   <th class="py-3 px-3 text-right">Payment Mode</th>
                 </tr>
               </thead>
+              
+             
+			  <%List<Transcation> search = (List<Transcation>)request.getAttribute("result");%>
+			   <%
+			    if(search == null){
+			    	search = userTrans.stream()
+							.sorted(Comparator.comparing((Transcation t)->t.getTranscation_date())
+							.thenComparing((Transcation t)->t.getTranscation_time()).reversed())
+							.collect(Collectors.toList());
+			    }
+				%>
 
-              <tbody class="divide-y divide-slate-100 text-slate-600 font-medium">
-
+                <tbody class="divide-y divide-slate-100">
+				<%for(Transcation t : search){%>
+				
+				<%boolean sentMoney = false;
+				  Account match = null;
+				  
+				  for(Account a : userAcc){
+					  if(t.getFrom_acc_id() == a.getAcc_id()){
+						  sentMoney = true;
+						  match = a;
+						  break;
+					  }
+					  else if (t.getTo_acc_id() == a.getAcc_id()){
+						  match = a;
+					  }
+				  }
+				
+				%>
+				
+				<%LocalDate date = LocalDate.parse(t.getTranscation_date());%>
+				<%LocalTime time = LocalTime.parse(t.getTranscation_time());%>
+				<%DateTimeFormatter dd = DateTimeFormatter.ofPattern("dd MMM yyyy");%>
+				<%DateTimeFormatter dt = DateTimeFormatter.ofPattern("hh:mm a");%>
                 <!-- Row 1 -->
                 <tr class="hover:bg-slate-50/80 transition-colors">
-                  <td class="py-4 px-3 font-bold tracking-wide text-slate-900">TXN1087</td>
-                  <td class="py-4 px-3 text-slate-500 whitespace-nowrap">20 May 2024, 10:30 AM</td>
+                  <td class="py-4 px-3 font-bold tracking-wide text-slate-900"><%=t.getTrans_id()%></td>
+                  <td class="py-4 px-3 text-slate-500 whitespace-nowrap"><%=date.format(dd)%>, <%=time.format(dt)%></td>
                   <td class="py-4 px-3">
-                    <p class="font-bold tracking-wide text-slate-800">XXXX XXXX 1234</p>
-                    <p class="text-[10px] font-bold text-[#971B4E]/80 uppercase tracking-wide">Savings</p>
+                  <%if(t.getFrom_acc_id() == 0){%>
+                  <p class="font-bold tracking-wide text-slate-800">--</p>
+                  <%} else {%>
+                  <%Account a = adao.getAccountById(t.getFrom_acc_id());%>
+                    <p class="font-bold tracking-wide text-slate-800"><%=a.getAcc_no()%></p>
+                    <p class="text-[10px] font-bold text-[#971B4E]/80 uppercase tracking-wide"><%=a.getAcc_type()%></p>
+                    <%}%>
                   </td>
-                  <td class="py-4 px-3 text-slate-700 font-semibold">XXXX XXXX 4321</td>
                   <td class="py-4 px-3">
-                    <span class="bg-blue-50 text-blue-700 border border-blue-100 text-[10px] font-extrabold px-2 py-0.5 rounded-md tracking-wide">TRANSFER</span>
+                  <%if(t.getTo_acc_id() == 0){%>
+                  <p class="font-bold tracking-wide text-slate-800">--</p>
+                  <%} else {%>
+                  <%Account a = adao.getAccountById(t.getTo_acc_id());%>
+                    <p class="font-bold tracking-wide text-slate-800"><%=a.getAcc_no()%></p>
+                    <p class="text-[10px] font-bold text-[#971B4E]/80 uppercase tracking-wide"><%=a.getAcc_type()%></p>
+                    <%}%>
                   </td>
-                  <td class="py-4 px-3 text-rose-600 font-bold text-sm whitespace-nowrap">- ₹ 5,000.00</td>
                   <td class="py-4 px-3">
-                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2.5 py-0.5 rounded-md tracking-wide">SUCCESS</span>
+                    <span class="bg-blue-50 text-blue-700 border border-blue-100 text-[10px] font-extrabold px-2 py-0.5 rounded-md tracking-wide"><%=t.getTrans_type() %></span>
                   </td>
-                  <td class="py-4 px-3 text-right font-bold text-slate-500">IMPS</td>
+                  <%if(sentMoney){%>
+                  <td class="py-4 px-3 text-rose-600 font-bold text-sm whitespace-nowrap">- ₹ <%=t.getAmount()%></td>
+                  <%} else {%>
+                  <td class="py-4 px-3 text-emerald-600 font-bold text-sm whitespace-nowrap">+ ₹ <%=t.getAmount()%></td>
+                  <%}%>
+                  <td class="py-4 px-3">
+                  <%if(t.getStatus().equalsIgnoreCase("success")){%>
+                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2.5 py-0.5 rounded-md tracking-wide"><%=t.getStatus() %></span>
+                    <%} else { %>
+                    <span class="bg-rose-50 text-rose-700 border border-rose-200/60 text-[10px] font-extrabold px-2.5 py-0.5 rounded-md tracking-wide"><%=t.getStatus()%></span>
+                    <%}%>
+                  </td>
+                  <td class="py-4 px-3 text-right font-bold text-slate-500"><%=t.getMode_of_transcation()%></td>
                 </tr>
-
-                <!-- Row 2 -->
-                <tr class="hover:bg-slate-50/80 transition-colors">
-                  <td class="py-4 px-3 font-bold tracking-wide text-slate-900">TXN1086</td>
-                  <td class="py-4 px-3 text-slate-500 whitespace-nowrap">20 May 2024, 09:15 AM</td>
-                  <td class="py-4 px-3 text-slate-700 font-semibold">XXXX XXXX 8765</td>
-                  <td class="py-4 px-3">
-                    <p class="font-bold tracking-wide text-slate-800">XXXX XXXX 1234</p>
-                    <p class="text-[10px] font-bold text-[#971B4E]/80 uppercase tracking-wide">Savings</p>
-                  </td>
-                  <td class="py-4 px-3">
-                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-100 text-[10px] font-extrabold px-2 py-0.5 rounded-md tracking-wide">DEPOSIT</span>
-                  </td>
-                  <td class="py-4 px-3 text-emerald-600 font-bold text-sm whitespace-nowrap">+ ₹ 45,000.00</td>
-                  <td class="py-4 px-3">
-                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2.5 py-0.5 rounded-md tracking-wide">SUCCESS</span>
-                  </td>
-                  <td class="py-4 px-3 text-right font-bold text-slate-500">NEFT</td>
-                </tr>
-
-                <!-- Row 3 -->
-                <tr class="hover:bg-slate-50/80 transition-colors">
-                  <td class="py-4 px-3 font-bold tracking-wide text-slate-900">TXN1085</td>
-                  <td class="py-4 px-3 text-slate-500 whitespace-nowrap">19 May 2024, 06:20 PM</td>
-                  <td class="py-4 px-3">
-                    <p class="font-bold tracking-wide text-slate-800">XXXX XXXX 1234</p>
-                    <p class="text-[10px] font-bold text-[#971B4E]/80 uppercase tracking-wide">Savings</p>
-                  </td>
-                  <td class="py-4 px-3 text-slate-700 font-semibold">Mobile Recharge</td>
-                  <td class="py-4 px-3">
-                    <span class="bg-amber-50 text-amber-700 border border-amber-100 text-[10px] font-extrabold px-2 py-0.5 rounded-md tracking-wide">WITHDRAW</span>
-                  </td>
-                  <td class="py-4 px-3 text-rose-600 font-bold text-sm whitespace-nowrap">- ₹ 599.00</td>
-                  <td class="py-4 px-3">
-                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2.5 py-0.5 rounded-md tracking-wide">SUCCESS</span>
-                  </td>
-                  <td class="py-4 px-3 text-right font-bold text-slate-500">UPI</td>
-                </tr>
-
-                <!-- Row 4 -->
-                <tr class="hover:bg-slate-50/80 transition-colors">
-                  <td class="py-4 px-3 font-bold tracking-wide text-slate-900">TXN1084</td>
-                  <td class="py-4 px-3 text-slate-500 whitespace-nowrap">18 May 2024, 03:45 PM</td>
-                  <td class="py-4 px-3">
-                    <p class="font-bold tracking-wide text-slate-800">XXXX XXXX 1234</p>
-                    <p class="text-[10px] font-bold text-[#971B4E]/80 uppercase tracking-wide">Savings</p>
-                  </td>
-                  <td class="py-4 px-3 text-slate-700 font-semibold">XXXX XXXX 5678</td>
-                  <td class="py-4 px-3">
-                    <span class="bg-blue-50 text-blue-700 border border-blue-100 text-[10px] font-extrabold px-2 py-0.5 rounded-md tracking-wide">TRANSFER</span>
-                  </td>
-                  <td class="py-4 px-3 text-rose-600 font-bold text-sm whitespace-nowrap">- ₹ 2,500.00</td>
-                  <td class="py-4 px-3">
-                    <span class="bg-rose-50 text-rose-700 border border-rose-200/60 text-[10px] font-extrabold px-2.5 py-0.5 rounded-md tracking-wide">FAILED</span>
-                  </td>
-                  <td class="py-4 px-3 text-right font-bold text-slate-500">IMPS</td>
-                </tr>
-
-                <!-- Row 5 -->
-                <tr class="hover:bg-slate-50/80 transition-colors">
-                  <td class="py-4 px-3 font-bold tracking-wide text-slate-900">TXN1083</td>
-                  <td class="py-4 px-3 text-slate-500 whitespace-nowrap">17 May 2024, 11:30 AM</td>
-                  <td class="py-4 px-3 text-slate-700 font-semibold">XXXX XXXX 4321</td>
-                  <td class="py-4 px-3">
-                    <p class="font-bold tracking-wide text-slate-800">XXXX XXXX 1234</p>
-                    <p class="text-[10px] font-bold text-[#971B4E]/80 uppercase tracking-wide">Savings</p>
-                  </td>
-                  <td class="py-4 px-3">
-                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-100 text-[10px] font-extrabold px-2 py-0.5 rounded-md tracking-wide">DEPOSIT</span>
-                  </td>
-                  <td class="py-4 px-3 text-emerald-600 font-bold text-sm whitespace-nowrap">+ ₹ 10,000.00</td>
-                  <td class="py-4 px-3">
-                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2.5 py-0.5 rounded-md tracking-wide">SUCCESS</span>
-                  </td>
-                  <td class="py-4 px-3 text-right font-bold text-slate-500">NEFT</td>
-                </tr>
+                <%}%>
 
               </tbody>
 
@@ -386,6 +421,10 @@
     </div>
 
   </div>
+  <%} else {%>
+<%request.setAttribute("error", "session already expired");%>
+<%request.getRequestDispatcher("login.jsp").forward(request, response);%>
+<%}%>
 
 </body>
 </html>

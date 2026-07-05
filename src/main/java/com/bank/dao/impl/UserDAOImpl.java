@@ -159,4 +159,32 @@ public class UserDAOImpl implements UserDAO {
 		return li;
 	}
 
+	@Override
+	public User getUserById(Integer id) {
+		String query = "select * from user where user_id = ?";
+		User u = null;
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				u = new User();
+				u.setUser_id(rs.getInt("user_id"));
+				u.setUser_name(rs.getString("user_name"));
+				u.setEmail(rs.getString("email"));
+				u.setPhone(rs.getLong("phone"));
+				u.setPassword(rs.getString("password"));
+				u.setRole(rs.getString("role"));
+				u.setRegistered_date(rs.getString("registered_at"));	
+			}
+//			else {
+//				System.out.println("not exist");
+//			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return u;
+	}
+
 }

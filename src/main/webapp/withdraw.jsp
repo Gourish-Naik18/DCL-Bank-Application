@@ -1,3 +1,9 @@
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="com.bank.dto.Account"%>
+<%@page import="com.bank.dao.impl.AccountDAOImpl"%>
+<%@page import="java.util.List"%>
+<%@page import="com.bank.dao.AccountDAO"%>
+<%@page import="com.bank.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,6 +42,8 @@
 </head>
 
 <body class="bg-[#f0f3f8] text-slate-800 min-h-screen flex flex-col justify-between antialiased relative overflow-x-hidden">
+<%User u = (User) session.getAttribute("user");%>
+<%if(u != null){%>
 
   <!-- Background depth lights to fill layout empty spaces seamlessly -->
   <div class="absolute top-0 right-1/4 w-[600px] h-[600px] bg-amber-100/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
@@ -111,21 +119,36 @@
           <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Withdraw Money</h2>
           <p class="text-slate-400 text-xs mt-1">Configure your settlement source channel parameters below to continue.</p>
         </div>
+        
+         <% String msg = (String)request.getAttribute("error"); %>
+        <% if(msg != null){ %>
+          <div id="msg" class="bg-rose-50 border border-rose-200 text-rose-700 text-xs p-3.5 rounded-xl mb-6 font-semibold flex items-center gap-2.5 shadow-xs">
+            <i class="fa-solid fa-circle-exclamation text-sm text-rose-500"></i> <%= msg %>
+          </div>
+        <% } %>
 
-        <form action="payment_sucess.jsp" method="POST" class="space-y-5">
+        <form action="withdraw" method="POST" class="space-y-5">
 
           <!-- Dropdown Field Selector: Source Account Identification -->
           <div class="space-y-1">
+           <%
+                AccountDAO adao = new AccountDAOImpl();
+                List<Account> allAcc = adao.getAllAccounts();
+                List<Account> userAcc = allAcc.stream().filter(a->a.getUser_id() == u.getUser_id() && a.getStatus().equalsIgnoreCase("active")).collect(Collectors.toList());
+         
+                %>
             <div class="flex justify-between items-center">
               <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Source Account Channel</label>
-              <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 shadow-inner">Balance: ₹ 1,25,430.50</span>
+              <!-- <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 shadow-inner">Balance: ₹ 1,25,430.50</span> -->
             </div>
             <div class="border border-slate-200 focus-within:border-[#971B4E] focus-within:ring-2 focus-within:ring-[#971B4E]/10 px-4 py-2.5 rounded-lg flex items-center gap-3 bg-white transition-all shadow-xs">
               <i class="fa-solid fa-building-columns text-slate-400 text-xs w-4 text-center"></i>
+             
               <select name="account_id" class="w-full text-sm outline-none bg-transparent text-slate-700 font-medium bg-white cursor-pointer" required>
                 <option value="" class="text-slate-400">Select Account</option>
-                <option value="1">XXXX XXXX 1234 - Savings Account</option>
-                <option value="2">XXXX XXXX 5678 - Current Account</option>
+                <%for(Account a : userAcc){%>
+                <option value="<%=a.getAcc_id()%>"><%=a.getAcc_no() %> - <%=a.getAcc_type()%> Account</option>
+                <%}%>
               </select>
             </div>
           </div>
@@ -149,10 +172,10 @@
             <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Payment Processing Mode</label>
             <div class="border border-slate-200 focus-within:border-[#971B4E] focus-within:ring-2 focus-within:ring-[#971B4E]/10 px-4 py-2.5 rounded-lg flex items-center gap-3 bg-white transition-all shadow-xs">
               <i class="fa-solid fa-circle-nodes text-slate-400 text-xs w-4 text-center"></i>
-              <select name="payment_mode" class="w-full text-sm outline-none bg-transparent text-slate-700 font-medium bg-white cursor-pointer" required>
+              <select name="mode" class="w-full text-sm outline-none bg-transparent text-slate-700 font-medium bg-white cursor-pointer" required>
                 <option value="" class="text-slate-400">Select Mode</option>
                 <option value="ATM">ATM Network Link</option>
-                <option value="CASH">Counter Cash Delivery</option>
+                <option value="Cash">Counter Cash Delivery</option>
               </select>
             </div>
           </div>
@@ -180,6 +203,19 @@
   <footer class="w-full bg-slate-900 text-center py-4 text-[11px] text-slate-500 px-6 border-t border-slate-800">
     <p>&copy; 2026 DCL Bank Groups Inc. Always audit ATM vault logs before closing your browser sessions.</p>
   </footer>
+<%} else {%>
+<%request.setAttribute("error", "session already expired");%>
+<%request.getRequestDispatcher("login.jsp").forward(request, response);%>
+<%}%>
 
+
+ <script>
+    let m = document.getElementById("msg");
+    if (m) {
+      setTimeout(() => {
+        m.style.display = 'none';
+      }, 2000);
+    }
+  </script>
 </body>
 </html>

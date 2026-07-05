@@ -23,19 +23,15 @@ public class AccountDAOImpl implements AccountDAO {
 
 	@Override
 	public void addAccount(Account a) {
-		String query = "insert into accounts values(0,?,?,?,?,?,default,sysdate())";
+		String query = "insert into accounts values(0,?,?,?,?,default,default,sysdate())";
 	
 		try {
 			PreparedStatement ps = con.prepareStatement(query);
 			
 			ps.setInt(1, a.getUser_id());
-			ps.setInt(2, a.getBranch_id());
-			
-			long accNo = (long)(Math.random() * 900000000000L)	+ 100000000000L;
-			
-			ps.setLong(3, accNo);
+			ps.setInt(2, a.getBranch_id());			
+			ps.setLong(3, a.getAcc_no());
 			ps.setString(4, a.getAcc_type());
-			ps.setDouble(5, a.getBalance());			
 			ps.executeUpdate();
 			
 		} catch (SQLException e) {

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +31,18 @@ public class TranscationDAOImpl implements TranscationDAO {
 	  ps.setDouble(1, t.getAmount());
 	  ps.setString(2, t.getStatus());
 	  ps.setString(3, t.getTrans_type());
-      ps.setInt(4, t.getFrom_acc_id());
-	  ps.setInt(5, t.getTo_acc_id());
+	  if(t.getFrom_acc_id() == null) {
+		    ps.setNull(4, Types.INTEGER);
+		}
+		else {
+		    ps.setInt(4, t.getFrom_acc_id());
+		}
+	  if(t.getTo_acc_id() == null) {
+		    ps.setNull(5, Types.INTEGER);
+		}
+		else {
+		    ps.setInt(5, t.getTo_acc_id());
+		}
 	  ps.setString(6, t.getMode_of_transcation());
 	  ps.executeUpdate();
 	} catch(SQLException e1){

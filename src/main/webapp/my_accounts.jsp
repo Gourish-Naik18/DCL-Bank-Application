@@ -1,3 +1,15 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="com.bank.dto.Branch"%>
+<%@page import="com.bank.dao.impl.BranchDAOImpl"%>
+<%@page import="com.bank.dao.BranchDAO"%>
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="java.util.stream.Collector"%>
+<%@page import="com.bank.dto.Account"%>
+<%@page import="java.util.List"%>
+<%@page import="com.bank.dao.impl.AccountDAOImpl"%>
+<%@page import="com.bank.dao.AccountDAO"%>
+<%@page import="com.bank.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +36,8 @@
 </head>
 
 <body class="bg-[#f0f3f8] text-slate-800 min-h-screen antialiased">
+<%User u = (User) session.getAttribute("user");%>
+<%if(u != null){%>
 
   <div class="flex min-h-screen relative overflow-x-hidden">
 
@@ -102,7 +116,7 @@
       <!-- Header -->
       <header class="fixed top-0 left-60 right-0 h-20 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-xs flex items-center justify-between px-10 z-40">
         <h3 class="text-xl font-extrabold tracking-tight text-slate-900">
-          Welcome back, <span class="brand-text-solid">Gourish</span>
+          Welcome back, <span class="brand-text-solid"><%=u.getUser_name()%></span>
         </h3>
 
         <!-- Profile Dropdown Group -->
@@ -113,8 +127,8 @@
             </div>
 
             <div class="leading-none pr-1">
-              <h3 class="font-bold text-xs text-slate-800 tracking-tight">Gourish Naik</h3>
-              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Customer</p>
+              <h3 class="font-bold text-xs text-slate-800 tracking-tight"><%=u.getUser_name()%></h3>
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5"><%=u.getRole()%></p>
             </div>
 
             <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] pl-1 transition-transform group-hover:rotate-180"></i>
@@ -124,7 +138,7 @@
           <div class="absolute right-0 top-full pt-1 w-52 hidden group-hover:block z-50">
             <div class="bg-white/95 backdrop-blur-md border border-slate-200 rounded-xl shadow-xl overflow-hidden">
               <a href="index.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-slate-50 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors border-b border-slate-100">
-                <i class="fa-solid fa-gauge text-slate-400 text-sm w-4"></i> Home Account
+                <i class="fa-solid fa-gauge text-slate-400 text-sm w-4"></i> Home
               </a>
               <a href="edit_profile.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-slate-50 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors border-b border-slate-100">
                 <i class="fa-solid fa-user text-slate-400 text-sm w-4"></i> Edit Profile
@@ -160,8 +174,14 @@
           <!-- Card 1: Total Accounts -->
           <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-5 flex justify-between items-center">
             <div>
+            <%AccountDAO adao = new AccountDAOImpl();%>
+            <%List<Account> Accounts = adao.getAllAccounts();%>
+            <%
+              List<Account> userAccount = Accounts.stream().filter(a->a.getUser_id() == u.getUser_id()).collect(Collectors.toList());
+            %>
+            
               <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Total Accounts</p>
-              <h2 class="text-2xl font-black mt-1 text-slate-900 tracking-tight">3</h2>
+              <h2 class="text-2xl font-black mt-1 text-slate-900 tracking-tight"><%=userAccount.size()%></h2>
               <p class="text-slate-400 text-[11px] font-medium mt-1">All processed profiles</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-blue-50 border border-blue-100 flex justify-center items-center shadow-xs">
@@ -173,7 +193,8 @@
           <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-5 flex justify-between items-center">
             <div>
               <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Pending Accounts</p>
-              <h2 class="text-2xl font-black mt-1 text-amber-600 tracking-tight">1</h2>
+              <%Long count = userAccount.stream().filter(a->a.getStatus().equalsIgnoreCase("pending")).count();%>
+              <h2 class="text-2xl font-black mt-1 text-amber-600 tracking-tight"><%=count%></h2>
               <p class="text-slate-400 text-[11px] font-medium mt-1">Awaiting hub approval</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-amber-50 border border-amber-100 flex justify-center items-center shadow-xs">
@@ -186,7 +207,8 @@
             <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-lg pointer-events-none"></div>
             <div>
               <p class="text-[11px] font-extrabold text-rose-100/80 uppercase tracking-widest">Total Balance</p>
-              <h2 class="text-xl font-black mt-0.5 text-white tracking-tight">₹ 1,25,430.50</h2>
+              <%Double total = userAccount.stream().collect(Collectors.summingDouble(a->a.getBalance()));%>
+              <h2 class="text-xl font-black mt-0.5 text-white tracking-tight">₹ <%=total%></h2>
               <p class="text-rose-200/70 text-[11px] font-medium mt-1">Across active systems</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex justify-center items-center shadow-xs">
@@ -216,60 +238,50 @@
               </thead>
 
               <tbody class="divide-y divide-slate-100 text-slate-600 font-medium">
-
+               <%for(Account a : userAccount){%>
+               <%if(!a.getStatus().equalsIgnoreCase("pending")){%>
                 <!-- Row 1 -->
                 <tr class="hover:bg-slate-50/80 transition-colors">
-                  <td class="py-4 px-2">
-                    <p class="font-bold tracking-wide text-slate-900">XXXX XXXX 1234</p>
-                    <p class="text-[10px] font-bold text-[#971B4E]/80 mt-0.5 uppercase tracking-wide">Primary Hub ID</p>
+                  <td class="py-2 px-2">
+                    <p class="font-bold tracking-wide text-slate-900"><%=a.getAcc_no()%></p>
                   </td>
-                  <td class="py-4 px-2 text-slate-500">Savings Account</td>
-                  <td class="py-4 px-2 text-slate-700">Mangaluru Main Branch</td>
-                  <td class="py-4 px-2 font-mono font-bold tracking-tight text-slate-800">DCLB0001234</td>
-                  <td class="py-4 px-2 font-bold text-emerald-600 text-sm">₹ 85,430.50</td>
-                  <td class="py-4 px-2">
-                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2.5 py-1 rounded-md tracking-wide">
-                      ACTIVE
-                    </span>
-                  </td>
-                  <td class="py-4 px-2 text-right text-slate-400 font-bold">15 May 2024</td>
-                </tr>
-
-                <!-- Row 2 -->
-                <tr class="hover:bg-slate-50/80 transition-colors">
-                  <td class="py-4 px-2">
-                    <p class="font-bold tracking-wide text-slate-900">XXXX XXXX 5678</p>
-                    <p class="text-[10px] font-bold text-[#971B4E]/80 mt-0.5 uppercase tracking-wide">Secondary ID</p>
-                  </td>
-                  <td class="py-4 px-2 text-slate-500">Current Account</td>
-                  <td class="py-4 px-2 text-slate-700">Mangaluru Main Branch</td>
-                  <td class="py-4 px-2 font-mono font-bold tracking-tight text-slate-800">DCLB0001234</td>
-                  <td class="py-4 px-2 font-bold text-emerald-600 text-sm">₹ 40,000.00</td>
+                  <td class="py-4 px-2 text-slate-500"><%=a.getAcc_type()%></td>
+                  <%BranchDAO bdao = new BranchDAOImpl();%>
+                  <%Branch b = bdao.getBranchById(a.getBranch_id());%>
+                  <td class="py-4 px-2 text-slate-700"><%=b.getBranch_name()%></td>
+                  <td class="py-4 px-2 font-mono font-bold tracking-tight text-slate-800"><%=b.getIfsc_code()%></td>
+                  <td class="py-4 px-2 font-bold text-emerald-600 text-sm">₹ <%=a.getBalance()%></td>
                   <td class="py-4 px-2">
                     <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2.5 py-1 rounded-md tracking-wide">
-                      ACTIVE
+                      <%=a.getStatus()%>
                     </span>
                   </td>
-                  <td class="py-4 px-2 text-right text-slate-400 font-bold">10 May 2024</td>
+                  <%LocalDate date = LocalDate.parse(a.getCreated_at());%>
+                  <%DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd MMM yyyy");%>
+                  <td class="py-4 px-2 text-right text-slate-400 font-bold"><%=date.format(dt)%></td>
                 </tr>
-
-                <!-- Row 3 -->
-                <tr class="hover:bg-slate-50/80 transition-colors">
-                  <td class="py-4 px-2">
-                    <p class="font-bold tracking-wide text-slate-400 italic">Not Generated</p>
-                    <p class="text-[10px] font-bold text-amber-600 mt-0.5 uppercase tracking-wide">In Progress</p>
+                <%} else {%>
+                  <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="py-2 px-2">
+                    <p class="font-bold tracking-wide text-red-600">Not Generated</p>
                   </td>
-                  <td class="py-4 px-2 text-slate-400">Savings Account</td>
-                  <td class="py-4 px-2 text-slate-500">Udupi Branch</td>
-                  <td class="py-4 px-2 text-slate-400 font-bold">Pending</td>
-                  <td class="py-4 px-2 font-bold text-slate-400">₹ 0.00</td>
+                  <td class="py-4 px-2 text-slate-500"><%=a.getAcc_type()%></td>
+                  <%BranchDAO bdao = new BranchDAOImpl();%>
+                  <%Branch b = bdao.getBranchById(a.getBranch_id());%>
+                  <td class="py-4 px-2 text-slate-700"><%=b.getBranch_name()%></td>
+                  <td class="py-4 px-2 font-mono font-bold tracking-tight text-slate-800">Pending</td>
+                  <td class="py-4 px-2 font-bold text-emerald-600 text-sm">₹ <%=a.getBalance()%></td>
                   <td class="py-4 px-2">
-                    <span class="bg-amber-50 text-amber-700 border border-amber-200/60 text-[10px] font-extrabold px-2.5 py-1 rounded-md tracking-wide">
-                      PENDING
+                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2.5 py-1 rounded-md tracking-wide">
+                      <%=a.getStatus()%>
                     </span>
                   </td>
-                  <td class="py-4 px-2 text-right text-slate-400 font-bold">18 May 2024</td>
+                  <%LocalDate date = LocalDate.parse(a.getCreated_at());%>
+                  <%DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd MMM yyyy");%>
+                  <td class="py-4 px-2 text-right text-slate-400 font-bold"><%=date.format(dt)%></td>
                 </tr>
+                <%}%>
+                <%}%>
 
               </tbody>
 
@@ -281,6 +293,9 @@
     </div>
 
   </div>
-
+<%} else {%>
+<%request.setAttribute("error", "session already expired");%>
+<%request.getRequestDispatcher("login.jsp").forward(request, response);%>
+<%}%>
 </body>
 </html>

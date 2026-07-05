@@ -1,3 +1,9 @@
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="com.bank.dto.Account"%>
+<%@page import="java.util.List"%>
+<%@page import="com.bank.dao.impl.AccountDAOImpl"%>
+<%@page import="com.bank.dao.AccountDAO"%>
+<%@page import="com.bank.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +43,8 @@
 </head>
 
 <body class="bg-[#f0f3f8] text-slate-800 min-h-screen flex flex-col justify-between antialiased relative overflow-x-hidden">
+<%User u = (User) session.getAttribute("user");%>
+<%if(u != null){%>
 
   <!-- Background highlights for visual depth -->
   <div class="absolute top-0 right-1/4 w-[600px] h-[600px] bg-purple-200/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
@@ -121,12 +129,20 @@
             <div class="border border-slate-200 focus-within:border-[#971B4E] focus-within:ring-2 focus-within:ring-[#971B4E]/10 px-4 py-2.5 rounded-lg flex items-center gap-3 bg-white transition-all shadow-xs">
               <i class="fa-solid fa-building-columns text-slate-400 text-xs w-4 text-center"></i>
               <select name="account_id" class="w-full text-sm outline-none bg-transparent text-slate-700 font-medium bg-white cursor-pointer" required>
+                <%
+                AccountDAO adao = new AccountDAOImpl();
+                List<Account> allAcc = adao.getAllAccounts();
+                List<Account> userAcc = allAcc.stream().filter(a->a.getUser_id() == u.getUser_id() && a.getStatus().equalsIgnoreCase("active")).collect(Collectors.toList());
+                %>
                 <option value="" class="text-slate-400">Select Account</option>
-                <option value="1">1234 5678 9012 - Savings Account (₹ 45,250.00)</option>
-                <option value="2">9876 5432 1098 - Current Account (₹ 30,200.00)</option>
+                <%for(Account a : userAcc){%>
+                <option value="<%=a.getAcc_id()%>"><%=a.getAcc_no() %> - <%=a.getAcc_type()%> Account</option>
+                <%}%>
               </select>
             </div>
           </div>
+          
+          
 
           <!-- Balance Input Text Field -->
           <div class="space-y-1">
@@ -151,7 +167,7 @@
               
               <!-- Option: UPI -->
               <label class="border border-slate-200 rounded-xl p-3 flex items-center gap-3 bg-white hover:border-[#971B4E]/40 transition-all shadow-xs cursor-pointer group">
-                <input type="radio" name="payment_mode" value="UPI" class="accent-[#971B4E] scale-110" checked>
+                <input type="radio" name="mode" value="upi" class="accent-[#971B4E] scale-110" checked>
                 <div class="leading-none">
                   <span class="text-xs font-bold text-slate-700 block">UPI</span>
                   <span class="text-[9px] text-slate-400">Instant Code Link</span>
@@ -160,7 +176,7 @@
 
               <!-- Option: Card -->
               <label class="border border-slate-200 rounded-xl p-3 flex items-center gap-3 bg-white hover:border-[#971B4E]/40 transition-all shadow-xs cursor-pointer group">
-                <input type="radio" name="payment_mode" value="CARD" class="accent-[#971B4E] scale-110">
+                <input type="radio" name="mode" value="Cards" class="accent-[#971B4E] scale-110">
                 <div class="leading-none">
                   <span class="text-xs font-bold text-slate-700 block">Cards</span>
                   <span class="text-[9px] text-slate-400">Debit / Credit</span>
@@ -169,12 +185,13 @@
 
               <!-- Option: Net Banking -->
               <label class="border border-slate-200 rounded-xl p-3 flex items-center gap-3 bg-white hover:border-[#971B4E]/40 transition-all shadow-xs cursor-pointer group">
-                <input type="radio" name="payment_mode" value="NETBANKING" class="accent-[#971B4E] scale-110">
+                <input type="radio" name="mode" value="Net Banking" class="accent-[#971B4E] scale-110">
                 <div class="leading-none">
                   <span class="text-xs font-bold text-slate-700 block">Net Banking</span>
                   <span class="text-[9px] text-slate-400">Direct Bank Portal</span>
                 </div>
               </label>
+              
 
             </div>
           </div>
@@ -202,6 +219,9 @@
   <footer class="w-full bg-slate-900 text-center py-4 text-[11px] text-slate-500 px-6 border-t border-slate-800">
     <p>&copy; 2026 DCL Bank Groups Inc. Please check your payment credentials carefully before finalizing updates.</p>
   </footer>
-
+<%} else {%>
+<%request.setAttribute("error", "session already expired");%>
+<%request.getRequestDispatcher("login.jsp").forward(request, response);%>
+<%}%>
 </body>
 </html>

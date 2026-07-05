@@ -1,3 +1,4 @@
+<%@page import="com.bank.dto.Transcation"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -110,27 +111,25 @@
           </div>
         </div>
 
+
+        <%Transcation t = (Transcation) request.getAttribute("transcation");%>
+
         <!-- Live Parameters Breakdown Matrix -->
         <div class="bg-slate-50 border border-slate-200/60 rounded-xl p-4 mt-6 space-y-3 text-xs">
           
           <div class="flex justify-between items-center pb-2 border-b border-dashed border-slate-200">
             <span class="text-slate-400 font-semibold">Transaction Status</span>
-            <span class="font-bold text-emerald-700 tracking-wider bg-emerald-100 border border-emerald-300/50 px-2.5 py-0.5 rounded text-[10px]">SUCCESS</span>
+            <span class="font-bold text-emerald-700 tracking-wider bg-emerald-100 border border-emerald-300/50 px-2.5 py-0.5 rounded text-[10px]"><%=t.getStatus().toUpperCase()%></span>
           </div>
-
-          <div class="flex justify-between items-center py-0.5">
-            <span class="text-slate-400 font-semibold">Account ID</span>
-            <span class="font-bold text-slate-800">1</span>
-          </div>
-
+        
           <div class="flex justify-between items-center py-0.5">
             <span class="text-slate-400 font-semibold">Payment Mode</span>
-            <span class="font-bold text-slate-800 uppercase tracking-wide">neft</span>
+            <span class="font-bold text-slate-800 uppercase tracking-wide"><%=t.getMode_of_transcation().toUpperCase()%></span>
           </div>
 
           <div class="flex justify-between items-center pt-2.5 border-t border-slate-200">
-            <span class="text-slate-900 font-extrabold text-sm">Amount Paid</span>
-            <span class="text-lg font-black brand-text-solid">₹ 1,00,000.00</span>
+            <span class="text-slate-900 font-extrabold text-sm">Transcation Amount</span>
+            <span class="text-lg font-black brand-text-solid">₹ <%=t.getAmount()%></span>
           </div>
           
         </div>

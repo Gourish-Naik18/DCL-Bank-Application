@@ -1,3 +1,9 @@
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="com.bank.dto.Account"%>
+<%@page import="java.util.List"%>
+<%@page import="com.bank.dao.impl.AccountDAOImpl"%>
+<%@page import="com.bank.dao.AccountDAO"%>
+<%@page import="com.bank.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,6 +29,8 @@
 </head>
 
 <body class="bg-[#f8fafc] text-slate-800 min-h-screen antialiased">
+<%User u = (User) session.getAttribute("user");%>
+<%if(u != null){%>
 
   <div class="flex min-h-screen relative overflow-x-hidden">
 
@@ -34,7 +42,7 @@
         </div>
         <div class="leading-none">
           <span class="text-lg font-black tracking-tight block text-white">DCL <span class="text-[#d53579]">BANK</span></span>
-          <span class="text-[9px] font-bold text-slate-500 tracking-widest uppercase block mt-0.5">Portal Hub</span>
+          <span class="text-[9px] font-bold text-slate-500 tracking-widest uppercase block mt-0.5">Portal</span>
         </div>
       </div>
 
@@ -91,7 +99,7 @@
 
       <header class="fixed top-0 left-60 right-0 h-20 bg-white border-b border-slate-200 flex items-center justify-between px-10 z-40 shadow-xs">
         <h3 class="text-xl font-extrabold tracking-tight text-slate-900">
-          Welcome back, <span class="brand-text-solid">Gourish</span>
+          Welcome back, <span class="brand-text-solid"><%=u.getUser_name()%></span>
         </h3>
 
         <div class="group relative py-4">
@@ -101,8 +109,8 @@
             </div>
 
             <div class="leading-none pr-1">
-              <h3 class="font-bold text-xs text-slate-800 tracking-tight">Gourish Naik</h3>
-              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Customer</p>
+              <h3 class="font-bold text-xs text-slate-800 tracking-tight"><%=u.getUser_name()%></h3>
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5"><%=u.getRole()%></p>
             </div>
 
             <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] pl-1 transition-transform group-hover:rotate-180"></i>
@@ -130,8 +138,14 @@
             <div class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
             <div class="absolute -bottom-6 -right-6 w-16 h-16 bg-black/10 rounded-full pointer-events-none"></div>
             <div>
+            <%
+            AccountDAO adao = new AccountDAOImpl();
+            List<Account> allAcc = adao.getAllAccounts();
+            List<Account> userAcc = allAcc.stream().filter(a->a.getUser_id() == u.getUser_id() && a.getStatus().equalsIgnoreCase("active")).collect(Collectors.toList());
+            Double total = userAcc.stream().collect(Collectors.summingDouble(a->a.getBalance()));
+            %>
               <p class="text-[11px] font-extrabold text-rose-100/80 uppercase tracking-widest">Total Balance</p>
-              <h2 class="text-2xl font-black text-white tracking-tight mt-1">₹ 75,450.00</h2>
+              <h2 class="text-2xl font-black text-white tracking-tight mt-1">₹ <%=total%></h2>
               <p class="text-rose-200/70 mt-1 text-[11px] font-medium">Across all active accounts</p>
             </div>
             <div class="h-12 w-12 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex justify-center items-center shadow-sm">
@@ -140,7 +154,7 @@
           </div>
 
           <div class="bg-white border border-slate-200 rounded-2xl shadow-xs p-6">
-            <h2 class="text-lg font-extrabold text-slate-900 tracking-tight mb-4">My Accounts</h2>
+            <h2 class="text-lg font-extrabold text-slate-900 tracking-tight mb-4">Active Accounts</h2>
 
             <div class="overflow-x-auto">
               <table class="w-full text-left text-xs border-collapse">
@@ -153,26 +167,18 @@
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-slate-700 font-medium">
+                <%for(Account a : userAcc){%>
                   <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="py-4 px-2 font-bold tracking-wide text-slate-900">1234 5678 9012</td>
-                    <td class="py-4 px-2 text-slate-500">Savings Account</td>
-                    <td class="py-4 px-2 font-bold text-emerald-600 text-sm">₹ 45,250.00</td>
+                    <td class="py-4 px-2 font-bold tracking-wide text-slate-900"><%=a.getAcc_no()%></td>
+                    <td class="py-4 px-2 text-slate-500"><%=a.getAcc_type()%> Account</td>
+                    <td class="py-4 px-2 font-bold text-emerald-600 text-sm">₹ <%=a.getBalance()%></td>
                     <td class="py-4 px-2 text-right">
                       <span class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-extrabold px-2.5 py-1 rounded-md tracking-wide">
-                        ACTIVE
+                        <%=a.getStatus().toUpperCase()%>
                       </span>
                     </td>
                   </tr>
-                  <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="py-4 px-2 font-bold tracking-wide text-slate-900">9876 5432 1098</td>
-                    <td class="py-4 px-2 text-slate-500">Current Account</td>
-                    <td class="py-4 px-2 font-bold text-emerald-600 text-sm">₹ 30,200.00</td>
-                    <td class="py-4 px-2 text-right">
-                      <span class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-extrabold px-2.5 py-1 rounded-md tracking-wide">
-                        ACTIVE
-                      </span>
-                    </td>
-                  </tr>
+                  <%}%>
                 </tbody>
               </table>
             </div>
@@ -214,6 +220,9 @@
     </div>
 
   </div>
-
+<%} else {%>
+<%request.setAttribute("error", "session already expired");%>
+<%request.getRequestDispatcher("login.jsp").forward(request, response);%>
+<%}%>
 </body>
 </html>

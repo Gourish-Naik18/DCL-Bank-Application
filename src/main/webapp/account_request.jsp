@@ -1,3 +1,4 @@
+<%@page import="com.bank.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +38,8 @@
 </head>
 
 <body class="bg-[#f0f3f8] text-slate-800 min-h-screen flex flex-col justify-between antialiased relative overflow-x-hidden">
+<%User u = (User) session.getAttribute("user");%>
+<%if(u != null){%>
 
   <!-- Background highlights for visual depth -->
   <div class="absolute top-0 right-1/4 w-[600px] h-[600px] bg-purple-200/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
@@ -126,11 +129,26 @@
           <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Request Account</h2>
           <p class="text-slate-400 text-xs mt-1">Please provide the necessary account setup choices below.</p>
         </div>
+        
+        
+        <% String msg = (String)request.getAttribute("error"); %>
+        <% if(msg != null){ %>
+          <div id="msg" class="bg-rose-50 border border-rose-200 text-rose-700 text-xs p-3.5 rounded-xl mb-6 font-semibold flex items-center gap-2.5 shadow-xs">
+            <i class="fa-solid fa-circle-exclamation text-sm text-rose-500"></i> <%= msg %>
+          </div>
+        <% } %>
+        
+        <% String msg2 = (String)request.getAttribute("sucess"); %>
+        <% if(msg2 != null){ %>
+          <div id="msg2" class="bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs p-3.5 rounded-xl mb-6 font-semibold flex items-center gap-2.5 shadow-xs">
+            <i class="fa-solid fa-circle-check text-sm text-emerald-500"></i> <%= msg2 %>
+          </div>
+        <% } %>
 
         <form action="requestAccount" method="POST" class="space-y-4">
           
           <!-- User ID Tracking Token -->
-          <input type="hidden" name="user_id" value="1">
+          <input type="hidden" name="user_id" value="<%=u.getUser_id()%>">
 
           <!-- User Name (Read-Only) -->
           <div class="space-y-1">
@@ -140,7 +158,7 @@
               <input class="w-full text-sm outline-none bg-transparent text-slate-500 font-semibold pointer-events-none cursor-not-allowed" 
                      type="text" 
                      name="user_name" 
-                     value="Gourish Naik" 
+                     value="<%=u.getUser_name()%>" 
                      readonly>
             </div>
           </div>
@@ -153,7 +171,7 @@
               <input class="w-full text-sm outline-none bg-transparent text-slate-500 font-semibold pointer-events-none cursor-not-allowed" 
                      type="email" 
                      name="email" 
-                     value="gourish@gmail.com" 
+                     value="<%=u.getEmail()%>" 
                      readonly>
             </div>
           </div>
@@ -165,9 +183,13 @@
               <i class="fa-solid fa-building-columns text-slate-400 text-xs w-4 text-center"></i>
               <select name="branch_id" class="w-full text-sm outline-none bg-transparent text-slate-700 font-medium bg-white cursor-pointer" required>
                 <option value="" class="text-slate-400">Select Branch</option>
-                <option value="1">Mangaluru Main Branch</option>
-                <option value="2">Bengaluru Branch</option>
-                <option value="3">Udupi Branch</option>
+                <option value="3">Mangaluru Main Branch</option>
+                <option value="1">Bengaluru Branch</option>
+                <option value="5">Mysore City Branch</option>
+                <option value="6">Hubli Main Branch</option>
+                <option value="7">Belgaum Central Branch</option>
+                <option value="8">Shivamogga Main Branch</option>
+                <option value="9">Davanagere City Branch</option>
               </select>
             </div>
           </div>
@@ -179,14 +201,15 @@
               <i class="fa-solid fa-layer-group text-slate-400 text-xs w-4 text-center"></i>
               <select name="acc_type" class="w-full text-sm outline-none bg-transparent text-slate-700 font-medium bg-white cursor-pointer" required>
                 <option value="" class="text-slate-400">Select Account Type</option>
-                <option value="Savings Account">Savings Account</option>
-                <option value="Current Account">Current Account</option>
+                <option value="savings">Savings Account</option>
+                <option value="current">Current Account</option>
+                <option value="salary">Salary Account</option>
               </select>
             </div>
           </div>
 
           <!-- Initial Deposit Input -->
-          <div class="space-y-1">
+          <!--  <div class="space-y-1">
             <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Initial Deposit Opening Amount</label>
             <div class="border border-slate-200 focus-within:border-[#971B4E] focus-within:ring-2 focus-within:ring-[#971B4E]/10 px-4 py-2.5 rounded-lg flex items-center gap-3 bg-white transition-all shadow-xs">
               <i class="fa-solid fa-indian-rupee-sign text-slate-400 text-xs w-4 text-center"></i>
@@ -196,7 +219,8 @@
                      placeholder="Initial Deposit Amount" 
                      min="0">
             </div>
-          </div>
+          </div> -->
+         
 
           <!-- Control Action Row buttons -->
           <div class="flex flex-col sm:flex-row gap-3 pt-6 mt-2">
@@ -222,5 +246,25 @@
     <p>&copy; 2026 DCL Bank Groups Inc. All applications are subject to standard account verification rules.</p>
   </footer>
 
+ <%} else {%>
+<%request.setAttribute("error", "session already expired");%>
+<%request.getRequestDispatcher("login.jsp").forward(request, response);%>
+<%}%>
+
+  <script>
+    let m = document.getElementById("msg");
+    if (m) {
+      setTimeout(() => {
+        m.style.display = 'none';
+      }, 2000);
+    }
+
+    let n = document.getElementById("msg2");
+    if (n) {
+      setTimeout(() => {
+        n.style.display = 'none';
+      }, 2000);
+    }
+  </script>
 </body>
 </html>
