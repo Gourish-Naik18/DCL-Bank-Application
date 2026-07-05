@@ -76,18 +76,7 @@ public class TranscationSearch extends HttpServlet {
 		req.getRequestDispatcher("my_transcations.jsp").forward(req, resp);
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 	}
 
