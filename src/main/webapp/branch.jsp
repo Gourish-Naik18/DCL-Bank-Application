@@ -16,7 +16,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS v4 -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   
   <style>
@@ -45,7 +44,7 @@
 
   <div class="flex min-h-screen relative overflow-x-hidden">
 
-    <!-- Sidebar Menu -->
+
     <aside class="fixed top-0 h-screen left-0 z-50 w-60 admin-sidebar-bg text-white px-4 py-4 flex flex-col gap-4 border-r border-[#1B3330] shadow-2xl overflow-y-auto">
       
       <!-- Brand Logo Area -->
@@ -59,7 +58,7 @@
         </div>
       </div>
 
-      <!-- Navigation Links -->
+
       <div class="flex flex-col gap-1.5 px-1 flex-1">
         
         <p class="px-3 text-[10px] font-bold tracking-wider text-[#5A6E6B] uppercase mt-2 mb-1">Core Operations</p>
@@ -121,7 +120,7 @@
           <h3 class="text-lg font-black tracking-tight text-stone-900">Branch Management</h3>
         </div>
 
-        <!-- Profile Box with Hover Dropdown Feature -->
+
         <div class="relative group">
           <div class="flex items-center gap-3 bg-stone-50 border border-stone-200/60 p-2 rounded-xl cursor-pointer hover:bg-stone-100/70 transition-colors">
             <div class="h-9 w-9 rounded-lg bg-amber-50 border border-amber-100 flex items-center justify-center">
@@ -152,7 +151,7 @@
 
       </header>
 
-      <!-- Dashboard Content View Area -->
+
       <div class="p-8 pt-28 space-y-6 flex-grow max-w-[1240px] w-full mx-auto">
 
         <!-- Form Panel: Add New Branch -->

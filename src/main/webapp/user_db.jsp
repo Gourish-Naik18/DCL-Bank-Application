@@ -31,7 +31,6 @@
     body {
       font-family: 'Public Sans', sans-serif;
     }
-    /* Bank Crimson System Colors */
     .brand-bg-solid { background-color: #971B4E; }
     .brand-text-solid { color: #971B4E; }
     .brand-border-solid { border-color: #971B4E; }
@@ -226,14 +225,9 @@
 			}
           %>
           <%}%>
-          <%List<Transcation> topTrans = userTrans.stream()
-        		    .sorted(
-        		            Comparator.comparing((Transcation t) -> t.getTranscation_date())
-        		            .thenComparing((Transcation t) -> t.getTranscation_time())
-        		            .reversed()
-        		        )
-        		        .limit(5)
-        		        .collect(Collectors.toList());%>
+          <%List<Transcation> topTrans = userTrans.stream().sorted(Comparator.comparing((Transcation t) -> t.getTranscation_date()).thenComparing((Transcation t) -> t.getTranscation_time()).reversed())
+        		        				.limit(5)
+        		       					 .collect(Collectors.toList());%>
           <div class="space-y-3">
           
           <%for(Transcation t : topTrans){%>
@@ -318,44 +312,7 @@
           </div>
         </div>
 
-		<!-- <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-6">
-          <h2 class="text-lg font-extrabold text-slate-900 tracking-tight mb-5">Quick Dashboard Actions</h2>
-
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div class="border border-slate-200/80 rounded-xl p-4 text-center hover:border-[#971B4E]/30 hover:shadow-md hover:bg-white transition-all cursor-pointer relative group">
-              <div class="bg-emerald-50 border border-emerald-100 h-11 w-11 rounded-xl flex justify-center items-center mx-auto shadow-xs">
-                <a href="deposit.jsp"><i class="fa-solid fa-arrow-down text-base text-emerald-600"></i></a>
-              </div>
-              <a href="deposit.jsp"><h3 class="text-xs font-extrabold text-slate-800 tracking-tight mt-3">Deposit</h3></a>
-              <a href="deposit.jsp"><p class="text-[10px] font-medium text-slate-400 mt-0.5">Add Capital</p></a>
-            </div>
-
-            <div class="border border-slate-200/80 rounded-xl p-4 text-center hover:border-[#971B4E]/30 hover:shadow-md hover:bg-white transition-all cursor-pointer relative group">
-              <div class="bg-slate-100 border border-slate-200/60 h-11 w-11 rounded-xl flex justify-center items-center mx-auto shadow-xs">
-                <a href="withdraw.jsp"><i class="fa-solid fa-arrow-up text-base text-slate-700"></i></a>
-              </div>
-              <a href="withdraw.jsp"><h3 class="text-xs font-extrabold text-slate-800 tracking-tight mt-3">Withdraw</h3></a>
-              <a href="withdraw.jsp"><p class="text-[10px] font-medium text-slate-400 mt-0.5">Secure Cashout</p></a>
-            </div>
-
-            <div class="border border-slate-200/80 rounded-xl p-4 text-center hover:border-[#971B4E]/30 hover:shadow-md hover:bg-white transition-all cursor-pointer relative group">
-              <div class="brand-bg-light border border-[#971B4E]/10 h-11 w-11 rounded-xl flex justify-center items-center mx-auto shadow-xs">
-                <a href="transfer.jsp"><i class="fa-solid fa-right-left text-base brand-text-solid"></i></a>
-              </div>
-              <a href="transfer.jsp"><h3 class="text-xs font-extrabold text-slate-800 tracking-tight mt-3">Transfer</h3></a>
-              <a href="transfer.jsp"><p class="text-[10px] font-medium text-slate-400 mt-0.5">Send Balance</p></a>
-            </div>
-
-            <div class="border border-slate-200/80 rounded-xl p-4 text-center hover:border-[#971B4E]/30 hover:shadow-md hover:bg-white transition-all cursor-pointer relative group">
-              <div class="bg-slate-50 border border-slate-200/40 h-11 w-11 rounded-xl flex justify-center items-center mx-auto shadow-xs">
-                <a href="edit_profile.jsp"><i class="fa-regular fa-user text-base text-slate-500"></i></a>
-              </div>
-              <a href="edit_profile.jsp"><h3 class="text-xs font-extrabold text-slate-800 tracking-tight mt-3">Profile</h3></a>
-              <a href="edit_profile.jsp"><p class="text-[10px] font-medium text-slate-400 mt-0.5">Settings Desk</p></a>
-            </div>
-          </div>
-        </div> -->
-        
+		
 
       </div>
     </div>

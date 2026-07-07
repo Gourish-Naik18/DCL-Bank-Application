@@ -14,7 +14,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS v4 -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   
   <style>
@@ -27,10 +26,9 @@
   </style>
 </head>
 
-<!-- Reduced body padding-top here to bring everything closer to the header -->
 <body class="bg-[#F2F5F4] text-slate-800 min-h-screen antialiased flex flex-col p-4 md:p-8 relative pt-16 md:pt-20">
 
-  <!-- Top Navigation Header Layer -->
+
   <header class="absolute top-0 left-0 right-0 h-16 flex items-center justify-between px-6 md:px-12 pointer-events-none">
     <!-- Left Side: Bank Logo -->
     <div class="flex gap-3 items-center pointer-events-auto">
@@ -48,19 +46,17 @@
     </div>
   </header>
 
-  <!-- Main Card Component: Changed my-auto to mt-4 to pull the card upward -->
+
   <div class="w-full max-w-[1100px] grid grid-cols-1 lg:grid-cols-12 rounded-3xl overflow-hidden shadow-2xl border border-stone-200 min-h-[600px] mx-auto mt-4 mb-auto">
     
     <!-- Left Panel: Brand Info Box -->
     <div class="lg:col-span-5 admin-bg-gradient p-8 md:p-12 flex flex-col justify-between text-white relative overflow-hidden border-b lg:border-b-0 lg:border-r border-[#1B3330]">
       
-      <!-- Inside Panel Mini Header -->
       <div class="flex gap-2 items-center relative z-10">
         <div class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></div>
         <span class="text-[10px] font-bold text-[#94A19F] uppercase tracking-widest block">System Configuration</span>
       </div>
 
-      <!-- Main Heading Section -->
       <div class="my-10 relative z-10 space-y-2">
         <h1 class="text-3xl font-black text-white tracking-tight">Edit Branch</h1>
         <p class="text-xs text-[#94A19F] font-medium leading-relaxed max-w-sm">
@@ -68,7 +64,7 @@
         </p>
       </div>
 
-      <!-- Features Checklist Group -->
+
       <div class="space-y-3 bg-white/5 border border-white/5 p-4 rounded-2xl relative z-10 backdrop-blur-xs">
         
         <div class="flex gap-3 items-center">
@@ -103,12 +99,12 @@
 
       </div>
 
-      <!-- Decorative Background Icon -->
+
       <i class="fa-solid fa-building-columns text-[240px] text-white/[0.02] absolute -right-16 -bottom-16 pointer-events-none"></i>
     
     </div>
 
-    <!-- Right Panel: Form Fields -->
+
     <div class="lg:col-span-7 bg-white p-8 md:p-12 flex flex-col justify-center">
     
       <!-- Form Input Header -->

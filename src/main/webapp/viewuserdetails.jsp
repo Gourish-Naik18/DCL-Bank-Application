@@ -31,7 +31,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS v4 -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   
   <style>
@@ -175,7 +174,7 @@
                   DateTimeFormatter dd = DateTimeFormatter.ofPattern("dd MMM yyyy");
                   
                   AccountDAO adao = new AccountDAOImpl();
-                  List<Account> userAcc = adao.getAllAccounts().stream().filter(a->a.getUser_id() == u1.getUser_id()).toList();
+                  List<Account> userAcc = adao.getAllAccounts().stream().filter(a->a.getUser_id() == u1.getUser_id()).collect(Collectors.toList());
                   %>
                   <p><span class="font-bold text-[#B45309] uppercase tracking-wider text-[10px] inline-block w-28">Registred Date</span> : <span class="text-[#451A03] font-semibold"><%=date.format(dd)%></span></p>
                   <p><span class="font-bold text-[#B45309] uppercase tracking-wider text-[10px] inline-block w-28">Accounts</span> : <span class="text-[#451A03] font-semibold"><%=userAcc.size()%> Accounts</span></p>
@@ -202,7 +201,7 @@
               </div>
               
               <%
-              List<Account> userActive = userAcc.stream().filter(a->a.getStatus().equalsIgnoreCase("active")).toList();
+              List<Account> userActive = userAcc.stream().filter(a->a.getStatus().equalsIgnoreCase("active")).collect(Collectors.toList());
               List<Transcation> userTrans = new  ArrayList<>();
               TranscationDAO tdao = new TranscationDAOImpl();
               
@@ -233,7 +232,7 @@
               </div>
                
                <%
-                    userTrans = userTrans.stream().sorted(Comparator.comparing((Transcation t)->t.getTranscation_date()).thenComparing((Transcation t)->t.getTranscation_time()).reversed()).toList();
+                    userTrans = userTrans.stream().sorted(Comparator.comparing((Transcation t)->t.getTranscation_date()).thenComparing((Transcation t)->t.getTranscation_time()).reversed()).collect(Collectors.toList());
                %>
                
                <%if(userTrans != null && !userTrans.isEmpty()){%>
@@ -296,6 +295,7 @@
               </thead>
                
               <tbody class="divide-y divide-stone-100 text-stone-600 font-medium">
+              <%if(userAcc != null && !userAcc.isEmpty()){%>
               <%for(Account a2 : userAcc){%>
                 <tr class="hover:bg-stone-50/60 transition-colors">
                   <td class="p-3 font-bold text-stone-900 tracking-wide"><%=a2.getAcc_no()%></td>
@@ -321,6 +321,13 @@
                   <td class="p-3 text-stone-500"><%=date3.format(dd3)%></td>
                 </tr>
                 <%}%>
+                <%} else {%>
+                <tr>
+			        <td colspan="7" class="p-8 text-center text-stone-400 font-semibold">
+			            No Accounts found
+			        </td>
+			    </tr>
+				<%}%>
               </tbody>
             </table>
           </div>

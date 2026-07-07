@@ -29,13 +29,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS v4 -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   
   <style>
     body {
       font-family: 'Public Sans', sans-serif;
     }
+    .admin-sidebar-bg { background-color: #0D1F1D; }
+    
     .admin-bg-gradient {
       background: radial-gradient(circle at top right, #1B3330 0%, #0D1F1D 100%);
     }
@@ -49,55 +50,66 @@
 <div class="flex min-h-screen">
 
 
-  <aside class="fixed top-0 h-screen left-0 z-50 w-60 admin-bg-gradient text-white px-5 py-6 flex flex-col gap-6 border-r border-[#1B3330]">
+  <aside class="fixed top-0 h-screen left-0 z-50 w-60 admin-sidebar-bg text-white px-4 py-4 flex flex-col gap-4 border-r border-[#1B3330] shadow-2xl overflow-y-auto">
+      
+  <div class="flex gap-3 items-center mb-2 px-2 pt-2">
+    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#F59E0B] to-[#D97706] flex items-center justify-center shadow-lg shadow-amber-500/20">
+      <i class="fa-solid fa-building-columns text-stone-900 text-sm"></i>
+    </div>
+    <div class="leading-none">
+      <span class="text-base font-black tracking-tight block text-white">DCL <span class="text-[#F59E0B]">BANK</span></span>
+      <span class="text-[9px] font-bold text-[#94A19F] uppercase tracking-widest block mt-0.5">Admin Terminal</span>
+    </div>
+  </div>
 
-    <!-- Sidebar Branding -->
-    <div class="flex gap-3 items-center mb-4">
-      <div class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#F59E0B]">
-        <i class="fa-solid fa-building-columns text-base"></i>
-      </div>
-      <div>
-        <h2 class="font-black text-sm tracking-wider uppercase leading-none text-white">DCL <span class="text-[#B45309]">BANK</span></h2>
-        <p class="text-[10px] text-[#94A19F] mt-0.5 tracking-tight font-medium">Banking Redefined</p>
-      </div>
+  <div class="flex flex-col gap-1.5 px-1 flex-1">
+    
+    <p class="px-3 text-[10px] font-bold tracking-wider text-[#5A6E6B] uppercase mt-2 mb-1">Core Operations</p>
+    
+    <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
+      <i class="fa-solid fa-chart-pie text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
+      <a href="admin.jsp" class="text-xs font-semibold tracking-wide">Dashboard</a>
     </div>
 
-    <!-- Navigation Matrix Links -->
-    <nav class="flex flex-col gap-3 flex-grow">
-      <a href="admin.jsp" class="flex gap-3 items-center text-xs font-bold text-[#94A19F] hover:text-white hover:bg-white/5 rounded-xl p-3 transition-all duration-200">
-        <i class="fa-solid fa-house text-sm w-4 text-center"></i> Dashboard
-      </a>
-
-      <a href="viewallusers.jsp" class="flex gap-3 items-center text-xs font-bold text-[#94A19F] hover:text-white hover:bg-white/5 rounded-xl p-3 transition-all duration-200">
-        <i class="fa-solid fa-users text-sm w-4 text-center"></i>View Users
-      </a>
-
-      <a href="branch.jsp" class="flex gap-3 items-center text-xs font-bold text-[#94A19F] hover:text-white hover:bg-white/5 rounded-xl p-3 transition-all duration-200">
-        <i class="fa-solid fa-building-columns text-sm w-4 text-center"></i> Branches
-      </a>
-
-      <a href="viewall_accounts.jsp" class="flex gap-3 items-center text-xs font-bold text-white bg-white/10 border border-white/5 rounded-xl p-3 transition-all duration-200">
-        <i class="fa-solid fa-credit-card text-sm w-4 text-center text-[#F59E0B]"></i> Accounts
-      </a>
-
-      <a href="viewalltransactions" class="flex gap-3 items-center text-xs font-bold text-[#94A19F] hover:text-white hover:bg-white/5 rounded-xl p-3 transition-all duration-200">
-        <i class="fa-solid fa-arrow-right-arrow-left text-sm w-4 text-center"></i>All Transactions
-      </a>
-
-      <a href="edit_profile.jsp" class="flex gap-3 items-center text-xs font-bold text-[#94A19F] hover:text-white hover:bg-white/5 rounded-xl p-3 transition-all duration-200">
-        <i class="fa-solid fa-user text-sm w-4 text-center"></i> Profile
-      </a>
-    </nav>
-
-    <!-- Logout Action System -->
-    <div class="border-t border-white/10 pt-4">
-      <a href="Logout" class="flex gap-3 items-center text-xs font-bold text-rose-400 hover:bg-rose-500/10 rounded-xl p-3 transition-all duration-200">
-        <i class="fa-solid fa-right-from-bracket text-sm w-4 text-center"></i> Logout
-      </a>
+    <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
+      <i class="fa-solid fa-users text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
+      <a href="viewallusers.jsp" class="text-xs font-semibold tracking-wide">View Users</a>
     </div>
 
-  </aside>
+    <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
+      <i class="fa-solid fa-code-branch text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
+      <a href="branch.jsp" class="text-xs font-semibold tracking-wide">Branches</a>
+    </div>
 
+    <p class="px-3 text-[10px] font-bold tracking-wider text-[#5A6E6B] uppercase mt-4 mb-1">Audits & Assets</p>
+
+    <div class="flex gap-3 items-center bg-white/5 rounded-xl p-3 text-white group relative">
+      <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#F59E0B] rounded-r-full"></div>
+      <i class="fa-solid fa-credit-card text-[#F59E0B] text-sm w-4 text-center"></i>
+      <a href="viewall_accounts.jsp" class="text-xs font-bold tracking-wide">Accounts</a>
+    </div>
+
+    <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
+      <i class="fa-solid fa-arrow-right-arrow-left text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
+      <a href="viewalltransactions.jsp" class="text-xs font-semibold tracking-wide">All Transcations</a>
+    </div>
+
+    <p class="px-3 text-[10px] font-bold tracking-wider text-[#5A6E6B] uppercase mt-4 mb-1">Account Settings</p>
+
+    <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
+      <i class="fa-solid fa-user-gear text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
+      <a href="edit_profile.jsp" class="text-xs font-semibold tracking-wide">Profile</a>
+    </div>
+  </div>
+
+  <div class="mt-auto border-t border-white/5 pt-4 px-1 shrink-0">
+    <div class="flex gap-3 items-center bg-rose-500/10 hover:bg-rose-500/20 rounded-xl p-3 transition-all text-rose-400 hover:text-rose-300 group">
+      <i class="fa-solid fa-power-off text-rose-500 text-sm w-4 text-center"></i>
+      <a href="Logout" class="text-xs font-bold tracking-wide">Secure Signout</a>
+    </div>
+  </div>
+
+</aside>
 
   <div class="flex-grow min-h-screen flex flex-col pl-60">
 
@@ -321,10 +333,10 @@
             <span class="text-stone-400 text-[10px] font-bold uppercase tracking-wider">System Log</span>
           </div>
 
-          <div class="overflow-x-auto">
+          <div class="overflow-x-auto overflow-y-auto max-h-[500px]">
             <table class="w-full text-left text-xs border-collapse">
 
-              <thead class="bg-[#F9FAFB] border-b border-stone-200/60 text-stone-400 font-bold uppercase tracking-wider">
+              <thead class="bg-[#F9FAFB] border-b border-stone-200/60 text-stone-400 font-bold uppercase tracking-wider sticky top-0 z-10">
                 <tr>
                   <th class="p-4 pl-6 font-bold">Txn ID</th>
                   <th class="p-4 font-bold">Date and Time</th>
@@ -336,6 +348,7 @@
 
               <tbody class="divide-y divide-stone-100 text-stone-700 font-medium">
               <%allTrans = allTrans.stream().sorted(Comparator.comparing((Transcation t)->t.getTranscation_date()).thenComparing((Transcation t)->t.getTranscation_time()).reversed()).collect(Collectors.toList());%>
+                <%if(allTrans != null && !allTrans.isEmpty()){%>
                 <%for(Transcation t : allTrans){%>
                 <tr class="hover:bg-stone-50/60 transition-colors">
                   <td class="p-4 pl-6 font-bold text-stone-900">TXN<%=t.getTrans_id()%></td>
@@ -370,7 +383,13 @@
                   </td>
                 </tr>
                 <%}%>
-
+                <%} else {%>
+                <tr>
+			        <td colspan="7" class="p-8 text-center text-stone-400 font-semibold">
+			            No transcations found
+			        </td>
+			    </tr>
+				<%}%>
               </tbody>
 
             </table>

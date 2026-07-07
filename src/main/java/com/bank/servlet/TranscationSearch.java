@@ -63,13 +63,10 @@ public class TranscationSearch extends HttpServlet {
 			Integer id = Integer.parseInt(tId);
 			res = res.stream().filter(t->t.getTrans_id() == id).collect(Collectors.toList());
 		}
-		else if(status != null && !status.trim().isEmpty()) {
+		if(status != null && !status.trim().isEmpty()) {
 			res = res.stream().filter(t->t.getStatus().equalsIgnoreCase(status)).collect(Collectors.toList());
 		}
-		else if((tId != null && !tId.trim().isEmpty()) && (status != null && !status.trim().isEmpty())) {
-			Integer id = Integer.parseInt(tId);
-			res = res.stream().filter(t->t.getTrans_id() == id && t.getStatus().equalsIgnoreCase(status)).collect(Collectors.toList());
-		}
+	
 		
 		
 		req.setAttribute("result", res);

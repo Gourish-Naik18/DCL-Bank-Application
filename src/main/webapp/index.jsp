@@ -5,12 +5,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Banking — DCL Platform</title>
+  <title>Banking — Home Page</title>
   
-  <!-- Tailwind Core Engine -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   
-  <!-- FontAwesome Icons & Pro Corporate Sans-Serif Typography -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +18,6 @@
     body {
       font-family: 'Public Sans', sans-serif;
     }
-    /* Axis/Corporate Deep Crimson Theme Accent */
     .brand-bg-solid { background-color: #971B4E; }
     .brand-text-solid { color: #971B4E; }
     .brand-border-solid { border-color: #971B4E; }
@@ -33,7 +30,6 @@
       background: linear-gradient(105deg, #ffffff 50%, rgba(255,255,255,0.85) 70%, rgba(151,27,78,0.05) 100%);
     }
 
-    /* CSS Micro-Animations */
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
@@ -42,7 +38,6 @@
       animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* Pure CSS Infinite Marquee for Strategic Product Portfolio Cards */
     @keyframes infiniteScroll {
       0% { transform: translateX(0); }
       100% { transform: translateX(calc(-50% - 12px)); } /* Adjusts for exactly half the list + gap fraction */
@@ -62,7 +57,6 @@
 
   <% User u = (User) session.getAttribute("user"); %>
 
-  <!-- MAIN NAVIGATION HEADER -->
   <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-40 px-6 lg:px-16 py-4 flex items-center justify-between">
     <div class="flex items-center gap-12">
       <!-- Brand Engine Box -->
@@ -75,7 +69,6 @@
         </div>
       </div>
 
-      <!-- Segment Navigation Menu -->
       <nav class="hidden lg:flex items-center gap-2 text-sm font-bold text-slate-600">
         <a href="#" class="px-4 py-2 brand-text-solid border-b-2 brand-border-solid bg-purple-50/40 rounded-t-md">Personal</a>
         <a href="#" class="px-4 py-2 hover:text-slate-900 hover:bg-slate-50 rounded-t-md transition-all">Corporate</a>
@@ -84,7 +77,6 @@
       </nav>
     </div>
 
-    <!-- Right Authentication Block -->
     <div>
       <% if(u == null) { %>
         <a href="login.jsp" class="brand-bg-solid text-white text-sm font-bold px-6 py-3 rounded-md hover:brightness-110 active:scale-[0.98] transition-all flex items-center gap-2 shadow-sm">
@@ -104,8 +96,11 @@
           </button>
           
           <div class="absolute right-0 top-full w-56 bg-white border border-slate-200 rounded-lg shadow-xl hidden group-hover:block overflow-hidden z-50">
+            <%if(u.getRole().equalsIgnoreCase("customer")){%>
             <a href="user_db.jsp" class="flex items-center gap-2.5 px-4 py-2.5 text-slate-700 hover:bg-slate-50 font-medium text-sm transition-colors"><i class="fa-solid fa-chart-pie text-slate-400 w-4"></i> Dashboard</a>
-            <a href="edit_profile.jsp" class="flex items-center gap-2.5 px-4 py-2.5 text-slate-700 hover:bg-slate-50 font-medium text-sm transition-colors"><i class="fa-solid fa-shield-halved text-slate-400 w-4"></i> Edit Profile</a>
+            <%} else {%>
+            <a href="admin.jsp" class="flex items-center gap-2.5 px-4 py-2.5 text-slate-700 hover:bg-slate-50 font-medium text-sm transition-colors"><i class="fa-solid fa-chart-pie text-slate-400 w-4"></i> Dashboard</a>
+            <%}%>
             <a href="Logout" class="flex items-center gap-2.5 px-4 py-3 bg-rose-50 text-rose-600 hover:bg-rose-100/70 font-bold text-sm border-t border-slate-100 transition-colors"><i class="fa-solid fa-power-off w-4"></i> Logout</a>
           </div>
         </div>
@@ -113,10 +108,8 @@
     </div>
   </header>
 
-  <!-- LAYER 3: Main Page Matrix -->
   <main class="flex-grow max-w-[1440px] w-full mx-auto p-6 lg:p-12 space-y-12 animate-fade-up">
     
-    <!-- Premium Balanced Hero Showcase Presentation -->
     <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm grid grid-cols-1 md:grid-cols-12 min-h-[340px] relative">
       <div class="md:col-span-7 p-8 lg:p-12 flex flex-col justify-center items-start z-10 hero-mask">
         <% if(u != null) { %>
@@ -152,7 +145,6 @@
         </div>
       </div>
 
-      <!-- Cover Graphics Zone -->
       <div class="md:col-span-5 relative bg-slate-950 min-h-[240px] md:min-h-auto">
         <img src="DCL/bank.png" class="absolute inset-0 w-full h-full object-cover opacity-75">
         <div class="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-white via-transparent to-transparent md:from-white md:via-transparent"></div>
@@ -165,7 +157,6 @@
       </div>
     </div>
 
-    <!-- Trust Stats Ribbon -->
     <div class="brand-bg-solid text-white rounded-xl shadow-md p-6 grid grid-cols-2 md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-white/10 text-center items-center gap-y-4 md:gap-y-0">
       <div class="space-y-1 p-2">
         <div class="flex items-center justify-center gap-2.5 text-xl font-bold"><i class="fa-solid fa-users text-white/80"></i> 2.5M+</div>
@@ -194,7 +185,6 @@
       </div>
     </div>
 
-    <!-- EXPANDED MOVING TEXT MARQUEE BAR -->
     <div class="bg-purple-50/80 border border-purple-100/60 rounded-lg py-3 px-6 text-xs font-semibold brand-text-solid shadow-inner overflow-hidden">
       <marquee behavior="scroll" direction="left" scrollamount="5" class="w-full">
         <span class="inline-flex items-center"><i class="fa-solid fa-bullhorn text-xs mr-2"></i> <strong>SYSTEM UPDATE:</strong> 24x7 Digital Channels & Transfer Desks are fully functional.</span>
@@ -207,7 +197,6 @@
       </marquee>
     </div>
 
-    <!-- COOL STYLIZED "WHY CHOOSE DCL BANK" SECTION -->
     <div class="space-y-6">
       <div class="flex items-center justify-between border-b border-slate-200 pb-2">
         <h2 class="brand-text-solid text-sm font-black uppercase tracking-widest">Why Choose DCL Bank?</h2>
@@ -263,8 +252,7 @@
       </div>
     </div>
 
-    <!-- TRANSACTION HUB LAYER (Conditional Dashboard Matrix) -->
-    <% if(u != null) { %>
+    <% if(u != null && u.getRole().equalsIgnoreCase("customer")) { %>
       <div class="space-y-5">
         <h3 class="text-slate-400 text-[10px] uppercase tracking-widest font-black px-1">Authorized Operations Hub</h3>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -275,7 +263,7 @@
             <h4 class="font-bold text-slate-900 text-sm mt-4 tracking-wide">Open Account</h4>
             <p class="text-slate-400 text-xs mt-1 leading-normal">Create and deploy a dynamic liquid balance matrix.</p>
           </a>
-          <a href="transfer.jsp" class="bg-white border border-slate-200/80 p-6 rounded-xl shadow-sm hover:border-purple-400 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 group text-left block">
+          <a href="moneytransfer.jsp" class="bg-white border border-slate-200/80 p-6 rounded-xl shadow-sm hover:border-purple-400 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 group text-left block">
             <div class="w-11 h-11 rounded-lg brand-light-bg brand-text-solid flex items-center justify-center text-base shadow-inner group-hover:scale-105 transition-transform">
               <i class="fa-solid fa-money-bill-transfer"></i>
             </div>
@@ -300,14 +288,12 @@
       </div>
     <% } %>
 
-    <!-- STRATEGIC PRODUCT PORTFOLIO - CSS INFINITE RUNNING CAROUSEL -->
     <div class="space-y-4 overflow-hidden relative">
       <div class="flex justify-between items-center px-1">
         <h3 class="text-slate-400 text-[10px] uppercase tracking-widest font-black">Strategic Product Portfolio</h3>
         <span class="brand-text-solid text-xs"><i class="fa-solid fa-circle-nodes animate-pulse"></i></span>
       </div>
       
-      <!-- Outer masking wrapper container -->
       <div class="w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]">
         <div class="animate-marquee-infinite gap-6 py-2">
           <!-- ORIGINAL SET OF CARDS -->

@@ -24,7 +24,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS v4 -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   
   <style>
@@ -34,7 +33,6 @@
     .brand-text-solid { color: #971B4E; }
     .brand-bg-light { background-color: rgba(151, 27, 78, 0.08); }
     
-    /* Smooth custom scrollbar styling for the transaction ledger */
     .custom-scrollbar::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -58,10 +56,8 @@
 
   <div class="flex min-h-screen relative overflow-x-hidden">
 
-    <!-- Premium Dark Sidebar with Categorized Groups -->
     <aside class="fixed top-0 h-screen left-0 z-50 w-60 bg-[#0B0F19] text-white px-4 py-4 flex flex-col gap-4 border-r border-white/5 shadow-2xl overflow-y-auto">
       
-      <!-- Logo Header Area -->
       <div class="flex gap-3 items-center mb-2 px-2 pt-2">
         <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-[#d53579] to-[#971B4E] flex items-center justify-center shadow-lg">
           <i class="fa-solid fa-building-columns text-white text-base"></i>
@@ -72,7 +68,6 @@
         </div>
       </div>
 
-      <!-- Navigation Links Container -->
       <div class="flex flex-col gap-1.5 px-1 flex-1">
         
         <!-- Category 1: Main Menu -->
@@ -127,7 +122,7 @@
 
     </aside>
 
-    <!-- Main Workspace Frame Container -->
+
     <div class="flex-grow min-h-screen flex flex-col pl-60">
 
       <!-- Header -->
@@ -136,7 +131,6 @@
           Welcome back, <span class="brand-text-solid"><%=u.getUser_name()%></span>
         </h3>
 
-        <!-- Profile Dropdown Group -->
         <div class="group relative py-4">
           <div class="flex items-center gap-3 cursor-pointer bg-slate-50 border border-slate-200/60 p-2 rounded-xl hover:bg-slate-100/80 transition-all shadow-xs">
             <div class="h-9 w-9 rounded-lg brand-bg-light border border-[#971B4E]/10 flex justify-center items-center">
@@ -151,7 +145,6 @@
             <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] pl-1 transition-transform group-hover:rotate-180"></i>
           </div>
 
-          <!-- Dropdown Container -->
           <div class="absolute right-0 top-full pt-1 w-52 hidden group-hover:block z-50">
             <div class="bg-white/95 backdrop-blur-md border border-slate-200 rounded-xl shadow-xl overflow-hidden">
               <a href="index.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-slate-50 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors border-b border-slate-100">
@@ -168,7 +161,6 @@
         </div>
       </header>
 
-      <!-- Content Area -->
       <div class="p-8 pt-28 space-y-6 flex-grow max-w-[1240px] w-full mx-auto">
 
         <!-- Page Header Segment -->
@@ -348,6 +340,7 @@
 				%>
 
                 <tbody class="divide-y divide-slate-100">
+                <%if(search != null && !search.isEmpty()){%>
 				<%for(Transcation t : search){%>
 				
 				<%boolean sentMoney = false;
@@ -410,7 +403,13 @@
                   <td class="py-4 px-3 text-right font-bold text-slate-500"><%=t.getMode_of_transcation()%></td>
                 </tr>
                 <%}%>
-
+                <%} else {%>
+                <tr>
+			        <td colspan="8" class="p-8 text-center text-stone-400 font-semibold">
+			            No transcations found
+			        </td>
+			    </tr>
+				<%}%>
               </tbody>
 
             </table>

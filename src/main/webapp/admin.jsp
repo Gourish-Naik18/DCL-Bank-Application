@@ -26,7 +26,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS v4 -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   
   <style>
@@ -55,10 +54,8 @@
 
   <div class="flex min-h-screen relative overflow-x-hidden">
 
-    <!-- Premium Charcoal Green & Gold Sidebar -->
     <aside class="fixed top-0 h-screen left-0 z-50 w-60 admin-sidebar-bg text-white px-4 py-4 flex flex-col gap-4 border-r border-[#1B3330] shadow-2xl overflow-y-auto">
       
-      <!-- Admin Logo Header Area -->
       <div class="flex gap-3 items-center mb-2 px-2 pt-2">
         <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#F59E0B] to-[#D97706] flex items-center justify-center shadow-lg shadow-amber-500/20">
           <i class="fa-solid fa-building-columns text-stone-900 text-sm"></i>
@@ -69,12 +66,10 @@
         </div>
       </div>
 
-      <!-- Navigation Links Container -->
       <div class="flex flex-col gap-1.5 px-1 flex-1">
         
         <p class="px-3 text-[10px] font-bold tracking-wider text-[#5A6E6B] uppercase mt-2 mb-1">Core Operations</p>
         
-        <!-- Active Dashboard State with Gold Highlight Accent -->
         <div class="flex gap-3 items-center bg-white/5 rounded-xl p-3 text-white group relative">
           <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#F59E0B] rounded-r-full"></div>
           <i class="fa-solid fa-chart-pie text-[#F59E0B] text-sm w-4 text-center"></i>
@@ -111,7 +106,6 @@
         </div>
       </div>
 
-      <!-- Bottom Logout Section -->
       <div class="mt-auto border-t border-white/5 pt-4 px-1 shrink-0">
         <div class="flex gap-3 items-center bg-rose-500/10 hover:bg-rose-500/20 rounded-xl p-3 transition-all text-rose-400 hover:text-rose-300 group">
           <i class="fa-solid fa-power-off text-rose-500 text-sm w-4 text-center"></i>
@@ -121,17 +115,14 @@
 
     </aside>
 
-    <!-- Main System Space Frame -->
     <div class="flex-grow min-h-screen flex flex-col pl-60">
 
-      <!-- Header Frame -->
       <header class="fixed top-0 left-60 right-0 h-20 bg-white/90 border-b border-stone-200/80 shadow-xs flex items-center justify-between px-10 z-40">
         <div class="flex items-center gap-2.5">
           <span class="bg-amber-50 text-amber-800 text-[10px] font-extrabold px-2 py-0.5 rounded-md border border-amber-200 tracking-wide uppercase">System Admin</span>
           <h3 class="text-lg font-black tracking-tight text-stone-900">Control Dashboard</h3>
         </div>
 
-        <!-- Profile Metadata Badge Container with Group Hover Feature -->
         <div class="relative group">
           <div class="flex items-center gap-3 bg-stone-50 border border-stone-200/60 p-2 rounded-xl cursor-pointer hover:bg-stone-100/70 transition-colors">
             <div class="h-9 w-9 rounded-lg bg-amber-50 border border-amber-100 flex items-center justify-center">
@@ -144,7 +135,6 @@
             </div>
           </div>
 
-          <!-- Hover Dropdown Menu Component (Fixed opacity overlap from image_36d3e1.png) -->
           <div class="absolute right-0 top-full pt-2 w-52 hidden group-hover:block z-50">
             <div class="bg-white border border-stone-200/80 rounded-xl shadow-2xl overflow-hidden">
               <a href="index.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-stone-50 text-xs font-bold text-stone-600 hover:text-stone-900 transition-colors border-b border-stone-100">
@@ -177,7 +167,7 @@
               List<User> lu = udao.getAllUser();
               %>
               <h2 class="text-2xl font-black mt-1 text-stone-900 tracking-tight"><%=lu.size()%></h2>
-              <p class="text-stone-400 text-[11px] font-medium mt-1">All verified client nodes</p>
+              <p class="text-stone-400 text-[11px] font-medium mt-1">All verified</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-stone-50 border border-stone-100 flex justify-center items-center shadow-xs">
               <i class="fa-solid fa-users text-stone-600 text-sm"></i>
@@ -226,7 +216,7 @@
               List<Transcation> lt = tdao.getAllTranscation();
               %>
               <h2 class="text-2xl font-black mt-1 text-white tracking-tight"><%=lt.size()%></h2>
-              <p class="text-amber-100/70 text-[11px] font-medium mt-1">Global executed tasks</p>
+              <p class="text-amber-100/70 text-[11px] font-medium mt-1">All Transcations</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-white/10 border border-white/20 flex justify-center items-center">
               <i class="fa-solid fa-arrow-right-arrow-left text-white text-sm"></i>
@@ -252,18 +242,18 @@
                 <thead class="bg-stone-50/70">
                   <tr class="text-stone-400 font-bold uppercase text-[9px] tracking-wider border-b border-stone-100">
                     <th class="p-3">Account No</th>
-                    <th class="p-3">User Profile</th>
-                    <th class="p-3">Product Type</th>
+                    <th class="p-3">User</th>
+                    <th class="p-3">Account Type</th>
                     <th class="p-3">Branch Location</th>
-                    <th class="p-3 text-right">Operational Action</th>
+                    <th class="p-3 text-right">Action</th>
                   </tr>
                 </thead>
 
                 <tbody class="divide-y divide-stone-100 text-stone-600 font-medium">
                 <%
-                List<Account> pending = la.stream().filter(a->a.getStatus().equalsIgnoreCase("pending")).sorted(Comparator.comparing((Account a)->a.getCreated_at()).reversed()).collect(Collectors.toList());
+                List<Account> pending = la.stream().filter(a->a.getStatus().equalsIgnoreCase("pending")).sorted(Comparator.comparing((Account a)->a.getCreated_at()).reversed()).limit(5).collect(Collectors.toList());
                 %>
-                <%if(pending != null){%>
+                <%if(!pending.isEmpty()){%>
                 <%for(Account a :pending){%>
                   <tr class="hover:bg-stone-50/60 transition-colors">
                     <td class="p-3 font-bold text-stone-900 tracking-wide"><%=a.getAcc_no()%></td>
@@ -289,9 +279,12 @@
                   </tr>
                   <%}%>
                   <%} else {%>
-                  <tr>
-                  <td class="text-2xl font-black brand-text-solid mt-1">No Pending Accounts</td>
-                  </tr>
+                 <tr>
+			        <td colspan="5"
+			            class="p-8 text-center text-stone-400 font-bold">
+			            No Pending Accounts
+			        </td>
+			    </tr>
                   <%}%>
                 </tbody>
               </table>
@@ -303,7 +296,7 @@
           <div class="bg-white border border-stone-200/80 rounded-2xl shadow-sm p-5">
             <div class="flex justify-between items-center mb-4 border-b border-stone-100 pb-3">
               <h2 class="text-xs font-black text-stone-900 tracking-tight uppercase flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span> Activity Monitor
+                <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>Transcation Activity
               </h2>
               <span class="text-[10px] font-extrabold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-md uppercase tracking-wider">Live Feed</span>
             </div>
@@ -321,7 +314,7 @@
                 </thead>
                 
                 <%
-                List<Transcation> allTrans = tdao.getAllTranscation().stream().sorted(Comparator.comparing((Transcation t)->t.getTranscation_date()).thenComparing((Transcation t)->t.getTranscation_time()).reversed()).limit(5).toList();
+                List<Transcation> allTrans = tdao.getAllTranscation().stream().sorted(Comparator.comparing((Transcation t)->t.getTranscation_date()).thenComparing((Transcation t)->t.getTranscation_time()).reversed()).limit(5).collect(Collectors.toList());
                 %>
 
                 <tbody class="divide-y divide-stone-100 text-stone-600 font-medium">
@@ -363,9 +356,9 @@
 
         </div>
 
-        <!-- Account Metrics Strategic Summary Segment -->
+
         <div class="bg-white border border-stone-200/80 rounded-2xl shadow-sm p-6">
-          <h2 class="text-xs font-black text-stone-900 tracking-tight uppercase mb-4 border-b border-stone-100 pb-3">Core Allocation</h2>
+          <h2 class="text-xs font-black text-stone-900 tracking-tight uppercase mb-4 border-b border-stone-100 pb-3">Accounts Info</h2>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 

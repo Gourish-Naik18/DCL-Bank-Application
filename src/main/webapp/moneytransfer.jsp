@@ -22,7 +22,6 @@
     body {
       font-family: 'Public Sans', sans-serif;
     }
-    /* Bank Crimson Accent Reference Style */
     .brand-text-solid { color: #971B4E; }
     .brand-bg-light { background-color: rgba(151, 27, 78, 0.08); }
   </style>
@@ -119,7 +118,7 @@
           <div class="absolute right-0 top-full pt-1 w-52 hidden group-hover:block z-50">
             <div class="bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden">
               <a href="index.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-slate-50 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors border-b border-slate-100">
-                <i class="fa-solid fa-gauge text-slate-400 text-sm w-4"></i> Home Account
+                <i class="fa-solid fa-gauge text-slate-400 text-sm w-4"></i> Home
               </a>
               <a href="edit_profile.jsp" class="flex gap-3 items-center px-4 py-3 hover:bg-slate-50 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors border-b border-slate-100">
                 <i class="fa-solid fa-user text-slate-400 text-sm w-4"></i> Edit Profile

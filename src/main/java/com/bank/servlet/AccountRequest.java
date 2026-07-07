@@ -28,19 +28,9 @@ public class AccountRequest extends HttpServlet{
 			
 			long count = li.stream().filter(a2->a2.getBranch_id() == Integer.parseInt(req.getParameter("branch_id"))).count();
 			long series = count+1;
-			int typeSeries = 0;
-			if(req.getParameter("acc_type").equalsIgnoreCase("savings")) {
-				typeSeries = 1;
-			}
-			else if(req.getParameter("acc_type").equalsIgnoreCase("current")) {
-				typeSeries = 2;
-			}
-			else {
-				typeSeries = 3;
-			}
-			
+		
 			Integer branchCode = 100+Integer.parseInt(req.getParameter("branch_id"));
-			Long accNo = Long.parseLong(branchCode+String.format("%03d", typeSeries)+String.format("%06d", series));
+			Long accNo = Long.parseLong(branchCode+String.format("%09d", series));
 			a.setAcc_no(accNo);
 			adao.addAccount(a);
 

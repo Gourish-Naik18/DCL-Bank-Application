@@ -12,25 +12,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DCL Bank — Cash Debit Desk</title>
 
-  <!-- FontAwesome Icons & Clean Typography -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
   <style>
     body {
       font-family: 'Public Sans', sans-serif;
     }
-    /* Bank Crimson System Colors */
     .brand-bg-solid { background-color: #971B4E; }
     .brand-text-solid { color: #971B4E; }
     .brand-border-solid { border-color: #971B4E; }
 
-    /* Page load fade up animation */
     @keyframes systemFadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to { opacity: 1; transform: translateY(0); }
@@ -62,7 +58,7 @@
     </div>
     
     <a href="moneytransfer.jsp" class="text-xs font-bold text-slate-500 hover:text-[#971B4E] flex items-center gap-2 transition-colors bg-white px-3 py-2 rounded-lg border border-slate-200/60 shadow-xs">
-      <i class="fa-solid fa-arrow-left text-[11px]"></i> Back to Main Menu
+      <i class="fa-solid fa-arrow-left text-[11px]"></i> Back to Transfer Menu
     </a>
   </header>
 
@@ -138,7 +134,7 @@
          
                 %>
             <div class="flex justify-between items-center">
-              <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Source Account Channel</label>
+              <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Source Account</label>
               <!-- <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 shadow-inner">Balance: ₹ 1,25,430.50</span> -->
             </div>
             <div class="border border-slate-200 focus-within:border-[#971B4E] focus-within:ring-2 focus-within:ring-[#971B4E]/10 px-4 py-2.5 rounded-lg flex items-center gap-3 bg-white transition-all shadow-xs">

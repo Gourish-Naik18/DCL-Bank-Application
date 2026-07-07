@@ -7,26 +7,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DCL Bank — Request New Account</title>
 
-  <!-- FontAwesome Icons & Clean Typography -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
   <style>
     body {
       font-family: 'Public Sans', sans-serif;
     }
-    /* Bank Crimson Colors */
     .brand-bg-solid { background-color: #971B4E; }
     .brand-text-solid { color: #971B4E; }
     .brand-border-solid { border-color: #971B4E; }
     .brand-light-bg { background-color: rgba(151, 27, 78, 0.04); }
 
-    /* Smooth page fade-in animation */
     @keyframes systemFadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to { opacity: 1; transform: translateY(0); }
@@ -41,11 +37,9 @@
 <%User u = (User) session.getAttribute("user");%>
 <%if(u != null){%>
 
-  <!-- Background highlights for visual depth -->
   <div class="absolute top-0 right-1/4 w-[600px] h-[600px] bg-purple-200/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
   <div class="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-rose-100/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
-  <!-- Top Navigation Header -->
   <header class="w-full max-w-[1440px] mx-auto px-6 lg:px-16 py-6 flex items-center justify-between z-10">
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 rounded-lg brand-bg-solid flex items-center justify-center shadow-md">
@@ -62,7 +56,6 @@
     </a>
   </header>
 
-  <!-- Form Layout Container -->
   <main class="flex-grow flex items-center justify-center px-4 py-6 z-10">
     <div class="w-full max-w-5xl bg-slate-900/40 backdrop-blur-xl border border-slate-200/80 rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[580px] animate-system-up">
       
@@ -122,7 +115,6 @@
         </div>
       </div>
 
-      <!-- Right Side Form Panel (Clean Frosted Glass Look) -->
       <div class="md:col-span-7 p-8 lg:p-12 flex flex-col justify-center bg-white/80 backdrop-blur-md">
         
         <div class="mb-6">
@@ -147,10 +139,8 @@
 
         <form action="requestAccount" method="POST" class="space-y-4">
           
-          <!-- User ID Tracking Token -->
           <input type="hidden" name="user_id" value="<%=u.getUser_id()%>">
 
-          <!-- User Name (Read-Only) -->
           <div class="space-y-1">
             <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Account Holder Name</label>
             <div class="border border-slate-200 px-4 py-2.5 rounded-lg flex items-center gap-3 bg-slate-900/5 select-none shadow-inner">
@@ -163,7 +153,6 @@
             </div>
           </div>
 
-          <!-- Email Field (Read-Only) -->
           <div class="space-y-1">
             <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Registered Email Address</label>
             <div class="border border-slate-200 px-4 py-2.5 rounded-lg flex items-center gap-3 bg-slate-900/5 select-none shadow-inner">
@@ -176,7 +165,6 @@
             </div>
           </div>
 
-          <!-- Select Branch Menu -->
           <div class="space-y-1">
             <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Select Bank Branch</label>
             <div class="border border-slate-200 focus-within:border-[#971B4E] focus-within:ring-2 focus-within:ring-[#971B4E]/10 px-4 py-2.5 rounded-lg flex items-center gap-3 bg-white transition-all shadow-xs">
@@ -194,7 +182,6 @@
             </div>
           </div>
 
-          <!-- Select Account Type Menu -->
           <div class="space-y-1">
             <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Account Classification</label>
             <div class="border border-slate-200 focus-within:border-[#971B4E] focus-within:ring-2 focus-within:ring-[#971B4E]/10 px-4 py-2.5 rounded-lg flex items-center gap-3 bg-white transition-all shadow-xs">
@@ -222,7 +209,6 @@
           </div> -->
          
 
-          <!-- Control Action Row buttons -->
           <div class="flex flex-col sm:flex-row gap-3 pt-6 mt-2">
             <button class="w-full order-1 sm:order-2 brand-bg-solid text-white text-sm font-bold py-3 rounded-lg shadow-md hover:brightness-110 active:scale-[0.99] transition-all cursor-pointer flex items-center justify-center gap-2" 
                     type="submit">
@@ -241,7 +227,6 @@
     </div>
   </main>
 
-  <!-- Simple Footer Disclosure -->
   <footer class="w-full bg-slate-900 text-center py-4 text-[11px] text-slate-500 px-6 border-t border-slate-800">
     <p>&copy; 2026 DCL Bank Groups Inc. All applications are subject to standard account verification rules.</p>
   </footer>

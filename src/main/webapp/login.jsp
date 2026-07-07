@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DCL Bank — Institutional Digital Gateway</title>
+  <title>DCL Bank — Login</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,13 +17,11 @@
     body {
       font-family: 'Public Sans', sans-serif;
     }
-    /* Real-Time Bank Crimson Color Scheme */
     .brand-bg-solid { background-color: #971B4E; }
     .brand-text-solid { color: #971B4E; }
     .brand-border-solid { border-color: #971B4E; }
     .brand-light-bg { background-color: rgba(151, 27, 78, 0.04); }
 
-    /* Production UI Micro-Animations */
     @keyframes systemFadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to { opacity: 1; transform: translateY(0); }
@@ -169,12 +167,10 @@
     </div>
   </main>
 
-  <!-- CORE ASSURANCE DISCLOSURE FOOTER -->
   <footer class="w-full bg-slate-900 text-center py-4 text-[11px] text-slate-500 px-6 border-t border-slate-800">
     <p>&copy; 2026 DCL Bank Groups Inc. Advanced cryptographic parameters applied. 256-bit terminal compliance.</p>
   </footer>
 
-  <!-- DOM TIMEOUT SCRIPT LOGIC -->
   <script>
     let m = document.getElementById("msg");
     if (m) {

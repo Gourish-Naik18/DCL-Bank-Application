@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DCL Bank — Identity Framework Configuration</title>
+  <title>DCL Bank — Profile</title>
 
   <!-- FontAwesome Corporate Asset Icons & Professional Sans-Serif Typography -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -13,20 +13,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind Core Architecture -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
   <style>
     body {
       font-family: 'Public Sans', sans-serif;
     }
-    /* Real-Time Bank Crimson Color Scheme */
     .brand-bg-solid { background-color: #971B4E; }
     .brand-text-solid { color: #971B4E; }
     .brand-border-solid { border-color: #971B4E; }
     .brand-light-bg { background-color: rgba(151, 27, 78, 0.04); }
 
-    /* Production UI Micro-Animations */
     @keyframes systemFadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to { opacity: 1; transform: translateY(0); }
@@ -41,11 +38,9 @@
 <%User u = (User) session.getAttribute("user");%>
 <%if(u != null){%>
 
-  <!-- BACKGROUND RADIAL ORBS FOR DEPTH -->
   <div class="absolute top-0 left-1/3 w-[600px] h-[600px] bg-purple-200/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
   <div class="absolute bottom-0 right-1/3 w-[500px] h-[500px] bg-rose-100/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
-  <!-- MAIN APP TOP HEADER BAR -->
   <header class="w-full max-w-[1440px] mx-auto px-6 lg:px-16 py-6 flex items-center justify-between z-10">
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 rounded-lg brand-bg-solid flex items-center justify-center shadow-md shadow-maroon-900/10">
@@ -67,7 +62,6 @@
     <%}%>
   </header>
 
-  <!-- ENTERPRISE PROFILE INTERFACE -->
   <main class="flex-grow flex items-center justify-center px-4 py-6 z-10">
     <div class="w-full max-w-5xl bg-slate-900/40 backdrop-blur-xl border border-slate-200/80 rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[580px] animate-system-up">
       
@@ -94,7 +88,6 @@
           </p>
         </div>
 
-        <!-- Security Infrastructure Badges -->
         <div class="grid grid-cols-1 gap-3 mt-10 md:mt-0 z-20">
           <div class="flex items-center gap-3.5 p-3.5 bg-slate-900/70 border border-slate-800/60 rounded-xl shadow-xs">
             <div class="w-8 h-8 rounded-lg brand-bg-solid text-white flex items-center justify-center text-sm shadow-sm">
@@ -118,7 +111,6 @@
         </div>
       </div>
 
-      <!-- RIGHT SECURITY EDIT Profile PANEL (Frosted Glass Finish) -->
       <div class="md:col-span-7 p-8 lg:p-12 flex flex-col justify-center bg-white/80 backdrop-blur-md">
         
         <!-- SPECIAL VISUAL HEADER ELEMENT: Live Identity Badge -->
@@ -151,12 +143,11 @@
 
         <form action="updateProfile" method="POST" class="space-y-4">
           
-          <!-- Hidden Primary Key Token -->
           <input type="hidden" name="user_id" value="<%=u.getUser_id()%>">
 
           <!-- Row 1: Name and Role Fields Split -->
           <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
-            <div class="sm:col-span-8 space-y-1">
+            <div class="sm:col-span-12 space-y-1">
               <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">User Name</label>
               <div class="border border-slate-200 focus-within:border-[#971B4E] focus-within:ring-2 focus-within:ring-[#971B4E]/10 px-4 py-2.5 rounded-lg flex items-center gap-3 bg-white transition-all shadow-xs">
                 <i class="fa-solid fa-user text-slate-400 text-xs w-4 text-center"></i>
@@ -169,18 +160,7 @@
               </div>
             </div>
 
-            <!-- Readonly Role Display with clear styling indication -->
-            <div class="sm:col-span-4 space-y-1">
-              <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Clearance Level</label>
-              <div class="border border-slate-200/80 px-4 py-2.5 rounded-lg flex items-center gap-2 bg-slate-900/5 select-none shadow-inner">
-                <i class="fa-solid fa-shield-halved text-slate-400 text-xs"></i>
-                <input class="w-full text-xs outline-none bg-transparent text-slate-500 font-black tracking-wide uppercase pointer-events-none cursor-not-allowed" 
-                       type="text" 
-                       name="role" 
-                       value="Manager" 
-                       readonly>
-              </div>
-            </div> 
+         
             
           </div>
 
@@ -249,10 +229,17 @@
               <i class="fa-solid fa-user-check text-xs"></i> Update
             </button>
             
+            <%if(u.getRole().equalsIgnoreCase("customer")){%>
             <a href="user_db.jsp" 
                class="w-full order-2 sm:order-1 bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-800 text-sm font-bold py-3 rounded-lg border border-slate-200 transition-all text-center flex items-center justify-center gap-2">
                Cancel Changes
             </a>
+            <%} else {%>
+            <a href="admin.jsp" 
+               class="w-full order-2 sm:order-1 bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-800 text-sm font-bold py-3 rounded-lg border border-slate-200 transition-all text-center flex items-center justify-center gap-2">
+               Cancel Changes
+            </a>
+            <%}%>
           </div>
 
         </form>
@@ -261,7 +248,7 @@
     </div>
   </main>
 
-  <!-- CORE ASSURANCE DISCLOSURE FOOTER -->
+
   <footer class="w-full bg-slate-900 text-center py-4 text-[11px] text-slate-500 px-6 border-t border-slate-800">
     <p>&copy; 2026 DCL Bank Groups Inc. Advanced cryptographic parameters applied. 256-bit terminal compliance.</p>
   </footer>

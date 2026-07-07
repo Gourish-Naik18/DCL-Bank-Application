@@ -149,18 +149,10 @@
       </div>
     </header>
 
-    <!-- Content -->
     <div class="p-8 pt-28 space-y-6 flex-grow max-w-[1240px] w-full mx-auto">
 
-      <!-- Page Header -->
-      <!-- <div>
-        <h1 class="text-2xl font-black text-slate-900 tracking-tight">Passbook</h1>
-        <p class="text-xs font-medium text-slate-400 mt-0.5">
-          View account-wise debit, credit, and running balance history
-        </p>
-      </div> -->
+   
       
-      <!-- Account Selection + Info -->
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-5">
 
         <!-- Select Account -->
@@ -267,9 +259,11 @@
             
           </div>
           <%} else {%>
-			<tr>
-            <td class="text-2xl font-black brand-text-solid mt-1">No Accounts found</td>
-            </tr>           
+			<div class="flex items-center justify-center min-h-[160px] bg-slate-50 border border-slate-200 rounded-xl">
+			    <h2 class="text-xl font-black brand-text-solid">
+			        No Accounts found
+			    </h2>
+			</div>           
             <%}%>
         </div>
 
@@ -325,7 +319,7 @@
                 <th class="py-3 px-3">Date & Time</th>
                 <th class="py-3 px-3">Type</th>
                 <th class="py-3 px-3">Status</th>
-                <th class="py-3 px-3">Reference ID</th>
+                <th class="py-3 px-3">Transcation ID</th>
                 <th class="py-3 px-3">Debit</th>
                 <th class="py-3 px-3">Credit</th>
                 <th class="py-3 px-3 text-right">Balance</th>

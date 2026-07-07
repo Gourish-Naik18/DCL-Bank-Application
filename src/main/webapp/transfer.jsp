@@ -12,26 +12,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DCL Bank — Fund Transfer Desk</title>
 
-  <!-- FontAwesome Icons & Clean Typography -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
   <style>
     body {
       font-family: 'Public Sans', sans-serif;
     }
-    /* Bank Crimson System Colors */
     .brand-bg-solid { background-color: #971B4E; }
     .brand-text-solid { color: #971B4E; }
     .brand-border-solid { border-color: #971B4E; }
     .brand-light-bg { background-color: rgba(151, 27, 78, 0.04); }
 
-    /* Page load fade up animation */
     @keyframes systemFadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to { opacity: 1; transform: translateY(0); }
@@ -46,7 +42,6 @@
 <%User u = (User) session.getAttribute("user");%>
 <%if(u != null){%>
 
-  <!-- Background highlights for premium visual depth -->
   <div class="absolute top-0 right-1/4 w-[600px] h-[600px] bg-purple-200/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
   <div class="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-rose-100/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
@@ -230,7 +225,6 @@
     </div>
   </main>
 
-  <!-- Simple Footer Disclosure -->
   <footer class="w-full bg-slate-900 text-center py-4 text-[11px] text-slate-500 px-6 border-t border-slate-800">
     <p>&copy; 2026 DCL Bank Groups Inc. Double-check all receiver account info carefully before confirming payment.</p>
   </footer>

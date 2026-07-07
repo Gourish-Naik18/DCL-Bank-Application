@@ -13,19 +13,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
   <style>
     body {
       font-family: 'Public Sans', sans-serif;
     }
-    /* Bank Crimson System Colors */
     .brand-bg-solid { background-color: #971B4E; }
     .brand-text-solid { color: #971B4E; }
     .brand-border-solid { border-color: #971B4E; }
     
-    /* Smooth pop-in animation */
     @keyframes receiptPop {
       from { opacity: 0; transform: scale(0.97) translateY(16px); }
       to { opacity: 1; transform: scale(1) translateY(0); }
@@ -136,7 +133,7 @@
 
         <!-- Core Control Dashboard Link Actions -->
         <div class="flex flex-col sm:flex-row gap-3 mt-8">
-          <a href="user_db.jsp" class="w-full order-1 sm:order-2 brand-bg-solid text-white text-xs font-bold py-3 rounded-lg shadow-md hover:brightness-110 active:scale-[0.99] transition-all text-center block">
+          <a href="moneytransfer.jsp" class="w-full order-1 sm:order-2 brand-bg-solid text-white text-xs font-bold py-3 rounded-lg shadow-md hover:brightness-110 active:scale-[0.99] transition-all text-center block">
             Go to Dashboard
           </a>
 
@@ -151,7 +148,6 @@
     
   </main>
 
-  <!-- Simple Footer Disclosure -->
   <footer class="w-full bg-slate-900 text-center py-4 text-[11px] text-slate-500 px-6 border-t border-slate-800">
     <p>&copy; 2026 DCL Bank Groups Inc. Please save your reference updates for secure transaction logs.</p>
   </footer>

@@ -22,14 +22,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS v4 -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   
   <style>
     body {
       font-family: 'Public Sans', sans-serif;
     }
-    /* Bank Crimson Accent Reference Style */
     .brand-text-solid { color: #971B4E; }
     .brand-bg-light { background-color: rgba(151, 27, 78, 0.08); }
   </style>
@@ -41,7 +39,6 @@
 
   <div class="flex min-h-screen relative overflow-x-hidden">
 
-    <!-- Premium Dark Sidebar with Categorized Groups (Restored) -->
     <aside class="fixed top-0 h-screen left-0 z-50 w-60 bg-[#0B0F19] text-white px-4 py-4 flex flex-col gap-4 border-r border-white/5 shadow-2xl overflow-y-auto">
       
       <!-- Logo Header Area -->
@@ -182,7 +179,7 @@
             
               <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Total Accounts</p>
               <h2 class="text-2xl font-black mt-1 text-slate-900 tracking-tight"><%=userAccount.size()%></h2>
-              <p class="text-slate-400 text-[11px] font-medium mt-1">All processed profiles</p>
+              <p class="text-slate-400 text-[11px] font-medium mt-1">All Accounts</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-blue-50 border border-blue-100 flex justify-center items-center shadow-xs">
               <i class="fa-solid fa-wallet text-blue-600 text-sm"></i>
@@ -195,7 +192,7 @@
               <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Pending Accounts</p>
               <%Long count = userAccount.stream().filter(a->a.getStatus().equalsIgnoreCase("pending")).count();%>
               <h2 class="text-2xl font-black mt-1 text-amber-600 tracking-tight"><%=count%></h2>
-              <p class="text-slate-400 text-[11px] font-medium mt-1">Awaiting hub approval</p>
+              <p class="text-slate-400 text-[11px] font-medium mt-1">Awaiting approval</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-amber-50 border border-amber-100 flex justify-center items-center shadow-xs">
               <i class="fa-solid fa-hourglass-half text-amber-600 text-sm"></i>
@@ -209,7 +206,7 @@
               <p class="text-[11px] font-extrabold text-rose-100/80 uppercase tracking-widest">Total Balance</p>
               <%Double total = userAccount.stream().collect(Collectors.summingDouble(a->a.getBalance()));%>
               <h2 class="text-xl font-black mt-0.5 text-white tracking-tight">₹ <%=total%></h2>
-              <p class="text-rose-200/70 text-[11px] font-medium mt-1">Across active systems</p>
+              <p class="text-rose-200/70 text-[11px] font-medium mt-1">Across active Accounts</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex justify-center items-center shadow-xs">
               <i class="fa-solid fa-indian-rupee-sign text-white text-sm"></i>
