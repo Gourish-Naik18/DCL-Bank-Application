@@ -1,3 +1,23 @@
+<%@page import="java.time.LocalTime"%>
+<%@page import="com.bank.dto.Branch"%>
+<%@page import="com.bank.dao.impl.BranchDAOImpl"%>
+<%@page import="com.bank.dao.BranchDAO"%>
+<%@page import="java.util.Optional"%>
+<%@page import="java.util.Comparator"%>
+<%@page import="com.bank.dao.impl.TranscationDAOImpl"%>
+<%@page import="com.bank.dao.TranscationDAO"%>
+<%@page import="com.bank.dto.Transcation"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="com.bank.dto.Account"%>
+<%@page import="java.util.List"%>
+<%@page import="com.bank.dao.impl.AccountDAOImpl"%>
+<%@page import="com.bank.dao.AccountDAO"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="com.bank.dao.impl.UserDAOImpl"%>
+<%@page import="com.bank.dao.UserDAO"%>
+<%@page import="com.bank.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -35,6 +55,8 @@
 </head>
 
 <body class="bg-[#F2F5F4] text-slate-800 min-h-screen antialiased">
+<%User u = (User) session.getAttribute("user");%>
+<%if(u != null){%>
 
   <div class="flex min-h-screen relative overflow-x-hidden">
 
@@ -66,24 +88,24 @@
         <div class="flex gap-3 items-center bg-white/5 rounded-xl p-3 text-white group relative">
           <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#F59E0B] rounded-r-full"></div>
           <i class="fa-solid fa-users text-[#F59E0B] text-sm w-4 text-center"></i>
-          <a href="viewUsers.jsp" class="text-xs font-bold tracking-wide">Users Ledger</a>
+          <a href="viewallusers.jsp" class="text-xs font-bold tracking-wide">View Users</a>
         </div>
 
         <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
           <i class="fa-solid fa-code-branch text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
-          <a href="branches.jsp" class="text-xs font-semibold tracking-wide">Branches</a>
+          <a href="branch.jsp" class="text-xs font-semibold tracking-wide">Branches</a>
         </div>
 
         <p class="px-3 text-[10px] font-bold tracking-wider text-[#5A6E6B] uppercase mt-4 mb-1">Audits & Assets</p>
 
         <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
           <i class="fa-solid fa-credit-card text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
-          <a href="viewaccounts.jsp" class="text-xs font-semibold tracking-wide">Accounts</a>
+          <a href="viewall_accounts.jsp" class="text-xs font-semibold tracking-wide">Accounts</a>
         </div>
 
         <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
           <i class="fa-solid fa-arrow-right-arrow-left text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
-          <a href="view_transcations.jsp" class="text-xs font-semibold tracking-wide">Global Ledger</a>
+          <a href="viewalltransactions.jsp" class="text-xs font-semibold tracking-wide">All Transcations</a>
         </div>
 
         <p class="px-3 text-[10px] font-bold tracking-wider text-[#5A6E6B] uppercase mt-4 mb-1">Account settings</p>
@@ -116,63 +138,134 @@
 
         <!-- Back to Users Action Route Interface (No Hover Profile Menu) -->
         <div>
-          <a href="bank_viewUsers.html" class="inline-flex items-center gap-2 bg-stone-100 text-stone-700 hover:bg-stone-200/80 border border-stone-200/60 text-xs font-bold px-4 py-2.5 rounded-xl transition-colors">
-            <i class="fa-solid fa-arrow-left text-[11px] text-stone-500"></i> Back to Ledger
+          <a href="viewallusers.jsp" class="inline-flex items-center gap-2 bg-stone-100 text-stone-700 hover:bg-stone-200/80 border border-stone-200/60 text-xs font-bold px-4 py-2.5 rounded-xl transition-colors">
+            <i class="fa-solid fa-arrow-left text-[11px] text-stone-500"></i> Back to users
           </a>
         </div>
       </header>
+      
+      <%Integer id = Integer.parseInt(request.getParameter("user_id"));
+      UserDAO udao = new UserDAOImpl();
+      User u1 = udao.getUserById(id);
+      %>
 
       <!-- Content Container Layout Space -->
       <div class="p-8 pt-28 space-y-6 flex-grow max-w-[1240px] w-full mx-auto">
 
         <!-- Section 1: User Profile & Quick Analytics Summary Segment -->
-        <div class="bg-white border border-stone-200/80 rounded-2xl shadow-sm p-6">
+        <div class="bg-gradient-to-br from-[#FEF3C7] via-[#FDE68A] to-[#FCD34D] border border-amber-200 rounded-2xl shadow-sm p-6">
           <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
 
             <!-- Profile Core Metadata Badge Panel -->
-            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+            <div class=" flex flex-col sm:flex-row items-center sm:items-start gap-6">
               <div class="h-24 w-24 rounded-2xl bg-gradient-to-br from-stone-50 to-stone-100/40 border border-stone-200 flex items-center justify-center shadow-xs shrink-0">
-                <i class="fa-solid fa-user text-stone-400 text-4xl"></i>
+                <i class="fa-solid fa-user text-brown-400 text-4xl"></i>
               </div>
 
               <div class="space-y-2 text-xs font-medium text-stone-600 w-full">
-                <h2 class="text-xl font-black text-stone-900 tracking-tight mb-2 flex items-center gap-2">
-                  Gourish Naik
-                  <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 text-[9px] font-extrabold px-2 py-0.5 rounded uppercase tracking-wider">Active Customer</span>
+                <h2 class="text-xl font-black text-[#78350F] tracking-tight mb-2 flex items-center gap-2">
+                  <%=u1.getUser_name()%>
                 </h2>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 pt-1">
-                  <p><span class="font-bold text-stone-400 uppercase tracking-wider text-[10px] inline-block w-28">Email Address</span> : <span class="text-stone-800 font-semibold">gourish@gmail.com</span></p>
-                  <p><span class="font-bold text-stone-400 uppercase tracking-wider text-[10px] inline-block w-28">Secure Phone</span> : <span class="text-stone-800 font-semibold">9876543210</span></p>
-                  <p><span class="font-bold text-stone-400 uppercase tracking-wider text-[10px] inline-block w-28">Registry Stamp</span> : <span class="text-stone-500">20 Jun 2026</span></p>
-                  <p><span class="font-bold text-stone-400 uppercase tracking-wider text-[10px] inline-block w-28">Ledger Nodes</span> : <span class="text-stone-800 font-bold">2 Accounts</span></p>
+                  <p><span class="font-bold text-[#B45309] uppercase tracking-wider text-[10px] inline-block w-28">Email Address</span>: <span class="text-[#451A03] font-semibold"><%=u1.getEmail()%></span></p>
+                  <p><span class="font-bold text-[#B45309] uppercase tracking-wider text-[10px] inline-block w-28">Phone</span> : <span class="text-[#451A03] font-semibold"><%=u1.getPhone()%></span></p>
+                  <%
+                  LocalDate date = LocalDate.parse(u1.getRegistered_date());
+                  DateTimeFormatter dd = DateTimeFormatter.ofPattern("dd MMM yyyy");
+                  
+                  AccountDAO adao = new AccountDAOImpl();
+                  List<Account> userAcc = adao.getAllAccounts().stream().filter(a->a.getUser_id() == u1.getUser_id()).toList();
+                  %>
+                  <p><span class="font-bold text-[#B45309] uppercase tracking-wider text-[10px] inline-block w-28">Registred Date</span> : <span class="text-[#451A03] font-semibold"><%=date.format(dd)%></span></p>
+                  <p><span class="font-bold text-[#B45309] uppercase tracking-wider text-[10px] inline-block w-28">Accounts</span> : <span class="text-[#451A03] font-semibold"><%=userAcc.size()%> Accounts</span></p>
                 </div>
               </div>
             </div>
 
             <!-- Balanced Allocation Grid Component -->
-            <div class="grid grid-cols-2 gap-4 w-full lg:w-[480px] shrink-0 border-t lg:border-t-0 lg:border-l border-stone-100 pt-6 lg:pt-0 lg:pl-6">
+			<div class="grid grid-cols-2 gap-4 w-full lg:w-[480px] shrink-0 border-t lg:border-t-0 lg:border-l border-amber-300/60 pt-6 lg:pt-0 lg:pl-6">              
+              <div class="bg-white/80 border border-emerald-200 rounded-xl p-4 shadow-sm">
+                <p class="text-[10px] font-extrabold text-[#92400E] uppercase tracking-wider">Total Balance</p>
+                <%
+                Double total = userAcc.stream().filter(a->a.getStatus().equalsIgnoreCase("active")).collect(Collectors.summingDouble(a->a.getBalance()));
+                %>
+                <h2 class="text-xl font-black text-emerald-700 tracking-tight mt-1">₹ <%=total%></h2>
+              </div>
+
+              <div class="bg-white/80 border border-amber-200 rounded-xl p-4 shadow-sm">
+                <p class="text-[10px] font-extrabold text-[#92400E] uppercase tracking-wider">Active Accounts</p>
+                <%
+                Long count = userAcc.stream().filter(a->a.getStatus().equalsIgnoreCase("active")).count();
+                %>
+                <h2 class="text-xl font-black text-stone-800 tracking-tight mt-1"><%=count%> Active</h2>
+              </div>
               
-              <div class="bg-emerald-50/40 border border-emerald-100 rounded-xl p-4">
-                <p class="text-[10px] font-extrabold text-stone-400 uppercase tracking-wider">Total Balance</p>
-                <h2 class="text-xl font-black text-emerald-700 tracking-tight mt-1">₹ 1,25,430.00</h2>
-              </div>
+              <%
+              List<Account> userActive = userAcc.stream().filter(a->a.getStatus().equalsIgnoreCase("active")).toList();
+              List<Transcation> userTrans = new  ArrayList<>();
+              TranscationDAO tdao = new TranscationDAOImpl();
+              
+              for(Account a : userActive){
+            	  List<Transcation> trans = tdao.getTranscationByAccId(a.getAcc_id());
+            	  
+            	  for(Transcation t : trans){
+            		  boolean exists = false;
+            		  
+            		  for(Transcation old : userTrans){
+            			  if(old.getTrans_id() == t.getTrans_id()){
+            				  exists = true;
+            				  break;
+            			  }
+            		  }
+            		  
+            		  if(exists == false){
+            			  userTrans.add(t);
+            		  }
+            	  }
+              }
+              %>
 
-              <div class="bg-stone-50 border border-stone-200/60 rounded-xl p-4">
-                <p class="text-[10px] font-extrabold text-stone-400 uppercase tracking-wider">Open Ledger Logs</p>
-                <h2 class="text-xl font-black text-stone-800 tracking-tight mt-1">2 Active</h2>
+              <div class="bg-white/80 border border-yellow-300 rounded-xl p-4 shadow-sm">
+                <p class="text-[10px] font-extrabold text-[#92400E] uppercase tracking-wider">Transcations</p>
+                
+                <h2 class="text-xl font-black text-stone-800 tracking-tight mt-1"><%=userTrans.size()%> Txns</h2>
               </div>
-
-              <div class="bg-stone-50 border border-stone-200/60 rounded-xl p-4">
-                <p class="text-[10px] font-extrabold text-stone-400 uppercase tracking-wider">Executed tasks</p>
-                <h2 class="text-xl font-black text-stone-800 tracking-tight mt-1">24 Txns</h2>
+               
+               <%
+                    userTrans = userTrans.stream().sorted(Comparator.comparing((Transcation t)->t.getTranscation_date()).thenComparing((Transcation t)->t.getTranscation_time()).reversed()).toList();
+               %>
+               
+               <%if(userTrans != null && !userTrans.isEmpty()){%>
+               <%Transcation t = userTrans.get(0);%>
+              <div class="bg-white/80 border border-yellow-300 rounded-xl p-4 shadow-sm">
+                <p class="text-[10px] font-extrabold text-[#92400E] uppercase tracking-wider">Last Activity Stamp</p>
+                <%boolean sent = false;%>
+                <%for(Account ac : userActive){
+                  if(t.getFrom_acc_id() == ac.getAcc_id()){
+                	  sent = true;
+                	  break;
+                  }
+                }
+                %>
+                <%if(sent){%>
+                <h2 class="text-sm font-extrabold text-amber-900 tracking-tight mt-1"> - ₹ <%=t.getAmount()%></h2>
+                <%} else {%>
+                <h2 class="text-sm font-extrabold text-amber-900 tracking-tight mt-1"> + ₹ <%=t.getAmount()%></h2>
+                <%}%>
+                <%
+                LocalDate date1 = LocalDate.parse(t.getTranscation_date());
+                DateTimeFormatter dd1 = DateTimeFormatter.ofPattern("dd MMM yyyy");
+                %>
+                <p class="text-[10px] font-bold text-amber-600/80 mt-0.5"><%=date1.format(dd1)%></p>
               </div>
-
+              <%} else { %>
               <div class="bg-amber-50/50 border border-amber-200/60 rounded-xl p-4">
-                <p class="text-[10px] font-extrabold text-amber-800 uppercase tracking-wider">Last Activity Stamp</p>
-                <h2 class="text-sm font-extrabold text-amber-900 tracking-tight mt-1">₹ 5,000 Sent</h2>
-                <p class="text-[10px] font-bold text-amber-600/80 mt-0.5">25 Jun 2026</p>
-              </div>
+			  <p class="text-[10px] font-extrabold text-amber-800 uppercase tracking-wider">Last Activity Stamp</p>
+			  <h2 class="text-sm font-extrabold text-amber-900 tracking-tight mt-1">No Activity</h2>
+			  <p class="text-[10px] font-bold text-amber-600/80 mt-0.5">No transcations yet</p>
+			  </div>
+			<%}%>
 
             </div>
 
@@ -183,7 +276,7 @@
         <div class="bg-white border border-stone-200/80 rounded-2xl shadow-sm p-5">
           <div class="flex justify-between items-center mb-4 pb-3 border-b border-stone-100">
             <h2 class="text-xs font-black text-stone-900 tracking-tight uppercase flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-amber-500"></span> Asset Allocation Nodes
+              <span class="w-2 h-2 rounded-full bg-amber-500"></span> User Accounts
             </h2>
             <span class="bg-stone-100 text-stone-600 border border-stone-200 text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wide">System Deposits</span>
           </div>
@@ -193,39 +286,41 @@
               <thead>
                 <tr class="bg-stone-50/70 text-stone-400 font-bold uppercase text-[9px] tracking-wider border-b border-stone-100">
                   <th class="p-3">Account Number</th>
-                  <th class="p-3">Product Scheme</th>
+                  <th class="p-3">Type</th>
                   <th class="p-3">Branch Location</th>
                   <th class="p-3">IFSC Router Code</th>
                   <th class="p-3">Available Balance</th>
-                  <th class="p-3">State</th>
-                  <th class="p-3">Execution Date</th>
+                  <th class="p-3">Status</th>
+                  <th class="p-3">Opened Date</th>
                 </tr>
               </thead>
-
+               
               <tbody class="divide-y divide-stone-100 text-stone-600 font-medium">
+              <%for(Account a2 : userAcc){%>
                 <tr class="hover:bg-stone-50/60 transition-colors">
-                  <td class="p-3 font-bold text-stone-900 tracking-wide">123456789012</td>
-                  <td class="p-3"><span class="bg-stone-100 text-stone-700 border border-stone-200 px-2 py-0.5 rounded text-[10px] font-bold">Savings</span></td>
-                  <td class="p-3 text-stone-700">Mangaluru</td>
-                  <td class="p-3 font-mono text-stone-500">DCLB0001234</td>
-                  <td class="p-3 text-emerald-600 font-bold">₹ 75,430.00</td>
+                  <td class="p-3 font-bold text-stone-900 tracking-wide"><%=a2.getAcc_no()%></td>
+                  <td class="p-3"><span class="bg-stone-100 text-stone-700 border border-stone-200 px-2 py-0.5 rounded text-[10px] font-bold"><%=a2.getAcc_type()%></span></td>
+                  <%
+                  BranchDAO bdao = new BranchDAOImpl();
+                  Branch b = bdao.getBranchById(a2.getBranch_id());
+                  %>
+                  <td class="p-3 text-stone-700"><%=b.getCity()%></td>
+                  <td class="p-3 font-mono text-stone-500"><%=b.getIfsc_code()%></td>
+                  <td class="p-3 text-emerald-600 font-bold">₹ <%=a2.getBalance()%></td>
                   <td class="p-3">
-                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2 py-0.5 rounded-md">Active</span>
+                  <%if(a2.getStatus().equalsIgnoreCase("active")){%>
+                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2 py-0.5 rounded-md"><%=a2.getStatus()%></span>
+                    <%} else {%>
+                     <span class="bg-red-50 text-red-700 border border-emerald-200/60 text-[10px] font-extrabold px-2 py-0.5 rounded-md"><%=a2.getStatus()%></span>
+                    <%}%>
                   </td>
-                  <td class="p-3 text-stone-500">20 Jun 2026</td>
+                  <%
+                  LocalDate date3 = LocalDate.parse(a2.getCreated_at());
+                  DateTimeFormatter dd3 = DateTimeFormatter.ofPattern("dd MMM yyyy");
+                  %>
+                  <td class="p-3 text-stone-500"><%=date3.format(dd3)%></td>
                 </tr>
-
-                <tr class="hover:bg-stone-50/60 transition-colors">
-                  <td class="p-3 font-bold text-stone-900 tracking-wide">123456789013</td>
-                  <td class="p-3"><span class="bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded text-[10px] font-bold">Current</span></td>
-                  <td class="p-3 text-stone-700">Bengaluru</td>
-                  <td class="p-3 font-mono text-stone-500">DCLB0005678</td>
-                  <td class="p-3 text-emerald-600 font-bold">₹ 50,000.00</td>
-                  <td class="p-3">
-                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2 py-0.5 rounded-md">Active</span>
-                  </td>
-                  <td class="p-3 text-stone-500">22 Jun 2026</td>
-                </tr>
+                <%}%>
               </tbody>
             </table>
           </div>
@@ -235,9 +330,8 @@
         <div class="bg-white border border-stone-200/80 rounded-2xl shadow-sm p-5">
           <div class="flex justify-between items-center mb-4 pb-3 border-b border-stone-100">
             <h2 class="text-xs font-black text-stone-900 tracking-tight uppercase flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-600"></span> Executed Ledger History
+              <span class="w-2 h-2 rounded-full bg-emerald-600"></span> Transcation History
             </h2>
-            <span class="text-[10px] font-extrabold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-md uppercase tracking-wider">Audited Stream</span>
           </div>
 
           <div class="overflow-x-auto custom-scrollbar">
@@ -245,65 +339,79 @@
               <thead>
                 <tr class="bg-stone-50/70 text-stone-400 font-bold uppercase text-[9px] tracking-wider border-b border-stone-100">
                   <th class="p-3">Txn ID</th>
-                  <th class="p-3">Timestamp Log</th>
-                  <th class="p-3">Source Node</th>
-                  <th class="p-3">Target Node</th>
-                  <th class="p-3">Task Group</th>
-                  <th class="p-3">Value Metrics</th>
-                  <th class="p-3">System State</th>
-                  <th class="p-3">Operational Remarks</th>
+                  <th class="p-3">Timestamp</th>
+                  <th class="p-3">From Account</th>
+                  <th class="p-3">To Account</th>
+                  <th class="p-3">Type</th>
+                  <th class="p-3">Amount</th>
+                  <th class="p-3">Status</th>
                 </tr>
               </thead>
 
               <tbody class="divide-y divide-stone-100 text-stone-600 font-medium">
-                
+                <%if(userTrans != null && !userTrans.isEmpty()){%>
+                <%for(Transcation t : userTrans){%>
                 <!-- Txn 1 -->
                 <tr class="hover:bg-stone-50/60 transition-colors">
-                  <td class="p-3 font-bold text-stone-900 tracking-wide">TXN101</td>
-                  <td class="p-3 text-stone-500">25 Jun 2026, 11:30 AM</td>
-                  <td class="p-3 text-stone-700">123456789012</td>
-                  <td class="p-3 text-stone-700">123456789013</td>
-                  <td class="p-3">
-                    <span class="bg-stone-100 text-stone-700 border border-stone-200 px-2 py-0.5 rounded text-[10px] font-bold">Transfer</span>
-                  </td>
-                  <td class="p-3 text-rose-600 font-bold">- ₹ 5,000.00</td>
-                  <td class="p-3">
-                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2 py-0.5 rounded-md">Success</span>
-                  </td>
-                  <td class="p-3 text-stone-400">Transfer to own account</td>
-                </tr>
+                  <td class="p-3 font-bold text-stone-900 tracking-wide">TXN<%=t.getTrans_id()%></td>
+                  <%
+                  LocalDate date4 = LocalDate.parse(t.getTranscation_date());
+                  LocalTime time = LocalTime.parse(t.getTranscation_time());
+                  DateTimeFormatter dd4 = DateTimeFormatter.ofPattern("dd MMM yyyy");
+                  DateTimeFormatter dt = DateTimeFormatter.ofPattern("hh:mm a");
+                  %>
+                  <td class="p-3 text-stone-500"><%=date4.format(dd4)%>, <%=time.format(dt)%></td>
+                  <% 
+                  Account from = null;
+                  Account to = null;
 
-                <!-- Txn 2 -->
-                <tr class="hover:bg-stone-50/60 transition-colors">
-                  <td class="p-3 font-bold text-stone-900 tracking-wide">TXN100</td>
-                  <td class="p-3 text-stone-500">25 Jun 2026, 10:15 AM</td>
-                  <td class="p-3 text-stone-700">123456789012</td>
-                  <td class="p-3 text-stone-400">-</td>
-                  <td class="p-3">
-                    <span class="bg-stone-100 text-stone-700 border border-stone-200 px-2 py-0.5 rounded text-[10px] font-bold">Withdraw</span>
-                  </td>
-                  <td class="p-3 text-rose-600 font-bold">- ₹ 2,000.00</td>
-                  <td class="p-3">
-                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2 py-0.5 rounded-md">Success</span>
-                  </td>
-                  <td class="p-3 text-stone-400">ATM Withdrawal</td>
-                </tr>
+                  if(t.getFrom_acc_id() != 0){
+                      from = adao.getAccountById(t.getFrom_acc_id());
+                  }
 
-                <!-- Txn 3 -->
-                <tr class="hover:bg-stone-50/60 transition-colors">
-                  <td class="p-3 font-bold text-stone-900 tracking-wide">TXN099</td>
-                  <td class="p-3 text-stone-500">24 Jun 2026, 04:45 PM</td>
-                  <td class="p-3 text-stone-400">-</td>
-                  <td class="p-3 text-stone-700">123456789012</td>
-                  <td class="p-3">
-                    <span class="bg-stone-100 text-stone-700 border border-stone-200 px-2 py-0.5 rounded text-[10px] font-bold">Deposit</span>
+                  if(t.getTo_acc_id() != 0){
+                      to = adao.getAccountById(t.getTo_acc_id());
+                  }
+                  %>
+                  <td class="p-3 text-stone-700">
+                   <%if(from != null){%>
+        			<%=from.getAcc_no()%>
+    				<%} else {%>
+     					   -
+    					<%}%>
+
+				  </td>
+                  <td class="p-3 text-stone-700">
+                   <%if(to != null){%>
+        			<%=to.getAcc_no()%>
+   					 <%} else {%>
+       					 -
+   					 <%}%>
                   </td>
-                  <td class="p-3 text-emerald-600 font-bold">+ ₹ 10,000.00</td>
                   <td class="p-3">
-                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2 py-0.5 rounded-md">Success</span>
+                    <span class="bg-stone-100 text-stone-700 border border-stone-200 px-2 py-0.5 rounded text-[10px] font-bold"><%=t.getTrans_type()%></span>
                   </td>
-                  <td class="p-3 text-stone-400">Cash Deposit</td>
+                  <%if(t.getTrans_type().equalsIgnoreCase("transfer") || t.getTrans_type().equalsIgnoreCase("withdrawl")){%>
+                  <td class="p-3 text-red-600 font-bold">- ₹ <%=t.getAmount() %></td>
+                  <%} else { %>
+                  <td class="p-3 text-green-600 font-bold">+ ₹ <%=t.getAmount()%></td>
+                  <%}%>
+                  <td class="p-3">
+                  <%if(t.getStatus().equalsIgnoreCase("success")){%>
+                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2 py-0.5 rounded-md"><%=t.getStatus()%></span>
+                    <%} else { %>
+                    <span class="bg-red-50 text-red-700 border border-emerald-200/60 text-[10px] font-extrabold px-2 py-0.5 rounded-md"><%=t.getStatus()%></span>
+                    <%}%>
+                  </td>
                 </tr>
+                <%}%>
+                <%} else {%>
+			    <tr>
+			        <td colspan="7" class="p-8 text-center text-stone-400 font-semibold">
+			            No transcations found
+			        </td>
+			    </tr>
+				<%}%>
 
               </tbody>
             </table>
@@ -314,6 +422,10 @@
     </div>
 
   </div>
-
+  
+<%} else {%>
+<%request.setAttribute("error", "session already expired");%>
+<%request.getRequestDispatcher("login.jsp").forward(request, response);%>
+<%}%>
 </body>
 </html>

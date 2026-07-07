@@ -1,3 +1,10 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="java.util.List"%>
+<%@page import="com.bank.dao.impl.UserDAOImpl"%>
+<%@page import="com.bank.dao.UserDAO"%>
+<%@page import="com.bank.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -34,6 +41,8 @@
 </head>
 
 <body class="bg-[#F2F5F4] text-slate-800 min-h-screen antialiased">
+<%User u = (User) session.getAttribute("user");%>
+<%if(u != null){%>
 
   <div class="flex min-h-screen relative overflow-x-hidden">
 
@@ -61,24 +70,24 @@
         <div class="flex gap-3 items-center bg-white/5 rounded-xl p-3 text-white group relative">
           <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#F59E0B] rounded-r-full"></div>
           <i class="fa-solid fa-users text-[#F59E0B] text-sm w-4 text-center"></i>
-          <a href="viewUsers.jsp" class="text-xs font-bold tracking-wide">Users Ledger</a>
+          <a href="viewallusers.jsp" class="text-xs font-bold tracking-wide">View Users</a>
         </div>
 
         <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
           <i class="fa-solid fa-code-branch text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
-          <a href="branches.jsp" class="text-xs font-semibold tracking-wide">Branches</a>
+          <a href="branch.jsp" class="text-xs font-semibold tracking-wide">Branches</a>
         </div>
 
         <p class="px-3 text-[10px] font-bold tracking-wider text-[#5A6E6B] uppercase mt-4 mb-1">Audits & Assets</p>
 
         <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
           <i class="fa-solid fa-credit-card text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
-          <a href="viewaccounts.jsp" class="text-xs font-semibold tracking-wide">Accounts</a>
+          <a href="viewall_accounts.jsp" class="text-xs font-semibold tracking-wide">Accounts</a>
         </div>
 
         <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
           <i class="fa-solid fa-arrow-right-arrow-left text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
-          <a href="view_transcations.jsp" class="text-xs font-semibold tracking-wide">Global Ledger</a>
+          <a href="viewalltransactions.jsp" class="text-xs font-semibold tracking-wide">All Transcations</a>
         </div>
 
         <p class="px-3 text-[10px] font-bold tracking-wider text-[#5A6E6B] uppercase mt-4 mb-1">Account settings</p>
@@ -112,8 +121,8 @@
               <i class="fa-solid fa-user-shield text-amber-800 text-sm"></i>
             </div>
             <div class="leading-none pr-6 relative">
-              <h3 class="text-stone-800 font-bold text-xs tracking-tight">Admin User</h3>
-              <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider mt-0.5">Manager Tier</p>
+              <h3 class="text-stone-800 font-bold text-xs tracking-tight"><%=u.getUser_name()%></h3>
+              <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider mt-0.5">Manager</p>
               <i class="fa-solid fa-chevron-down text-[10px] text-stone-400 absolute right-0 top-1/2 -translate-y-1/2 group-hover:rotate-180 transition-transform"></i>
             </div>
           </div>
@@ -137,31 +146,31 @@
       <div class="p-8 pt-28 space-y-6 flex-grow max-w-[1240px] w-full mx-auto">
 
         <div>
-          <h1 class="text-2xl font-black text-stone-900 tracking-tight">Users Ledger</h1>
+          <h1 class="text-2xl font-black text-stone-900 tracking-tight">Users Details</h1>
           <p class="text-xs font-medium text-stone-400 mt-0.5">Audit, authorize, and evaluate registered customer nodes.</p>
         </div>
 
-        <div class="bg-white border border-stone-200/80 rounded-2xl shadow-sm p-5 flex flex-wrap gap-4 justify-between items-center">
+        <form action="filteruser" method="POST" class="bg-white border border-stone-200/80 rounded-2xl shadow-sm p-5 flex flex-wrap gap-4 justify-between items-center">
 
           <div class="bg-stone-50 border border-stone-200/60 rounded-xl px-4 py-2.5 flex items-center gap-3 w-full sm:w-[280px] focus-within:border-amber-500 transition-colors">
             <i class="fa-solid fa-magnifying-glass text-stone-400 text-xs"></i>
-            <input type="text" placeholder="Search by name..." class="outline-none w-full text-xs font-medium text-stone-700 placeholder-stone-400 bg-transparent">
+            <input type="text" name="name" placeholder="Search by name..." class="outline-none w-full text-xs font-medium text-stone-700 placeholder-stone-400 bg-transparent">
           </div>
 
           <div class="bg-stone-50 border border-stone-200/60 rounded-xl px-4 py-2.5 flex items-center gap-3 w-full sm:w-[280px] focus-within:border-amber-500 transition-colors">
             <i class="fa-solid fa-envelope text-stone-400 text-xs"></i>
-            <input type="email" placeholder="Search by email descriptor..." class="outline-none w-full text-xs font-medium text-stone-700 placeholder-stone-400 bg-transparent">
+            <input type="email" name="mail" placeholder="Search by email descriptor..." class="outline-none w-full text-xs font-medium text-stone-700 placeholder-stone-400 bg-transparent">
           </div>
 
-          <button class="bg-[#B45309] text-white text-xs font-bold px-6 py-2.5 rounded-xl hover:bg-[#92400E] shadow-xs transition-colors cursor-pointer ml-auto sm:ml-0">
+          <button type="submit" class="bg-[#B45309] text-white text-xs font-bold px-6 py-2.5 rounded-xl hover:bg-[#92400E] shadow-xs transition-colors cursor-pointer ml-auto sm:ml-0">
             Search
           </button>
 
-          <a href="viewusers.jsp" class="bg-stone-100 text-stone-600 border border-stone-200 text-xs font-bold px-5 py-2.5 rounded-xl hover:bg-stone-200 transition-colors text-center">
+          <a href="viewallusers.jsp" class="bg-stone-100 text-stone-600 border border-stone-200 text-xs font-bold px-5 py-2.5 rounded-xl hover:bg-stone-200 transition-colors text-center">
             Reset Filter
           </a>
 
-        </div>
+        </form>
 
         <div class="bg-white border border-stone-200/80 rounded-2xl shadow-sm p-5">
           <div class="flex justify-between items-center mb-4 pb-3 border-b border-stone-100">
@@ -177,89 +186,51 @@
               <thead>
                 <tr class="bg-stone-50/70 text-stone-400 font-bold uppercase text-[9px] tracking-wider border-b border-stone-100">
                   <th class="p-3">User ID</th>
-                  <th class="p-3">Ident Name</th>
-                  <th class="p-3">Email Descriptor</th>
-                  <th class="p-3">Contact Path</th>
+                  <th class="p-3">Identity Name</th>
+                  <th class="p-3">Email</th>
+                  <th class="p-3">Contact</th>
                   <th class="p-3">System Access Role</th>
-                  <th class="p-3">Registration Stamp</th>
-                  <th class="p-3 text-right">Records Action</th>
+                  <th class="p-3">Registration Date</th>
+                  <th class="p-3 text-right">Action</th>
                 </tr>
               </thead>
 
               <tbody class="divide-y divide-stone-100 text-stone-600 font-medium">
-
+               
+               <%UserDAO udao = new UserDAOImpl();
+                 List<User> allUser = (List<User>)request.getAttribute("filterUser");
+                 if(allUser == null){
+                	 allUser = udao.getAllUser().stream().filter(u1->u1.getRole().equalsIgnoreCase("customer")).collect(Collectors.toList());
+                 }
+               %>
+               <%for(User u2 : allUser){%>
                 <tr class="hover:bg-stone-50/60 transition-colors">
-                  <td class="p-3 font-bold text-stone-400 tracking-wide">#01</td>
-                  <td class="p-3 text-stone-900 font-bold">Gourish Naik</td>
-                  <td class="p-3 text-stone-500">gourish@gmail.com</td>
-                  <td class="p-3 text-stone-600">9876543210</td>
+                  <td class="p-3 font-bold text-stone-400 tracking-wide"><%=u2.getUser_id()%></td>
+                  <td class="p-3 text-stone-900 font-bold"><%=u2.getUser_name()%></td>
+                  <td class="p-3 text-stone-500"><%=u2.getEmail()%></td>
+                  <td class="p-3 text-stone-600"><%=u2.getPhone()%></td>
                   <td class="p-3">
                     <span class="bg-amber-50 text-amber-800 border border-amber-200 text-[10px] font-extrabold px-2.5 py-0.5 rounded-md uppercase tracking-wider">
-                      Customer
+                      <%=u2.getRole()%>
                     </span>
                   </td>
-                  <td class="p-3 text-stone-500">20 Jun 2026</td>
-                  <td class="p-3 text-right">
-                    <a href="user_details.jsp" class="inline-flex items-center gap-1.5 bg-[#B45309] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-[#92400E] shadow-xs transition-colors">
-                      <i class="fa-solid fa-eye text-[9px]"></i> Inspect File
-                    </a>
-                  </td>
+                  <%
+                  LocalDate date = LocalDate.parse(u2.getRegistered_date());
+                  DateTimeFormatter dd = DateTimeFormatter.ofPattern("dd MMM yyyy");
+                  %>
+                  <td class="p-3 text-stone-500"><%=date.format(dd)%></td>
+                 <td class="p-3 text-right">
+				    <form action="viewuserdetails.jsp" method="post">
+				        <input type="hidden" name="user_id" value="<%=u2.getUser_id()%>">
+				
+				        <button type="submit"
+				            class="inline-flex items-center gap-1.5 bg-[#B45309] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-[#92400E] shadow-xs transition-colors">
+				            <i class="fa-solid fa-eye text-[9px]"></i> view
+				        </button>
+				    </form>
+				</td>
                 </tr>
-
-                <tr class="hover:bg-stone-50/60 transition-colors">
-                  <td class="p-3 font-bold text-stone-400 tracking-wide">#02</td>
-                  <td class="p-3 text-stone-900 font-bold">Rahul Sharma</td>
-                  <td class="p-3 text-stone-500">rahul@gmail.com</td>
-                  <td class="p-3 text-stone-600">9988776655</td>
-                  <td class="p-3">
-                    <span class="bg-amber-50 text-amber-800 border border-amber-200 text-[10px] font-extrabold px-2.5 py-0.5 rounded-md uppercase tracking-wider">
-                      Customer
-                    </span>
-                  </td>
-                  <td class="p-3 text-stone-500">21 Jun 2026</td>
-                  <td class="p-3 text-right">
-                    <a href="view_user_details.jsp?user_id=2" class="inline-flex items-center gap-1.5 bg-[#B45309] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-[#92400E] shadow-xs transition-colors">
-                      <i class="fa-solid fa-eye text-[9px]"></i> Inspect File
-                    </a>
-                  </td>
-                </tr>
-
-                <tr class="hover:bg-stone-50/60 transition-colors">
-                  <td class="p-3 font-bold text-stone-400 tracking-wide">#03</td>
-                  <td class="p-3 text-stone-900 font-bold">Neha Singh</td>
-                  <td class="p-3 text-stone-500">neha@gmail.com</td>
-                  <td class="p-3 text-stone-600">9123456789</td>
-                  <td class="p-3">
-                    <span class="bg-amber-50 text-amber-800 border border-amber-200 text-[10px] font-extrabold px-2.5 py-0.5 rounded-md uppercase tracking-wider">
-                      Customer
-                    </span>
-                  </td>
-                  <td class="p-3 text-stone-500">22 Jun 2026</td>
-                  <td class="p-3 text-right">
-                    <a href="view_user_details.jsp?user_id=3" class="inline-flex items-center gap-1.5 bg-[#B45309] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-[#92400E] shadow-xs transition-colors">
-                      <i class="fa-solid fa-eye text-[9px]"></i> Inspect File
-                    </a>
-                  </td>
-                </tr>
-
-                <tr class="hover:bg-stone-50/60 transition-colors">
-                  <td class="p-3 font-bold text-stone-400 tracking-wide">#04</td>
-                  <td class="p-3 text-stone-900 font-bold">Neha Singh</td>
-                  <td class="p-3 text-stone-500">neha@gmail.com</td>
-                  <td class="p-3 text-stone-600">9123456789</td>
-                  <td class="p-3">
-                    <span class="bg-amber-50 text-amber-800 border border-amber-200 text-[10px] font-extrabold px-2.5 py-0.5 rounded-md uppercase tracking-wider">
-                      Customer
-                    </span>
-                  </td>
-                  <td class="p-3 text-stone-500">22 Jun 2026</td>
-                  <td class="p-3 text-right">
-                    <a href="view_user_details.jsp?user_id=3" class="inline-flex items-center gap-1.5 bg-[#B45309] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-[#92400E] shadow-xs transition-colors">
-                      <i class="fa-solid fa-eye text-[9px]"></i> Inspect File
-                    </a>
-                  </td>
-                </tr>
-
+                <%}%>
               </tbody>
             </table>
           </div>
@@ -269,6 +240,11 @@
     </div>
 
   </div>
+  
+<%} else {%>
+<%request.setAttribute("error", "session already expired");%>
+<%request.getRequestDispatcher("login.jsp").forward(request, response);%>
+<%}%>
 
 </body>
 </html>

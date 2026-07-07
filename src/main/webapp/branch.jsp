@@ -1,3 +1,8 @@
+<%@page import="com.bank.dto.Branch"%>
+<%@page import="java.util.List"%>
+<%@page import="com.bank.dao.impl.BranchDAOImpl"%>
+<%@page import="com.bank.dao.BranchDAO"%>
+<%@page import="com.bank.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -35,6 +40,8 @@
 </head>
 
 <body class="bg-[#F2F5F4] text-slate-800 min-h-screen antialiased">
+<%User u = (User) session.getAttribute("user");%>
+<%if(u != null){%>
 
   <div class="flex min-h-screen relative overflow-x-hidden">
 
@@ -64,26 +71,26 @@
 
         <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
           <i class="fa-solid fa-users text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
-          <a href="viewUsers.jsp" class="text-xs font-semibold tracking-wide">Users Ledger</a>
+          <a href="viewallusers.jsp" class="text-xs font-semibold tracking-wide">View Users</a>
         </div>
 
         <!-- Active Branches Link -->
         <div class="flex gap-3 items-center bg-white/5 rounded-xl p-3 text-white group relative">
           <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#F59E0B] rounded-r-full"></div>
           <i class="fa-solid fa-code-branch text-[#F59E0B] text-sm w-4 text-center"></i>
-          <a href="branches.jsp" class="text-xs font-bold tracking-wide">Branches</a>
+          <a href="branch.jsp" class="text-xs font-bold tracking-wide">Branches</a>
         </div>
 
         <p class="px-3 text-[10px] font-bold tracking-wider text-[#5A6E6B] uppercase mt-4 mb-1">Audits & Assets</p>
 
         <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
           <i class="fa-solid fa-credit-card text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
-          <a href="viewaccounts.jsp" class="text-xs font-semibold tracking-wide">Accounts</a>
+          <a href="viewall_accounts.jsp" class="text-xs font-semibold tracking-wide">Accounts</a>
         </div>
 
         <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
           <i class="fa-solid fa-arrow-right-arrow-left text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
-          <a href="view_transcations.jsp" class="text-xs font-semibold tracking-wide">Global Ledger</a>
+          <a href="viewalltransactions.jsp" class="text-xs font-semibold tracking-wide">All Transcations</a>
         </div>
 
         <p class="px-3 text-[10px] font-bold tracking-wider text-[#5A6E6B] uppercase mt-4 mb-1">Account Settings</p>
@@ -121,8 +128,8 @@
               <i class="fa-solid fa-user-shield text-amber-800 text-sm"></i>
             </div>
             <div class="leading-none pr-6 relative">
-              <h3 class="text-stone-800 font-bold text-xs tracking-tight">Admin User</h3>
-              <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider mt-0.5">Manager Tier</p>
+              <h3 class="text-stone-800 font-bold text-xs tracking-tight"><%=u.getUser_name()%></h3>
+              <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider mt-0.5">Manager</p>
               <i class="fa-solid fa-chevron-down text-[10px] text-stone-400 absolute right-0 top-1/2 -translate-y-1/2 group-hover:rotate-180 transition-transform"></i>
             </div>
           </div>
@@ -153,11 +160,13 @@
           <h2 class="text-xs font-black text-stone-900 tracking-tight uppercase mb-4 border-b border-stone-100 pb-3 flex items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-amber-500"></span> Add New Branch
           </h2>
-
+           
+        
+           
           <form action="addBranch" method="POST" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             <div>
               <label class="text-xs font-bold text-stone-500 uppercase tracking-wider">Branch Name</label>
-              <input type="text" name="branchName" placeholder="Enter branch name"
+              <input type="text" name="name" placeholder="Enter branch name"
                      class="w-full mt-2 text-xs font-semibold bg-stone-50/50 border border-stone-200 rounded-xl px-4 py-3 focus:outline-none focus:border-[#B45309] focus:bg-white transition-all">
             </div>
 
@@ -179,13 +188,8 @@
                      class="w-full mt-2 text-xs font-semibold bg-stone-50/50 border border-stone-200 rounded-xl px-4 py-3 focus:outline-none focus:border-[#B45309] focus:bg-white transition-all">
             </div>
 
-            <div>
-              <label class="text-xs font-bold text-stone-500 uppercase tracking-wider">IFSC Code</label>
-              <input type="text" name="ifscCode" placeholder="Enter branch IFSC code"
-                     class="w-full mt-2 text-xs font-semibold bg-stone-50/50 border border-stone-200 rounded-xl px-4 py-3 focus:outline-none focus:border-[#B45309] focus:bg-white transition-all">
-            </div>
 
-            <div class="flex items-end justify-end">
+            <div class=" ml-4 flex items-end justify-end">
               <button type="submit"
                       class="w-full lg:w-auto bg-[#B45309] text-white text-xs font-bold px-8 py-3 rounded-xl hover:bg-[#92400E] shadow-xs transition-colors cursor-pointer flex items-center justify-center gap-2">
                 <i class="fa-solid fa-plus"></i> Add Branch
@@ -217,61 +221,31 @@
               </thead>
 
               <tbody class="divide-y divide-stone-100 text-stone-600 font-medium">
-                
+                <%
+                BranchDAO bdao = new BranchDAOImpl();
+                List<Branch> li = bdao.getAllBranch();
+                %>
                 <!-- Row 1 -->
+                <%for(Branch b : li){%>
                 <tr class="hover:bg-stone-50/60 transition-colors">
-                  <td class="p-3 font-bold text-stone-900 tracking-wide">1</td>
-                  <td class="p-3 text-stone-700 font-semibold">Mangaluru Main Branch</td>
-                  <td class="p-3 text-stone-500">M.G. Road</td>
-                  <td class="p-3 text-stone-500">Mangaluru</td>
-                  <td class="p-3 text-stone-500">Karnataka</td>
-                  <td class="p-3 font-bold text-[#B45309]">DCLB0001234</td>
+                  <td class="p-3 font-bold text-stone-900 tracking-wide"><%=b.getBranch_id() %></td>
+                  <td class="p-3 text-stone-700 font-semibold"><%=b.getBranch_name()%></td>
+                  <td class="p-3 text-stone-500"><%=b.getLocation() %></td>
+                  <td class="p-3 text-stone-500"><%=b.getCity()%></td>
+                  <td class="p-3 text-stone-500"><%=b.getState()%></td>
+                  <td class="p-3 font-bold text-[#B45309]"><%=b.getIfsc_code()%></td>
                   <td class="p-3 flex justify-end gap-2 whitespace-nowrap">
-                    <a href="bank_branchUpdate.html" class="bg-stone-100 text-stone-700 border border-stone-200 text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-stone-200 transition-colors">
-                      <i class="fa-solid fa-pen mr-1"></i> Edit
-                    </a>
-                    <a href="deleteBranch?branch_id=1" class="bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-rose-100 transition-colors">
-                      <i class="fa-solid fa-trash mr-1"></i> Delete
-                    </a>
+                    <form action="branchedit.jsp" method="post">
+				        <input type="hidden" name="branch_id" value="<%=b.getBranch_id()%>">
+				
+				        <button type="submit"
+				            class="bg-stone-100 text-stone-700 border border-stone-200 text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-stone-200 transition-colors">
+				            <i class="fa-solid fa-pen mr-1"></i> Edit
+				        </button>
+				    </form>
                   </td>
                 </tr>
-
-                <!-- Row 2 -->
-                <tr class="hover:bg-stone-50/60 transition-colors">
-                  <td class="p-3 font-bold text-stone-900 tracking-wide">2</td>
-                  <td class="p-3 text-stone-700 font-semibold">Bengaluru Branch</td>
-                  <td class="p-3 text-stone-500">Brigade Road</td>
-                  <td class="p-3 text-stone-500">Bengaluru</td>
-                  <td class="p-3 text-stone-500">Karnataka</td>
-                  <td class="p-3 font-bold text-[#B45309]">DCLB0005678</td>
-                  <td class="p-3 flex justify-end gap-2 whitespace-nowrap">
-                    <a href="edit_branch.jsp?branch_id=2" class="bg-stone-100 text-stone-700 border border-stone-200 text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-stone-200 transition-colors">
-                      <i class="fa-solid fa-pen mr-1"></i> Edit
-                    </a>
-                    <a href="deleteBranch?branch_id=2" class="bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-rose-100 transition-colors">
-                      <i class="fa-solid fa-trash mr-1"></i> Delete
-                    </a>
-                  </td>
-                </tr>
-
-                <!-- Row 3 -->
-                <tr class="hover:bg-stone-50/60 transition-colors">
-                  <td class="p-3 font-bold text-stone-900 tracking-wide">3</td>
-                  <td class="p-3 text-stone-700 font-semibold">Udupi Branch</td>
-                  <td class="p-3 text-stone-500">Court Road</td>
-                  <td class="p-3 text-stone-500">Udupi</td>
-                  <td class="p-3 text-stone-500">Karnataka</td>
-                  <td class="p-3 font-bold text-[#B45309]">DCLB0009012</td>
-                  <td class="p-3 flex justify-end gap-2 whitespace-nowrap">
-                    <a href="edit_branch.jsp?branch_id=3" class="bg-stone-100 text-stone-700 border border-stone-200 text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-stone-200 transition-colors">
-                      <i class="fa-solid fa-pen mr-1"></i> Edit
-                    </a>
-                    <a href="deleteBranch?branch_id=3" class="bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-rose-100 transition-colors">
-                      <i class="fa-solid fa-trash mr-1"></i> Delete
-                    </a>
-                  </td>
-                </tr>
-
+                <%}%>
               </tbody>
             </table>
           </div>
@@ -281,6 +255,9 @@
     </div>
 
   </div>
-
+<%} else {%>
+<%request.setAttribute("error", "session already expired");%>
+<%request.getRequestDispatcher("login.jsp").forward(request, response);%>
+<%}%>   
 </body>
 </html>

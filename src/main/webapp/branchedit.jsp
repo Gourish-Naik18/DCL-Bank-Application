@@ -1,3 +1,6 @@
+<%@page import="com.bank.dto.Branch"%>
+<%@page import="com.bank.dao.impl.BranchDAOImpl"%>
+<%@page import="com.bank.dao.BranchDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -39,7 +42,7 @@
 
     <!-- Right Side: Return Pill Button -->
     <div class="pointer-events-auto">
-      <a href="bank_branches.html" class="bg-white border border-stone-200 text-[11px] font-bold px-4 py-2 rounded-full text-stone-600 hover:text-stone-900 hover:border-stone-300 shadow-xs transition-all flex items-center gap-2">
+      <a href="branch.jsp" class="bg-white border border-stone-200 text-[11px] font-bold px-4 py-2 rounded-full text-stone-600 hover:text-stone-900 hover:border-stone-300 shadow-xs transition-all flex items-center gap-2">
         <i class="fa-solid fa-circle-arrow-left text-stone-400"></i> Return to Branches
       </a>
     </div>
@@ -113,12 +116,30 @@
         <h2 class="text-xl font-black text-stone-900 tracking-tight">Update Details</h2>
         <p class="text-xs font-medium text-stone-400 mt-1">Please update the fields below to correct the branch file records.</p>
       </div>
-    
+      
+      <%
+      Integer id = null;
+      if(request.getParameter("branch_id") != null){
+    	  id = Integer.parseInt(request.getParameter("branch_id"));
+      }
+      else{
+    	  id = (Integer)request.getAttribute("branch_id");
+      }
+      BranchDAO bdao = new BranchDAOImpl();
+      Branch b = bdao.getBranchById(id);
+      %>
+      
+       <% String msg2 = (String)request.getAttribute("sucess"); %>
+       <% if(msg2 != null){ %>
+         <div id="msg2" class="bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs p-3.5 rounded-xl mb-6 font-semibold flex items-center gap-2.5 shadow-xs">
+           <i class="fa-solid fa-circle-check text-sm text-emerald-500"></i> <%= msg2 %>
+         </div>
+       <% } %>
       <!-- Action Form Content -->
       <form action="updateBranch" method="POST" class="space-y-4">
 
         <!-- Hidden branch id input link -->
-        <input type="hidden" name="branch_id" value="1">
+        <input type="hidden" name="id" value="<%=b.getBranch_id()%>">
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <!-- Branch Name Field -->
@@ -128,9 +149,9 @@
               <i class="fa-solid fa-building-columns text-stone-400 text-sm w-5 text-center"></i>
               <input class="bg-transparent border-0 focus:outline-none w-full text-xs font-semibold text-stone-800 placeholder-stone-400"
                      type="text"
-                     name="branch_name"
+                     name="name"
                      placeholder="Enter branch name"
-                     value="Mangaluru Main Branch">
+                     value="<%=b.getBranch_name()%>">
             </div>
           </div>
 
@@ -143,7 +164,7 @@
                      type="text"
                      name="location"
                      placeholder="Enter location address"
-                     value="M.G. Road">
+                     value="<%=b.getLocation()%>">
             </div>
           </div>
 
@@ -156,7 +177,7 @@
                      type="text"
                      name="city"
                      placeholder="Enter city"
-                     value="Mangaluru">
+                     value="<%=b.getCity()%>">
             </div>
           </div>
 
@@ -169,12 +190,12 @@
                      type="text"
                      name="state"
                      placeholder="Enter state"
-                     value="Karnataka">
+                     value="<%=b.getState()%>">
             </div>
           </div>
 
           <!-- IFSC Code Field -->
-          <div class="md:col-span-2">
+          <!-- <div class="md:col-span-2">
             <label class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block mb-1.5">IFSC Code Mapping</label>
             <div class="bg-stone-50 border border-stone-200 rounded-xl px-3 py-2.5 flex gap-3 items-center focus-within:border-[#B45309] focus-within:bg-white transition-all">
               <i class="fa-solid fa-code text-stone-400 text-sm w-5 text-center"></i>
@@ -184,12 +205,14 @@
                      placeholder="Enter unique IFSC code"
                      value="DCLB0001234">
             </div>
-          </div>
+          </div>  -->
+          
+          
         </div>
    
         <!-- Form Action Area -->
         <div class="pt-2 flex justify-end">
-          <button class="w-full sm:w-auto bg-[#B45309] hover:bg-[#92400E] px-8 py-3 rounded-xl text-white text-xs font-bold tracking-wide transition-colors shadow-md shadow-amber-700/10 cursor-pointer flex items-center justify-center gap-2" type="submit">
+          <button type="submit" class="w-full sm:w-auto bg-[#B45309] hover:bg-[#92400E] px-8 py-3 rounded-xl text-white text-xs font-bold tracking-wide transition-colors shadow-md shadow-amber-700/10 cursor-pointer flex items-center justify-center gap-2" type="submit">
             <i class="fa-solid fa-circle-check"></i> Update Branch
           </button>
         </div>
@@ -205,5 +228,14 @@
     DCL Security Network © 2026
   </div>
 
+
+ <script>
+    let n = document.getElementById("msg2");
+    if (n) {
+      setTimeout(() => {
+        n.style.display = 'none';
+      }, 2000);
+    }
+  </script>
 </body>
 </html>
