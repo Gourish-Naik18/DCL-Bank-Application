@@ -56,9 +56,15 @@
       </div>
     </div>
     
+    <%if(u.getRole().equalsIgnoreCase("customer")){%>
     <a href="user_db.jsp" class="text-xs font-bold text-slate-500 hover:text-[#971B4E] flex items-center gap-2 transition-colors bg-white px-3 py-2 rounded-lg border border-slate-200/60 shadow-xs">
       <i class="fa-solid fa-table-columns text-[11px]"></i> Exit to Dashboard
     </a>
+    <%} else {%>
+    <a href="admin.jsp" class="text-xs font-bold text-slate-500 hover:text-[#971B4E] flex items-center gap-2 transition-colors bg-white px-3 py-2 rounded-lg border border-slate-200/60 shadow-xs">
+      <i class="fa-solid fa-table-columns text-[11px]"></i> Exit to Dashboard
+    </a>
+    <%}%>
   </header>
 
   <!-- ENTERPRISE PROFILE INTERFACE -->

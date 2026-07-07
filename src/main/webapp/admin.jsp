@@ -1,3 +1,18 @@
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="java.util.Comparator"%>
+<%@page import="com.bank.dto.Transcation"%>
+<%@page import="com.bank.dao.impl.TranscationDAOImpl"%>
+<%@page import="com.bank.dao.TranscationDAO"%>
+<%@page import="com.bank.dto.Branch"%>
+<%@page import="com.bank.dao.impl.BranchDAOImpl"%>
+<%@page import="com.bank.dao.BranchDAO"%>
+<%@page import="com.bank.dto.Account"%>
+<%@page import="com.bank.dao.impl.AccountDAOImpl"%>
+<%@page import="com.bank.dao.AccountDAO"%>
+<%@page import="java.util.List"%>
+<%@page import="com.bank.dao.impl.UserDAOImpl"%>
+<%@page import="com.bank.dao.UserDAO"%>
+<%@page import="com.bank.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -35,6 +50,8 @@
 </head>
 
 <body class="bg-[#F2F5F4] text-slate-800 min-h-screen antialiased">
+<%User u = (User) session.getAttribute("user");%>
+<%if(u != null){%>
 
   <div class="flex min-h-screen relative overflow-x-hidden">
 
@@ -66,24 +83,24 @@
 
         <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
           <i class="fa-solid fa-users text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
-          <a href="view_users.jsp" class="text-xs font-semibold tracking-wide">Users Ledger</a>
+          <a href="viewallusers.jsp" class="text-xs font-semibold tracking-wide">View Users</a>
         </div>
 
         <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
           <i class="fa-solid fa-code-branch text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
-          <a href="branches.jsp" class="text-xs font-semibold tracking-wide">Branches</a>
+          <a href="branch.jsp" class="text-xs font-semibold tracking-wide">Branches</a>
         </div>
 
         <p class="px-3 text-[10px] font-bold tracking-wider text-[#5A6E6B] uppercase mt-4 mb-1">Audits & Assets</p>
 
         <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
           <i class="fa-solid fa-credit-card text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
-          <a href="view_accounts.jsp" class="text-xs font-semibold tracking-wide">Accounts</a>
+          <a href="viewall_accounts.jsp" class="text-xs font-semibold tracking-wide">Accounts</a>
         </div>
 
         <div class="flex gap-3 items-center hover:bg-white/5 rounded-xl p-3 transition-all text-[#94A19F] hover:text-white group">
           <i class="fa-solid fa-arrow-right-arrow-left text-[#5A6E6B] group-hover:text-[#F59E0B] transition-colors text-sm w-4 text-center"></i>
-          <a href="view_transcations.jsp" class="text-xs font-semibold tracking-wide">Global Ledger</a>
+          <a href="viewalltransactions.jsp" class="text-xs font-semibold tracking-wide">All Transcations</a>
         </div>
 
         <p class="px-3 text-[10px] font-bold tracking-wider text-[#5A6E6B] uppercase mt-4 mb-1">Account settings</p>
@@ -121,8 +138,8 @@
               <i class="fa-solid fa-user-shield text-amber-800 text-sm"></i>
             </div>
             <div class="leading-none pr-6 relative">
-              <h3 class="text-stone-800 font-bold text-xs tracking-tight">Admin User</h3>
-              <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider mt-0.5">Manager Tier</p>
+              <h3 class="text-stone-800 font-bold text-xs tracking-tight"><%=u.getUser_name().toUpperCase()%></h3>
+              <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider mt-0.5">Manager</p>
               <i class="fa-solid fa-chevron-down text-[10px] text-stone-400 absolute right-0 top-1/2 -translate-y-1/2 group-hover:rotate-180 transition-transform"></i>
             </div>
           </div>
@@ -155,7 +172,11 @@
           <div class="bg-white border border-stone-200/80 rounded-2xl shadow-xs p-5 flex justify-between items-center hover:scale-[1.01] transition-transform">
             <div>
               <p class="text-[11px] font-extrabold text-stone-400 uppercase tracking-wider">Total Users</p>
-              <h2 class="text-2xl font-black mt-1 text-stone-900 tracking-tight">125</h2>
+              <%
+              UserDAO udao = new UserDAOImpl();
+              List<User> lu = udao.getAllUser();
+              %>
+              <h2 class="text-2xl font-black mt-1 text-stone-900 tracking-tight"><%=lu.size()%></h2>
               <p class="text-stone-400 text-[11px] font-medium mt-1">All verified client nodes</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-stone-50 border border-stone-100 flex justify-center items-center shadow-xs">
@@ -167,8 +188,12 @@
           <div class="bg-white border border-stone-200/80 rounded-2xl shadow-xs p-5 flex justify-between items-center hover:scale-[1.01] transition-transform">
             <div>
               <p class="text-[11px] font-extrabold text-stone-400 uppercase tracking-wider">Total Accounts</p>
-              <h2 class="text-2xl font-black mt-1 text-stone-900 tracking-tight">210</h2>
-              <p class="text-stone-400 text-[11px] font-medium mt-1">Active ledger deposit logs</p>
+              <%
+              AccountDAO adao = new AccountDAOImpl();
+              List<Account> la = adao.getAllAccounts();
+              %>
+              <h2 class="text-2xl font-black mt-1 text-stone-900 tracking-tight"><%=la.size()%></h2>
+              <p class="text-stone-400 text-[11px] font-medium mt-1">All Accounts</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-stone-50 border border-stone-100 flex justify-center items-center shadow-xs">
               <i class="fa-solid fa-credit-card text-stone-600 text-sm"></i>
@@ -179,7 +204,11 @@
           <div class="bg-white border border-stone-200/80 rounded-2xl shadow-xs p-5 flex justify-between items-center hover:scale-[1.01] transition-transform">
             <div>
               <p class="text-[11px] font-extrabold text-stone-400 uppercase tracking-wider">Total Branches</p>
-              <h2 class="text-2xl font-black mt-1 text-stone-900 tracking-tight">5</h2>
+              <%
+              BranchDAO bdao = new BranchDAOImpl();
+              List<Branch> lb = bdao.getAllBranch();
+              %>
+              <h2 class="text-2xl font-black mt-1 text-stone-900 tracking-tight"><%=lb.size()%></h2>
               <p class="text-stone-400 text-[11px] font-medium mt-1">Operational local zones</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-amber-50 border border-amber-100 flex justify-center items-center shadow-xs">
@@ -192,7 +221,11 @@
             <div class="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-full blur-md pointer-events-none"></div>
             <div>
               <p class="text-[11px] font-extrabold text-amber-100/90 uppercase tracking-wider">Transactions</p>
-              <h2 class="text-2xl font-black mt-1 text-white tracking-tight">560</h2>
+              <%
+              TranscationDAO tdao = new TranscationDAOImpl();
+              List<Transcation> lt = tdao.getAllTranscation();
+              %>
+              <h2 class="text-2xl font-black mt-1 text-white tracking-tight"><%=lt.size()%></h2>
               <p class="text-amber-100/70 text-[11px] font-medium mt-1">Global executed tasks</p>
             </div>
             <div class="h-11 w-11 rounded-xl bg-white/10 border border-white/20 flex justify-center items-center">
@@ -227,38 +260,39 @@
                 </thead>
 
                 <tbody class="divide-y divide-stone-100 text-stone-600 font-medium">
+                <%
+                List<Account> pending = la.stream().filter(a->a.getStatus().equalsIgnoreCase("pending")).sorted(Comparator.comparing((Account a)->a.getCreated_at()).reversed()).collect(Collectors.toList());
+                %>
+                <%if(pending != null){%>
+                <%for(Account a :pending){%>
                   <tr class="hover:bg-stone-50/60 transition-colors">
-                    <td class="p-3 font-bold text-stone-900 tracking-wide">XXXX 1234</td>
-                    <td class="p-3 text-stone-700 font-semibold">Rahul</td>
-                    <td class="p-3"><span class="bg-stone-100 text-stone-700 border border-stone-200 px-2 py-0.5 rounded text-[10px] font-bold">Savings</span></td>
-                    <td class="p-3 text-stone-500">Bengaluru</td>
+                    <td class="p-3 font-bold text-stone-900 tracking-wide"><%=a.getAcc_no()%></td>
+                    <%
+                    User holder = udao.getUserById(a.getUser_id());
+                    %>
+                    <td class="p-3 text-stone-700 font-semibold"><%=holder.getUser_name()%></td>
+                    <td class="p-3"><span class="bg-stone-100 text-stone-700 border border-stone-200 px-2 py-0.5 rounded text-[10px] font-bold"><%=a.getAcc_type()%></span></td>
+                    <%Branch b = bdao.getBranchById(a.getBranch_id());%>
+                    <td class="p-3 text-stone-500"><%=b.getCity()%></td>
                     <td class="p-3 flex justify-end gap-2 whitespace-nowrap">
-                      <button class="bg-[#B45309] text-white text-[10px] font-bold px-2.5 py-1 rounded-lg hover:bg-[#92400E] shadow-xs transition-colors cursor-pointer">Approve</button>
-                      <button class="bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-bold px-2.5 py-1 rounded-lg hover:bg-rose-100 transition-colors cursor-pointer">Reject</button>
-                    </td>
+                     
+                     <form action="approveAccount" method="post" style="display:inline;">
+					    <input type="hidden" name="accid" value="<%=a.getAcc_id()%>">
+					    <button type="submit" class="bg-[#B45309] text-white text-[10px] font-bold px-2.5 py-1 rounded-lg hover:bg-[#92400E] shadow-xs transition-colors cursor-pointer">Approve</button>
+					</form>
+                      
+					<form action="rejectAccount" method="post" style="display:inline;">
+					    <input type="hidden" name="accid" value="<%=a.getAcc_id()%>">
+					    <button type="submit" class="bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-bold px-2.5 py-1 rounded-lg hover:bg-rose-100 transition-colors cursor-pointer">Reject</button>
+					</form>                    
+					</td>
                   </tr>
-
-                  <tr class="hover:bg-stone-50/60 transition-colors">
-                    <td class="p-3 font-bold text-stone-900 tracking-wide">XXXX 5678</td>
-                    <td class="p-3 text-stone-700 font-semibold">Neha</td>
-                    <td class="p-3"><span class="bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded text-[10px] font-bold">Current</span></td>
-                    <td class="p-3 text-stone-500">Mangaluru</td>
-                    <td class="p-3 flex justify-end gap-2 whitespace-nowrap">
-                      <button class="bg-[#B45309] text-white text-[10px] font-bold px-2.5 py-1 rounded-lg hover:bg-[#92400E] shadow-xs transition-colors cursor-pointer">Approve</button>
-                      <button class="bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-bold px-2.5 py-1 rounded-lg hover:bg-rose-100 transition-colors cursor-pointer">Reject</button>
-                    </td>
+                  <%}%>
+                  <%} else {%>
+                  <tr>
+                  <td class="text-2xl font-black brand-text-solid mt-1">No Pending Accounts</td>
                   </tr>
-
-                  <tr class="hover:bg-stone-50/60 transition-colors">
-                    <td class="p-3 font-bold text-stone-900 tracking-wide">XXXX 8765</td>
-                    <td class="p-3 text-stone-700 font-semibold">Amit</td>
-                    <td class="p-3"><span class="bg-stone-100 text-stone-700 border border-stone-200 px-2 py-0.5 rounded text-[10px] font-bold">Savings</span></td>
-                    <td class="p-3 text-stone-500">Udupi</td>
-                    <td class="p-3 flex justify-end gap-2 whitespace-nowrap">
-                      <button class="bg-[#B45309] text-white text-[10px] font-bold px-2.5 py-1 rounded-lg hover:bg-[#92400E] shadow-xs transition-colors cursor-pointer">Approve</button>
-                      <button class="bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-bold px-2.5 py-1 rounded-lg hover:bg-rose-100 transition-colors cursor-pointer">Reject</button>
-                    </td>
-                  </tr>
+                  <%}%>
                 </tbody>
               </table>
             </div>
@@ -279,43 +313,48 @@
                 <thead class="bg-stone-50/70">
                   <tr class="text-stone-400 font-bold uppercase text-[9px] tracking-wider border-b border-stone-100">
                     <th class="p-3">Txn ID</th>
-                    <th class="p-3">Client Profile</th>
-                    <th class="p-3">Task Group</th>
-                    <th class="p-3">Value Metrics</th>
-                    <th class="p-3 text-right">System State</th>
+                    <th class="p-3">Profile</th>
+                    <th class="p-3">Type</th>
+                    <th class="p-3">Amount</th>
+                    <th class="p-3 text-right">Status</th>
                   </tr>
                 </thead>
+                
+                <%
+                List<Transcation> allTrans = tdao.getAllTranscation().stream().sorted(Comparator.comparing((Transcation t)->t.getTranscation_date()).thenComparing((Transcation t)->t.getTranscation_time()).reversed()).limit(5).toList();
+                %>
 
                 <tbody class="divide-y divide-stone-100 text-stone-600 font-medium">
+                <%for(Transcation t : allTrans){%>
                   <tr class="hover:bg-stone-50/60 transition-colors">
-                    <td class="p-3 font-bold text-stone-900 tracking-wide">TXN101</td>
-                    <td class="p-3 text-stone-700 font-semibold">Rahul</td>
-                    <td class="p-3 text-stone-500">Deposit</td>
-                    <td class="p-3 text-emerald-600 font-bold">+ ₹ 45,000</td>
+                    <td class="p-3 font-bold text-stone-900 tracking-wide">TXN<%=t.getTrans_id()%></td>
+                    <%User u1 = null;%>
+                    <%
+                    if(t.getTrans_type().equalsIgnoreCase("transfer") || t.getTrans_type().equalsIgnoreCase("withdrawl")){
+                    	Account a = adao.getAccountById(t.getFrom_acc_id());
+                    	u1 = udao.getUserById(a.getUser_id());
+                    }
+                    else{
+                    	Account a = adao.getAccountById(t.getTo_acc_id());
+                    	u1 = udao.getUserById(a.getUser_id());
+                    }
+                    %>
+                    <td class="p-3 text-stone-700 font-semibold"><%=u1.getUser_name()%></td>
+                    <td class="p-3 text-stone-500"><%=t.getTrans_type() %></td>
+                    <%if(t.getTrans_type().equalsIgnoreCase("transfer") || t.getTrans_type().equalsIgnoreCase("withdrawl")){%>
+                    <td class="p-3 text-rose-600 font-bold">- ₹ <%=t.getAmount() %></td>
+                    <%} else { %>
+                    <td class="p-3 text-emerald-600 font-bold">+ ₹ <%=t.getAmount()%></td>
+                    <%}%>
                     <td class="p-3 text-right">
-                      <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2 py-0.5 rounded-md">Success</span>
+                    <%if(t.getStatus().equalsIgnoreCase("success")){%>
+                      <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2 py-0.5 rounded-md"><%=t.getStatus()%></span>
+                      <%} else {%>
+                      <span class="bg-rose-50 text-rose-700 border border-rose-100 text-[10px] font-extrabold px-2 py-0.5 rounded-md"><%=t.getStatus()%></span>
+                      <%}%>
                     </td>
                   </tr>
-
-                  <tr class="hover:bg-stone-50/60 transition-colors">
-                    <td class="p-3 font-bold text-stone-900 tracking-wide">TXN102</td>
-                    <td class="p-3 text-stone-700 font-semibold">Gourish</td>
-                    <td class="p-3 text-stone-500">Transfer</td>
-                    <td class="p-3 text-rose-600 font-bold">- ₹ 25,000</td>
-                    <td class="p-3 text-right">
-                      <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2 py-0.5 rounded-md">Success</span>
-                    </td>
-                  </tr>
-
-                  <tr class="hover:bg-stone-50/60 transition-colors">
-                    <td class="p-3 font-bold text-stone-900 tracking-wide">TXN103</td>
-                    <td class="p-3 text-stone-700 font-semibold">Priya</td>
-                    <td class="p-3 text-stone-500">Withdraw</td>
-                    <td class="p-3 text-rose-600 font-bold">- ₹ 10,000</td>
-                    <td class="p-3 text-right">
-                      <span class="bg-rose-50 text-rose-700 border border-rose-100 text-[10px] font-extrabold px-2 py-0.5 rounded-md">Failed</span>
-                    </td>
-                  </tr>
+                  <%}%>
                 </tbody>
               </table>
             </div>
@@ -326,7 +365,7 @@
 
         <!-- Account Metrics Strategic Summary Segment -->
         <div class="bg-white border border-stone-200/80 rounded-2xl shadow-sm p-6">
-          <h2 class="text-xs font-black text-stone-900 tracking-tight uppercase mb-4 border-b border-stone-100 pb-3">Core Allocation Matrix</h2>
+          <h2 class="text-xs font-black text-stone-900 tracking-tight uppercase mb-4 border-b border-stone-100 pb-3">Core Allocation</h2>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
@@ -335,8 +374,9 @@
                 <i class="fa-solid fa-circle-check text-emerald-600 text-base"></i>
               </div>
               <div>
-                <p class="text-[10px] font-extrabold text-stone-400 uppercase tracking-wide">Active Cards</p>
-                <h2 class="text-xl font-black text-slate-900 tracking-tight">180</h2>
+                <p class="text-[10px] font-extrabold text-stone-400 uppercase tracking-wide">Active Accounts</p>
+                <%Long count = la.stream().filter(a->a.getStatus().equalsIgnoreCase("active")).count();%>
+                <h2 class="text-xl font-black text-slate-900 tracking-tight"><%=count %></h2>
               </div>
             </div>
 
@@ -346,7 +386,8 @@
               </div>
               <div>
                 <p class="text-[10px] font-extrabold text-stone-400 uppercase tracking-wide">Pending Review</p>
-                <h2 class="text-xl font-black text-slate-900 tracking-tight">12</h2>
+                <%Long count1 = la.stream().filter(a->a.getStatus().equalsIgnoreCase("pending")).count();%>
+                <h2 class="text-xl font-black text-slate-900 tracking-tight"><%=count1%></h2>
               </div>
             </div>
 
@@ -355,8 +396,9 @@
                 <i class="fa-solid fa-hand text-rose-600 text-base"></i>
               </div>
               <div>
-                <p class="text-[10px] font-extrabold text-stone-400 uppercase tracking-wide">Blocked Logs</p>
-                <h2 class="text-xl font-black text-slate-900 tracking-tight">8</h2>
+                <p class="text-[10px] font-extrabold text-stone-400 uppercase tracking-wide">Rejected Logs</p>
+                <%Long count3 = la.stream().filter(a->a.getStatus().equalsIgnoreCase("rejected")).count();%>
+                <h2 class="text-xl font-black text-slate-900 tracking-tight"><%=count3%></h2>
               </div>
             </div>
 
@@ -365,8 +407,9 @@
                 <i class="fa-solid fa-box-archive text-stone-600 text-base"></i>
               </div>
               <div>
-                <p class="text-[10px] font-extrabold text-stone-400 uppercase tracking-wide">Terminated Cards</p>
-                <h2 class="text-xl font-black text-stone-900 tracking-tight">10</h2>
+                <p class="text-[10px] font-extrabold text-stone-400 uppercase tracking-wide">Terminated Accounts</p>
+                <%Long count4 = la.stream().filter(a->a.getStatus().equalsIgnoreCase("blocked")).count();%>
+                <h2 class="text-xl font-black text-stone-900 tracking-tight"><%=count4%></h2>
               </div>
             </div>
 
@@ -378,6 +421,9 @@
     </div>
 
   </div>
-
+<%} else {%>
+<%request.setAttribute("error", "session already expired");%>
+<%request.getRequestDispatcher("login.jsp").forward(request, response);%>
+<%}%>
 </body>
 </html>

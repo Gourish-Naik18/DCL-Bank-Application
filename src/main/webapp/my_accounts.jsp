@@ -239,7 +239,7 @@
 
               <tbody class="divide-y divide-slate-100 text-slate-600 font-medium">
                <%for(Account a : userAccount){%>
-               <%if(!a.getStatus().equalsIgnoreCase("pending")){%>
+               <%if(a.getStatus().equalsIgnoreCase("active")){%>
                 <!-- Row 1 -->
                 <tr class="hover:bg-slate-50/80 transition-colors">
                   <td class="py-2 px-2">
@@ -272,7 +272,7 @@
                   <td class="py-4 px-2 font-mono font-bold tracking-tight text-slate-800">Pending</td>
                   <td class="py-4 px-2 font-bold text-emerald-600 text-sm">₹ <%=a.getBalance()%></td>
                   <td class="py-4 px-2">
-                    <span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-extrabold px-2.5 py-1 rounded-md tracking-wide">
+                    <span class="bg-red-50 text-red-700 border border-emerald-200/60 text-[10px] font-extrabold px-2.5 py-1 rounded-md tracking-wide">
                       <%=a.getStatus()%>
                     </span>
                   </td>

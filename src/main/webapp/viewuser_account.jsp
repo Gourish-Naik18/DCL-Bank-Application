@@ -1,3 +1,21 @@
+<%@page import="java.time.LocalTime"%>
+<%@page import="java.util.Comparator"%>
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="com.bank.dto.Transcation"%>
+<%@page import="java.util.List"%>
+<%@page import="com.bank.dao.impl.TranscationDAOImpl"%>
+<%@page import="com.bank.dao.TranscationDAO"%>
+<%@page import="com.bank.dto.Branch"%>
+<%@page import="com.bank.dao.impl.BranchDAOImpl"%>
+<%@page import="com.bank.dao.BranchDAO"%>
+<%@page import="com.bank.dao.impl.UserDAOImpl"%>
+<%@page import="com.bank.dao.UserDAO"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="com.bank.dto.Account"%>
+<%@page import="com.bank.dao.AccountDAO"%>
+<%@page import="com.bank.dao.impl.AccountDAOImpl"%>
+<%@page import="com.bank.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -25,12 +43,12 @@
 </head>
 
 <body class="bg-[#EAEFF1] text-slate-800 min-h-screen antialiased">
+<%User u = (User) session.getAttribute("user");%>
+<%if(u != null){%>
 
 <div class="flex min-h-screen">
 
-  <!-- ========================================================= -->
-  <!-- SIDEBAR: Kept clean layout with modern system typography  -->
-  <!-- ========================================================= -->
+
   <aside class="fixed top-0 h-screen left-0 z-50 w-60 admin-bg-gradient text-white px-5 py-6 flex flex-col gap-6 border-r border-[#1B3330]">
 
     <!-- Sidebar Branding -->
@@ -46,43 +64,41 @@
 
     <!-- Navigation Matrix Links -->
     <nav class="flex flex-col gap-3 flex-grow">
-      <a href="bank_admin.html" class="flex gap-3 items-center text-xs font-bold text-[#94A19F] hover:text-white hover:bg-white/5 rounded-xl p-3 transition-all duration-200">
+      <a href="admin.jsp" class="flex gap-3 items-center text-xs font-bold text-[#94A19F] hover:text-white hover:bg-white/5 rounded-xl p-3 transition-all duration-200">
         <i class="fa-solid fa-house text-sm w-4 text-center"></i> Dashboard
       </a>
 
-      <a href="bank_viewUsers.html" class="flex gap-3 items-center text-xs font-bold text-[#94A19F] hover:text-white hover:bg-white/5 rounded-xl p-3 transition-all duration-200">
-        <i class="fa-solid fa-users text-sm w-4 text-center"></i> Users
+      <a href="viewallusers.jsp" class="flex gap-3 items-center text-xs font-bold text-[#94A19F] hover:text-white hover:bg-white/5 rounded-xl p-3 transition-all duration-200">
+        <i class="fa-solid fa-users text-sm w-4 text-center"></i>View Users
       </a>
 
-      <a href="bank_branches.html" class="flex gap-3 items-center text-xs font-bold text-[#94A19F] hover:text-white hover:bg-white/5 rounded-xl p-3 transition-all duration-200">
+      <a href="branch.jsp" class="flex gap-3 items-center text-xs font-bold text-[#94A19F] hover:text-white hover:bg-white/5 rounded-xl p-3 transition-all duration-200">
         <i class="fa-solid fa-building-columns text-sm w-4 text-center"></i> Branches
       </a>
 
-      <a href="bank_accounts.html" class="flex gap-3 items-center text-xs font-bold text-white bg-white/10 border border-white/5 rounded-xl p-3 transition-all duration-200">
+      <a href="viewall_accounts.jsp" class="flex gap-3 items-center text-xs font-bold text-white bg-white/10 border border-white/5 rounded-xl p-3 transition-all duration-200">
         <i class="fa-solid fa-credit-card text-sm w-4 text-center text-[#F59E0B]"></i> Accounts
       </a>
 
-      <a href="" class="flex gap-3 items-center text-xs font-bold text-[#94A19F] hover:text-white hover:bg-white/5 rounded-xl p-3 transition-all duration-200">
-        <i class="fa-solid fa-arrow-right-arrow-left text-sm w-4 text-center"></i> Transactions
+      <a href="viewalltransactions" class="flex gap-3 items-center text-xs font-bold text-[#94A19F] hover:text-white hover:bg-white/5 rounded-xl p-3 transition-all duration-200">
+        <i class="fa-solid fa-arrow-right-arrow-left text-sm w-4 text-center"></i>All Transactions
       </a>
 
-      <a href="" class="flex gap-3 items-center text-xs font-bold text-[#94A19F] hover:text-white hover:bg-white/5 rounded-xl p-3 transition-all duration-200">
+      <a href="edit_profile.jsp" class="flex gap-3 items-center text-xs font-bold text-[#94A19F] hover:text-white hover:bg-white/5 rounded-xl p-3 transition-all duration-200">
         <i class="fa-solid fa-user text-sm w-4 text-center"></i> Profile
       </a>
     </nav>
 
     <!-- Logout Action System -->
     <div class="border-t border-white/10 pt-4">
-      <a href="" class="flex gap-3 items-center text-xs font-bold text-rose-400 hover:bg-rose-500/10 rounded-xl p-3 transition-all duration-200">
+      <a href="Logout" class="flex gap-3 items-center text-xs font-bold text-rose-400 hover:bg-rose-500/10 rounded-xl p-3 transition-all duration-200">
         <i class="fa-solid fa-right-from-bracket text-sm w-4 text-center"></i> Logout
       </a>
     </div>
 
   </aside>
 
-  <!-- ========================================================= -->
-  <!-- MAIN SYSTEM SPACE FRAME                                   -->
-  <!-- ========================================================= -->
+
   <div class="flex-grow min-h-screen flex flex-col pl-60">
 
     <!-- HEADER FRAME WITH SIMPLE BACK TO ACCOUNTS ANCHOR TAG -->
@@ -93,7 +109,7 @@
       </div>
 
       <!-- Simple Anchor Tag Action -->
-      <a href="bank_accounts.html" class="bg-stone-50 border border-stone-200 text-[11px] font-bold px-4 py-2.5 rounded-full text-stone-600 hover:text-stone-900 hover:border-stone-400 hover:bg-stone-100 shadow-xs transition-all flex items-center gap-2">
+      <a href="viewall_accounts.jsp" class="bg-stone-50 border border-stone-200 text-[11px] font-bold px-4 py-2.5 rounded-full text-stone-600 hover:text-stone-900 hover:border-stone-400 hover:bg-stone-100 shadow-xs transition-all flex items-center gap-2">
         <i class="fa-solid fa-arrow-left text-stone-400"></i> Back to Accounts
       </a>
     </header>
@@ -105,11 +121,16 @@
         <!-- UPDATED: PREMIUM COHESIVE BALANCE SHOWCASE CARD (BROWN/AMBER THEME) -->
         <div class="w-full bg-gradient-to-br from-[#B45309] to-[#78350F] rounded-3xl p-6 shadow-xl border border-[#92400E]/40 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
           
+          <%Integer id = Integer.parseInt(request.getParameter("accid"));
+          AccountDAO adao = new AccountDAOImpl();
+          Account a = adao.getAccountById(id);
+          %>
+          
           <!-- Master Balance Highlight Grid Column -->
           <div class="md:col-span-5 border-b md:border-b-0 md:border-r border-white/10 pb-4 md:pb-0 md:pr-6">
             <span class="text-[10px] font-bold text-amber-200/70 uppercase tracking-wider block">Available Current Balance</span>
             <div class="flex items-baseline gap-1.5 mt-0.5">
-              <h2 class="text-3xl font-black text-white tracking-tight">₹ 75,430.00</h2>
+              <h2 class="text-3xl font-black text-white tracking-tight">₹ <%=a.getBalance()%></h2>
               <span class="text-xs text-amber-300 font-bold">INR</span>
             </div>
           </div>
@@ -117,18 +138,18 @@
           <!-- Live Account Ledger Properties Column -->
           <div class="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-4">
             <div>
-              <span class="text-[10px] font-bold text-amber-200/70 uppercase tracking-wider block">Account Registry</span>
-              <p class="text-sm font-black text-white tracking-tight mt-1">1234 5678 9012</p>
+              <span class="text-[10px] font-bold text-amber-200/70 uppercase tracking-wider block">Account No</span>
+              <p class="text-sm font-black text-white tracking-tight mt-1"><%=a.getAcc_no()%></p>
             </div>
             <div>
               <span class="text-[10px] font-bold text-amber-200/70 uppercase tracking-wider block">Classification</span>
-              <p class="text-xs font-bold text-amber-100 mt-1.5">Savings Account</p>
+              <p class="text-xs font-bold text-amber-100 mt-1.5"><%=a.getAcc_type()%> Account</p>
             </div>
             <div class="col-span-2 sm:col-span-1">
-              <span class="text-[10px] font-bold text-amber-200/70 uppercase tracking-wider block">Core Node Status</span>
+              <span class="text-[10px] font-bold text-amber-200/70 uppercase tracking-wider block">Status</span>
               <div class="mt-1">
                 <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-emerald-500/30 uppercase tracking-wide inline-flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Active
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> <%=a.getStatus()%>
                 </span>
               </div>
             </div>
@@ -151,27 +172,30 @@
             <div class="space-y-3.5">
               <div class="flex justify-between items-center border-b border-stone-100 pb-2.5">
                 <span class="text-xs text-stone-400 font-semibold">Account Number</span>
-                <span class="text-xs font-bold text-stone-800">123456789012</span>
+                <span class="text-xs font-bold text-stone-800"><%=a.getAcc_no()%></span>
               </div>
               <div class="flex justify-between items-center border-b border-stone-100 pb-2.5">
                 <span class="text-xs text-stone-400 font-semibold">Account Type</span>
-                <span class="text-xs font-bold text-stone-700">Savings Account</span>
+                <span class="text-xs font-bold text-stone-700"><%=a.getAcc_type()%> Account</span>
               </div>
               <div class="flex justify-between items-center border-b border-stone-100 pb-2.5">
                 <span class="text-xs text-stone-400 font-semibold">Status</span>
-                <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded">Active</span>
-              </div>
-              <div class="flex justify-between items-center border-b border-stone-100 pb-2.5">
-                <span class="text-xs text-stone-400 font-semibold">Currency</span>
-                <span class="text-xs font-bold text-stone-700">INR</span>
+                <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded"><%=a.getStatus()%></span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-xs text-stone-400 font-semibold">Opened Date</span>
-                <span class="text-xs font-bold text-stone-700">20 Jun 2026</span>
+               <%LocalDate date = LocalDate.parse(a.getCreated_at());
+                  DateTimeFormatter dd = DateTimeFormatter.ofPattern("dd MMM yyyy");
+                %>
+                <span class="text-xs font-bold text-stone-700"><%=date.format(dd)%></span>
               </div>
             </div>
           </div>
-
+           
+           <%UserDAO udao = new UserDAOImpl();
+           User u1 = udao.getUserById(a.getUser_id());
+           %>
+           
           <!-- Card 2: Customer Identity Profile -->
           <div class="bg-white rounded-3xl p-6 shadow-md border border-stone-200/60">
             <div class="flex items-center gap-2 mb-5">
@@ -184,23 +208,27 @@
             <div class="space-y-3.5">
               <div class="flex justify-between items-center border-b border-stone-100 pb-2.5">
                 <span class="text-xs text-stone-400 font-semibold">Customer Name</span>
-                <span class="text-xs font-bold text-stone-800">Gourish Naik</span>
+                <span class="text-xs font-bold text-stone-800"><%=u1.getUser_name()%></span>
               </div>
               <div class="flex justify-between items-center border-b border-stone-100 pb-2.5">
-                <span class="text-xs text-stone-400 font-semibold">Email Profile</span>
-                <span class="text-xs font-bold text-stone-700">gourish@gmail.com</span>
+                <span class="text-xs text-stone-400 font-semibold">Email</span>
+                <span class="text-xs font-bold text-stone-700"><%=u1.getEmail()%></span>
               </div>
               <div class="flex justify-between items-center border-b border-stone-100 pb-2.5">
-                <span class="text-xs text-stone-400 font-semibold">Phone Registry</span>
-                <span class="text-xs font-bold text-stone-700">9876543210</span>
+                <span class="text-xs text-stone-400 font-semibold">Phone</span>
+                <span class="text-xs font-bold text-stone-700"><%=u1.getPhone()%></span>
               </div>
               <div class="flex justify-between items-center">
-                <span class="text-xs text-stone-400 font-semibold">User Unique ID</span>
-                <span class="text-xs font-bold text-[#B45309]">#1</span>
+                <span class="text-xs text-stone-400 font-semibold">User ID</span>
+                <span class="text-xs font-bold text-[#B45309]"><%=u1.getUser_id()%></span>
               </div>
             </div>
           </div>
-
+           
+           <%BranchDAO bdao = new BranchDAOImpl();
+           Branch b = bdao.getBranchById(a.getBranch_id());
+           %>
+           
           <!-- Card 3: Origin Branch Parameters -->
           <div class="bg-white rounded-3xl p-6 shadow-md border border-stone-200/60">
             <div class="flex items-center gap-2 mb-5">
@@ -213,24 +241,29 @@
             <div class="space-y-3.5">
               <div class="flex justify-between items-center border-b border-stone-100 pb-2.5">
                 <span class="text-xs text-stone-400 font-semibold">Branch Office</span>
-                <span class="text-xs font-bold text-stone-800">Mangaluru Main</span>
+                <span class="text-xs font-bold text-stone-800"><%=b.getBranch_name()%></span>
               </div>
               <div class="flex justify-between items-center border-b border-stone-100 pb-2.5">
                 <span class="text-xs text-stone-400 font-semibold">IFSC Index Code</span>
-                <span class="text-xs font-bold text-[#B45309] tracking-wider">DCLB0001234</span>
+                <span class="text-xs font-bold text-[#B45309] tracking-wider"><%=b.getIfsc_code()%></span>
               </div>
               <div class="flex justify-between items-center border-b border-stone-100 pb-2.5">
-                <span class="text-xs text-stone-400 font-semibold">City Node</span>
-                <span class="text-xs font-bold text-stone-700">Mangaluru</span>
+                <span class="text-xs text-stone-400 font-semibold">City</span>
+                <span class="text-xs font-bold text-stone-700"><%=b.getCity()%></span>
               </div>
               <div class="flex justify-between items-center">
-                <span class="text-xs text-stone-400 font-semibold">State Jurisdiction</span>
-                <span class="text-xs font-bold text-stone-700">Karnataka</span>
+                <span class="text-xs text-stone-400 font-semibold">State</span>
+                <span class="text-xs font-bold text-stone-700"><%=b.getState()%></span>
               </div>
             </div>
           </div>
 
         </div>
+        
+        <%TranscationDAO tdao = new TranscationDAOImpl();
+        List<Transcation> allTrans = tdao.getTranscationByAccId(a.getAcc_id());
+        %>
+        
 
         <!-- Analytical Counters Mini Strip Summary Group -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -241,7 +274,7 @@
             </div>
             <div>
               <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Total Txns</p>
-              <h2 class="text-lg font-black text-stone-800 mt-0.5 tracking-tight">152</h2>
+              <h2 class="text-lg font-black text-stone-800 mt-0.5 tracking-tight"><%=allTrans.size()%></h2>
             </div>
           </div>
 
@@ -251,7 +284,8 @@
             </div>
             <div>
               <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Total Credits</p>
-              <h2 class="text-lg font-black text-stone-800 mt-0.5 tracking-tight">₹ 4,75,000</h2>
+              <%Double total = allTrans.stream().filter(t->t.getTo_acc_id() == a.getAcc_id()).filter(t->t.getStatus().equalsIgnoreCase("success")).collect(Collectors.summingDouble(t->t.getAmount()));%>
+              <h2 class="text-lg font-black text-stone-800 mt-0.5 tracking-tight">₹ <%=total%></h2>
             </div>
           </div>
 
@@ -260,8 +294,9 @@
               <i class="fa-solid fa-arrow-up text-xs"></i>
             </div>
             <div>
+             <%Double total1 = allTrans.stream().filter(t->t.getFrom_acc_id() == a.getAcc_id()).filter(t->t.getStatus().equalsIgnoreCase("success")).collect(Collectors.summingDouble(t->t.getAmount()));%>
               <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Total Debits</p>
-              <h2 class="text-lg font-black text-stone-800 mt-0.5 tracking-tight">₹ 3,99,570</h2>
+              <h2 class="text-lg font-black text-stone-800 mt-0.5 tracking-tight">₹ <%=total1%></h2>
             </div>
           </div>
 
@@ -270,8 +305,9 @@
               <i class="fa-solid fa-calendar text-xs"></i>
             </div>
             <div>
-              <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Total Amount</p>
-              <h2 class="text-lg font-black text-stone-800 mt-0.5 tracking-tight">28,234</h2>
+            <%Double amt = allTrans.stream().filter(t->t.getStatus().equalsIgnoreCase("success")).filter(t->t.getTrans_type().equalsIgnoreCase("transfer")).collect(Collectors.summingDouble(t->t.getAmount()));%>
+              <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Total Transfer Amount</p>
+              <h2 class="text-lg font-black text-stone-800 mt-0.5 tracking-tight">₹ <%=amt%></h2>
             </div>
           </div>
 
@@ -291,54 +327,49 @@
               <thead class="bg-[#F9FAFB] border-b border-stone-200/60 text-stone-400 font-bold uppercase tracking-wider">
                 <tr>
                   <th class="p-4 pl-6 font-bold">Txn ID</th>
-                  <th class="p-4 font-bold">Execution Clock</th>
-                  <th class="p-4 font-bold">Operation Group</th>
-                  <th class="p-4 font-bold">Value Metric</th>
-                  <th class="p-4 font-bold">System State</th>
-                  <th class="p-4 pr-6 font-bold">Reference Ledger Notes</th>
+                  <th class="p-4 font-bold">Date and Time</th>
+                  <th class="p-4 font-bold">Type</th>
+                  <th class="p-4 font-bold">Amount</th>
+                  <th class="p-4 font-bold">Status</th>
                 </tr>
               </thead>
 
               <tbody class="divide-y divide-stone-100 text-stone-700 font-medium">
-
+              <%allTrans = allTrans.stream().sorted(Comparator.comparing((Transcation t)->t.getTranscation_date()).thenComparing((Transcation t)->t.getTranscation_time()).reversed()).collect(Collectors.toList());%>
+                <%for(Transcation t : allTrans){%>
                 <tr class="hover:bg-stone-50/60 transition-colors">
-                  <td class="p-4 pl-6 font-bold text-stone-900">TXN101</td>
-                  <td class="p-4 text-stone-400">28 Jun 2026, 10:45 AM</td>
+                  <td class="p-4 pl-6 font-bold text-stone-900">TXN<%=t.getTrans_id()%></td>
+                  
+                  <%LocalDate date1 = LocalDate.parse(t.getTranscation_date());
+                  DateTimeFormatter dd1 = DateTimeFormatter.ofPattern("dd MMM yyyy");
+                  LocalTime time = LocalTime.parse(t.getTranscation_time());
+                  DateTimeFormatter dt = DateTimeFormatter.ofPattern("hh:mm a");
+                %>
+                  
+                  <td class="p-4 text-stone-400"><%=date1.format(dd1)%>, <%=time.format(dt)%></td>
                   <td class="p-4">
-                    <span class="text-sky-700 text-[10px] font-bold tracking-wider uppercase">Transfer</span>
+                  <%if(t.getTrans_type().equalsIgnoreCase("transfer")){%>
+                    <span class="text-sky-700 text-[10px] font-bold tracking-wider uppercase"><%=t.getTrans_type()%></span>
+                    <%} else if (t.getTrans_type().equalsIgnoreCase("withdrawl")){%>
+                    <span class="text-amber-700 text-[10px] font-bold tracking-wider uppercase"><%=t.getTrans_type()%></span>
+                    <%} else { %>
+                    <span class="text-emerald-700 text-[10px] font-bold tracking-wider uppercase"><%=t.getTrans_type()%></span>
+                    <%}%>
                   </td>
-                  <td class="p-4 text-rose-600 font-bold">- ₹ 5,000.00</td>
+                  <%if(t.getTrans_type().equalsIgnoreCase("transfer") || t.getTrans_type().equalsIgnoreCase("withdrawl")){%>
+                  <td class="p-4 text-rose-600 font-bold">- ₹ <%=t.getAmount()%></td>
+                  <%} else {%>
+                  <td class="p-4 text-emerald-600 font-bold">+ ₹ <%=t.getAmount()%></td>
+                  <%}%>
                   <td class="p-4">
-                    <span class="text-emerald-600 text-[11px] font-bold">Success</span>
+                  <%if(t.getStatus().equalsIgnoreCase("success")){%>
+                    <span class="text-emerald-600 text-[11px] font-bold"><%=t.getStatus()%></span>
+                    <%} else {%>
+                    <span class="text-red-600 text-[11px] font-bold"><%=t.getStatus()%></span>
+                    <%}%>
                   </td>
-                  <td class="p-4 pr-6 text-stone-500">Transfer to destination map endpoint 9876543210</td>
                 </tr>
-
-                <tr class="hover:bg-stone-50/60 transition-colors">
-                  <td class="p-4 pl-6 font-bold text-stone-900">TXN100</td>
-                  <td class="p-4 text-stone-400">27 Jun 2026, 04:20 PM</td>
-                  <td class="p-4">
-                    <span class="text-emerald-700 text-[10px] font-bold tracking-wider uppercase">Deposit</span>
-                  </td>
-                  <td class="p-4 text-emerald-600 font-bold">+ ₹ 20,000.00</td>
-                  <td class="p-4">
-                    <span class="text-emerald-600 text-[11px] font-bold">Success</span>
-                  </td>
-                  <td class="p-4 pr-6 text-stone-500">Physical terminal cash storage deposit input</td>
-                </tr>
-
-                <tr class="hover:bg-stone-50/60 transition-colors">
-                  <td class="p-4 pl-6 font-bold text-stone-900">TXN099</td>
-                  <td class="p-4 text-stone-400">26 Jun 2026, 11:30 AM</td>
-                  <td class="p-4">
-                    <span class="text-amber-700 text-[10px] font-bold tracking-wider uppercase">Withdraw</span>
-                  </td>
-                  <td class="p-4 text-rose-600 font-bold">- ₹ 3,000.00</td>
-                  <td class="p-4">
-                    <span class="text-emerald-600 text-[11px] font-bold">Success</span>
-                  </td>
-                  <td class="p-4 pr-6 text-stone-500">Automated clearing system ATM vault dispersal</td>
-                </tr>
+                <%}%>
 
               </tbody>
 
@@ -353,6 +384,11 @@
   </div>
 
 </div>
+<% } else {
 
+    request.setAttribute("error", "session already expired");
+    request.getRequestDispatcher("login.jsp").forward(request, response);
+
+} %> 
 </body>
 </html>

@@ -1,3 +1,10 @@
+<%@page import="java.util.List"%>
+<%@page import="com.bank.dto.Branch"%>
+<%@page import="com.bank.dao.impl.BranchDAOImpl"%>
+<%@page import="com.bank.dao.BranchDAO"%>
+<%@page import="com.bank.dto.Account"%>
+<%@page import="com.bank.dao.impl.AccountDAOImpl"%>
+<%@page import="com.bank.dao.AccountDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -34,7 +41,7 @@
     </div>
 
     <div>
-      <a href="bank_accounts.html" class="bg-white border border-stone-200 text-[11px] font-bold px-4 py-2 rounded-full text-stone-600 hover:text-stone-900 hover:border-stone-300 shadow-xs transition-all flex items-center gap-2">
+      <a href="viewall_accounts.jsp" class="bg-white border border-stone-200 text-[11px] font-bold px-4 py-2 rounded-full text-stone-600 hover:text-stone-900 hover:border-stone-300 shadow-xs transition-all flex items-center gap-2">
         <i class="fa-solid fa-arrow-left text-stone-400"></i> Return to Accounts
       </a>
     </div>
@@ -102,10 +109,29 @@
           <h2 class="text-xl font-bold text-stone-800 tracking-tight">Update Details</h2>
           <p class="text-xs font-medium text-stone-400 mt-1">Please update the fields below to correct the account records.</p>
         </div>
+        
+        <%Integer id = null;
+        if(request.getParameter("accid") != null){
+        	id = Integer.parseInt(request.getParameter("accid"));
+        }
+        else{
+        	id = (Integer) request.getAttribute("accid");
+        }
+         AccountDAO adao = new AccountDAOImpl();
+         Account a = adao.getAccountById(id);
+        %>
+        
+        
+       <% String msg2 = (String)request.getAttribute("sucess"); %>
+       <% if(msg2 != null){ %>
+         <div id="msg2" class="bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs p-3.5 rounded-xl mb-6 font-semibold flex items-center gap-2.5 shadow-xs">
+           <i class="fa-solid fa-circle-check text-sm text-emerald-500"></i> <%= msg2 %>
+         </div>
+       <% } %>
       
         <form action="updateAccount" method="POST" class="space-y-6">
 
-          <input type="hidden" name="acc_id" value="1">
+          <input type="hidden" name="accid" value="<%=a.getAcc_id()%>">
 
           <div class="grid grid-cols-1 gap-5">
             
@@ -114,9 +140,12 @@
               <div class="border-b border-stone-200 py-1.5 flex gap-3 items-center focus-within:border-[#B45309] transition-all">
                 <i class="fa-solid fa-building-columns text-stone-400 text-sm w-5 text-center"></i>
                 <select name="branch_id" class="bg-transparent border-0 focus:outline-none w-full text-xs font-semibold text-stone-700 cursor-pointer">
-                  <option value="1" selected>Mangaluru Main Branch</option>
-                  <option value="2">Bengaluru Branch</option>
-                  <option value="3">Udupi Branch</option>
+                  <%BranchDAO bdao = new BranchDAOImpl();
+                   List<Branch> lb = bdao.getAllBranch();
+                  %>
+                  <%for(Branch b : lb){%>
+                  <option value="<%=b.getBranch_id()%>" selected><%=b.getBranch_name()%></option>
+                  <%}%>
                 </select>
               </div>
             </div>
@@ -125,9 +154,10 @@
               <label class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block mb-1.5">Account Type</label>
               <div class="border-b border-stone-200 py-1.5 flex gap-3 items-center focus-within:border-[#B45309] transition-all">
                 <i class="fa-solid fa-layer-group text-stone-400 text-sm w-5 text-center"></i>
-                <select name="acc_type" class="bg-transparent border-0 focus:outline-none w-full text-xs font-semibold text-stone-700 cursor-pointer">
-                  <option value="Savings Account" selected>Savings Account</option>
-                  <option value="Current Account">Current Account</option>
+                <select name="type" class="bg-transparent border-0 focus:outline-none w-full text-xs font-semibold text-stone-700 cursor-pointer">
+                  <option value="savings" selected>Savings Account</option>
+                  <option value="current">Current Account</option>
+                  <option value="salary">Salary Account</option>
                 </select>
               </div>
             </div>
@@ -137,11 +167,11 @@
               <div class="border-b border-stone-200 py-1.5 flex gap-3 items-center focus-within:border-[#B45309] transition-all">
                 <i class="fa-solid fa-circle-check text-stone-400 text-sm w-5 text-center"></i>
                 <select name="status" class="bg-transparent border-0 focus:outline-none w-full text-xs font-bold text-[#B45309] tracking-wide cursor-pointer uppercase">
-                  <option value="ACTIVE" selected>ACTIVE</option>
-                  <option value="PENDING">PENDING</option>
-                  <option value="REJECTED">REJECTED</option>
-                  <option value="BLOCKED">BLOCKED</option>
-                  <option value="CLOSED">CLOSED</option>
+                  <option value="active" selected>ACTIVE</option>
+                  <option value="pending">PENDING</option>
+                  <option value="rejected">REJECTED</option>
+                  <option value="blocked">BLOCKED</option>
+                  <option value="closed">CLOSED</option>
                 </select>
               </div>
             </div>
@@ -149,7 +179,7 @@
           </div>
      
           <div class="pt-6 flex justify-end">
-            <button class="w-full sm:w-auto bg-[#B45309] hover:bg-[#92400E] px-8 py-2.5 rounded-xl text-white text-xs font-bold tracking-wide transition-colors shadow-md shadow-amber-700/10 cursor-pointer flex items-center justify-center gap-2" type="submit">
+            <button type="submit" class="w-full sm:w-auto bg-[#B45309] hover:bg-[#92400E] px-8 py-2.5 rounded-xl text-white text-xs font-bold tracking-wide transition-colors shadow-md shadow-amber-700/10 cursor-pointer flex items-center justify-center gap-2" type="submit">
               <i class="fa-solid fa-circle-check"></i> Update Account
             </button>
           </div>
@@ -161,5 +191,13 @@
     </div>
   </main>
 
+ <script>
+    let n = document.getElementById("msg2");
+    if (n) {
+      setTimeout(() => {
+        n.style.display = 'none';
+      }, 2000);
+    }
+  </script>
 </body>
 </html>
