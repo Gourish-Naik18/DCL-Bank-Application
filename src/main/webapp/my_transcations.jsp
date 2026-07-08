@@ -265,7 +265,7 @@
             	received += amount;
             }
             %>
-              <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Money Received</p>
+              <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Money Credited</p>
               <h2 class="text-2xl font-black mt-1 text-emerald-600 tracking-tight">₹ <%=received%></h2>
               <p class="text-slate-400 text-[11px] font-medium mt-1">Total inbound credits</p>
             </div>
@@ -283,7 +283,7 @@
             	 sent += amount;
              }
             %>
-              <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Money Sent</p>
+              <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Money Debited</p>
               <h2 class="text-2xl font-black mt-1 text-rose-600 tracking-tight">₹ <%=sent%></h2>
               <p class="text-slate-400 text-[11px] font-medium mt-1">Total outward debits</p>
             </div>
@@ -296,7 +296,7 @@
           <div class="bg-gradient-to-br from-[#e03a83] via-[#ba2161] to-[#971B4E] rounded-2xl shadow-lg shadow-rose-950/10 p-5 flex justify-between items-center relative overflow-hidden group hover:shadow-xl transition-all duration-300">
             <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-lg pointer-events-none"></div>
             <div>
-            <% double total = userAcc.stream().collect(Collectors.summingDouble(a -> a.getBalance()));%>
+            <% double total = userAcc.stream().filter(a->a.getStatus().equalsIgnoreCase("active")).collect(Collectors.summingDouble(a -> a.getBalance()));%>
             <p class="text-[11px] font-extrabold text-rose-100 uppercase">Total Balance</p>
               <h2 class="text-xl font-black mt-1 text-white tracking-tight">₹ <%=total%></h2>
 			  <p class="text-rose-200/70 text-[11px] font-medium mt-1">Across active accounts</p>

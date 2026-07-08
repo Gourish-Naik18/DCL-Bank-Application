@@ -286,10 +286,10 @@
           <div>
             <label class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1.5">Transaction Type</label>
             <select name="type" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-semibold outline-none bg-slate-50">
-              <option>All</option>
-              <option>Deposit</option>
-              <option>Withdrawl</option>
-              <option>Transfer</option>
+              <option value="">All</option>
+              <option value="deposit">Deposit</option>
+              <option value="withdrawl">Withdrawl</option>
+              <option value="transfer">Transfer</option>
             </select>
           </div>
           
@@ -437,8 +437,6 @@
           <%
 			double totalDebit = 0;
 			double totalCredit = 0;
-            userTrans = userTrans.stream().sorted(Comparator.comparing((Transcation t)->t.getTranscation_date()).thenComparing(t->t.getTranscation_time())).collect(Collectors.toList());
-
 			
 			for(Transcation t : userTrans) {
 			

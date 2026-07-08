@@ -275,7 +275,7 @@
                   </td>
                   <%LocalDate date = LocalDate.parse(a.getCreated_at());%>
                   <%DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd MMM yyyy");%>
-                  <td class="py-4 px-2 text-right text-slate-400 font-bold"><%=date.format(dt)%></td>
+                  <td class="py-4 px-2 text-right text-slate-400 font-bold">NA</td>
                 </tr>
                 <%}%>
                 <%}%>

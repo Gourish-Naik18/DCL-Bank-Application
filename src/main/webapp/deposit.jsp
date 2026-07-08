@@ -141,7 +141,6 @@
               <input class="w-full text-sm outline-none bg-transparent text-slate-800 placeholder-slate-400 font-semibold" 
                      type="number" 
                      name="amount" 
-                     value="5000" 
                      placeholder="Enter amount"
                      min="1"
                      required>

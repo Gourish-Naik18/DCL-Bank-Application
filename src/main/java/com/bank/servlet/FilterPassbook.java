@@ -39,7 +39,7 @@ public class FilterPassbook extends HttpServlet {
 		if(end != null && !end.trim().isEmpty()) {
 			userTrans = userTrans.stream().filter(t->t.getTranscation_date().compareTo(end) <= 0).collect(Collectors.toList());
 		}
-		if(type != null && !type.trim().isEmpty() && !type.equalsIgnoreCase("All")) {
+		if(type != null && !type.trim().isEmpty()) {
 			userTrans = userTrans.stream().filter(t->t.getTrans_type().equalsIgnoreCase(type)).collect(Collectors.toList());
 		}
 		
