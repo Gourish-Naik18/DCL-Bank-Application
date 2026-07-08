@@ -368,33 +368,23 @@
                   DateTimeFormatter dt = DateTimeFormatter.ofPattern("hh:mm a");
                   %>
                   <td class="p-3 text-stone-500"><%=date4.format(dd4)%>, <%=time.format(dt)%></td>
-                  <% 
-                  Account from = null;
-                  Account to = null;
-
-                  if(t.getFrom_acc_id() != 0){
-                      from = adao.getAccountById(t.getFrom_acc_id());
-                  }
-
-                  if(t.getTo_acc_id() != 0){
-                      to = adao.getAccountById(t.getTo_acc_id());
-                  }
-                  %>
                   <td class="p-3 text-stone-700">
-                   <%if(from != null){%>
-        			<%=from.getAcc_no()%>
-    				<%} else {%>
-     					   -
-    					<%}%>
-
-				  </td>
-                  <td class="p-3 text-stone-700">
-                   <%if(to != null){%>
-        			<%=to.getAcc_no()%>
-   					 <%} else {%>
-       					 -
-   					 <%}%>
-                  </td>
+				    <%if(t.getFrom_acc_id() == 0){%>
+				        -
+				    <%} else {%>
+				        <%Account from = adao.getAccountById(t.getFrom_acc_id());%>
+				        <%=from.getAcc_no()%>
+				    <%}%>
+				</td>
+				
+				<td class="p-3 text-stone-700">
+				    <%if(t.getTo_acc_id() == 0){%>
+				        -
+				    <%} else {%>
+				        <%Account to = adao.getAccountById(t.getTo_acc_id());%>
+				        <%=to.getAcc_no()%>
+				    <%}%>
+				</td>
                   <td class="p-3">
                     <span class="bg-stone-100 text-stone-700 border border-stone-200 px-2 py-0.5 rounded text-[10px] font-bold"><%=t.getTrans_type()%></span>
                   </td>

@@ -311,29 +311,19 @@
                   
                   <td class="p-4 font-bold text-stone-800"><%=us.getUser_name()%></td>
                   
-                  <%
-                  Account from = null;
-                  Account to = null;
-                  if(t.getFrom_acc_id() != 0){
-                	  from = adao.getAccountById(t.getFrom_acc_id());
-                  }
-                  if(t.getTo_acc_id() != 0){
-                	  to = adao.getAccountById(t.getTo_acc_id());
-                  }
-                  %>
-                  
-                  
-                  <%if(from != null){%>
-                  <td class="p-4 tracking-wider text-stone-600 font-mono"><%=from.getAcc_no()%></td>
-                  <%} else {%>
-                  <td class="p-4 tracking-wider text-stone-600 font-mono">--</td>
-                  <%}%>
-                  
-                  <%if(to != null){%>
-                  <td class="p-4 tracking-wider text-stone-600 font-mono"><%=to.getAcc_no()%></td>
-                  <%} else {%>
-                  <td class="p-4 tracking-wider text-stone-600 font-mono">--</td>
-                  <%}%>
+                  <%if(t.getFrom_acc_id() == 0){%>
+					    <td class="p-4 tracking-wider text-stone-600 font-mono">--</td>
+					<%} else {%>
+					    <%Account from = adao.getAccountById(t.getFrom_acc_id());%>
+					    <td class="p-4 tracking-wider text-stone-600 font-mono"><%=from.getAcc_no()%></td>
+					<%}%>
+					
+					<%if(t.getTo_acc_id() == 0){%>
+					    <td class="p-4 tracking-wider text-stone-600 font-mono">--</td>
+					<%} else {%>
+					    <%Account to = adao.getAccountById(t.getTo_acc_id());%>
+					    <td class="p-4 tracking-wider text-stone-600 font-mono"><%=to.getAcc_no()%></td>
+				  <%}%>
                                     
                   <td class="p-4">
                    <%if(t.getTrans_type().equalsIgnoreCase("transfer") || t.getTrans_type().equalsIgnoreCase("withdrawl")){%>
