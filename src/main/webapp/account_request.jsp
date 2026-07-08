@@ -214,11 +214,17 @@
                     type="submit">
               <i class="fa-solid fa-paper-plane text-xs"></i> Submit Request
             </button>
-            
+            <%if(u.getRole().equalsIgnoreCase("customer")){%>
             <a href="my_accounts.jsp" 
                class="w-full order-2 sm:order-1 bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-800 text-sm font-bold py-3 rounded-lg border border-slate-200 transition-all text-center flex items-center justify-center gap-2">
                Cancel
             </a>
+            <%} else {%>
+            <a href="index.jsp" 
+               class="w-full order-2 sm:order-1 bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-800 text-sm font-bold py-3 rounded-lg border border-slate-200 transition-all text-center flex items-center justify-center gap-2">
+               Cancel
+            </a>
+            <%}%>
           </div>
 
         </form>
